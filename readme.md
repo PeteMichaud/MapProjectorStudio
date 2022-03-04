@@ -10,6 +10,8 @@ The project is separated into 3 parts:
 2. CLI, a command line interface for the core library that supports all the arguments that the core library supports
 3. (Not Started) GUI, a visual application supporting all the functionality of the library, in addition to layers
 
+**Current State of the code is It Works On My Computer(TM)** -- caveat emptor!
+
 ## Getting Started
 
 Right now the only way to run this is to clone the repository and build the project. `MapProjectorCLI.exe` is what 
@@ -97,13 +99,13 @@ Then use `output_equirect_file.png` as your new file input for further processin
 
 ## Goals
 
-* [*] Cross platform, including Windows
-* [*] Handling of arbitrary filetypes instead of only `ppm`
-* [*] The core is a library that can be included in any other project
-* [*] A separate CLI that has parity with the original MMPS software
-* [ ] GUI application allowing visual manipulation of maps and widgets, including eventually layers that can independently moved
-* [ ] Improved visualization for the various widgets like the grid and analemma
-* [ ] Parameterize the various hardcode planet data like Inclination
+[*] Cross platform, including Windows
+[*] Handling of arbitrary filetypes instead of only `ppm`
+[*] The core is a library that can be included in any other project
+[*] A separate CLI that has parity with the original MMPS software
+[ ] GUI application allowing visual manipulation of maps and widgets, including eventually layers that can independently moved
+[ ] Improved visualization for the various widgets like the grid and analemma
+[ ] Parameterize the various hardcode planet data like Inclination
 
 ## History
 
