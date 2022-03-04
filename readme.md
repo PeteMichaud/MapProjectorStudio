@@ -17,11 +17,11 @@ The project is separated into 3 parts:
 Right now the only way to run this is to clone the repository and build the project. `MapProjectorCLI.exe` is what 
 you'll use to do the projections.
 
-Ideally you will start with an image file of a map already in an `Equirectangular` projection. Path that file in to 
-the -f/--file parameter of the CLI.
+Ideally you will start with an image file of a map already in an `Equirectangular` projection. Pass that file in to 
+the `-f` or `--file` parameter of the CLI.
 
 If you have a map in a different projection like `Mercator`, you can use the cli to convert it to `Equirectangular` 
-with the following parameters:
+using the `--invert` flat like so:
 
 `-f path/to/your/file.png -o target/path/to/your/output_equirect_file.png --projection mercator --invert`
 
@@ -49,11 +49,11 @@ Then use `output_equirect_file.png` as your new file input for further processin
 *  -f, --file       Required. Source File Path
 *  -o, --out        Required. Output File Path
 *  --adjust         (Default: false) Set source image to adjusted width and height options before processing
-*  -w, --width      Target Width
-* -h, --height     Target Height
-* --bg             Background Image File Path
-* -i, --invert     Invert the specified operation
-* --loop           (Default: 1) Number of Images to Output along given loop increments
+*  -w, --width      (Default: input image width) Target Width
+* -h, --height      (Default: input image height) Target Height
+* --bg              Background Image File Path
+* -i, --invert      Invert the specified operation
+* --loop            (Default: 1) Number of Images to Output along given loop increments, eg. if you want an animation of your planet rotating 
     * --tiltinc        (Default: 0) Tilt Increment (Degrees)
     * --turninc        (Default: 0) Turn Increment (Degrees)
     * --latinc         (Default: 0) Latitude Increment (Degrees)
@@ -69,7 +69,7 @@ Then use `output_equirect_file.png` as your new file input for further processin
 * --lat            (Default: 0) Latitude of Center (Degrees)
 * --lon            (Default: 0) Longitude of Center (Degrees)
 * --scale          (Default: 1) Output Scale (Percent, 1 = 100%)
-* --radius         (Default: 0, unused) Radius around center point that the output is rendered
+* --radius         (Default: unused) Radius around center point that the output is rendered
 * --xoff           (Default: 0) X Offset
 * --yoff           (Default: 0) Y Offset
 * --bgColor        Background color R,G,B (0-255)
