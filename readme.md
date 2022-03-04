@@ -105,7 +105,8 @@ Then use `output_equirect_file.png` as your new file input for further processin
 * [x] Handling of arbitrary filetypes instead of only `ppm`
 * [x] The core is a library that can be included in any other project
 * [x] A separate CLI that has parity with the original MMPS software
-* [ ] GUI application allowing visual manipulation of maps and widgets, including eventually layers that can independently moved
+* [ ] GUI application allowing visual manipulation of maps and widgets, including 
+      eventually layers that can be independently moved
 * [ ] Improved visualization for the various widgets like the grid and analemma
 * [ ] Parameterize the various hardcode planet data like Inclination
 
