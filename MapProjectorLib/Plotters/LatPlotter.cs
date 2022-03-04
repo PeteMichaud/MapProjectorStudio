@@ -1,5 +1,4 @@
 ﻿
-
 namespace MapProjectorLib.Plotters
 {
     class LatPlotter : TransformPlotter

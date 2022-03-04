@@ -1,7 +1,5 @@
-﻿using System;
+﻿
 using SixLabors.ImageSharp.PixelFormats;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace MapProjectorLib
 {

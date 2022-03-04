@@ -16,7 +16,6 @@ namespace MapProjectorCLI
             {
                 config.CaseSensitive = false;
                 config.CaseInsensitiveEnumValues = true;
-                //config.IgnoreUnknownArguments = true;
             });
 
             var parseErrors = new List<Error>();
@@ -188,7 +187,6 @@ namespace MapProjectorCLI
             return new Rgb24(byteColors[0], byteColors[1], byteColors[2]);
         }
 
-        
         static void DoProjection(ProjectionParams pParams)
         {
             //Console.Write(pParams.ToString());

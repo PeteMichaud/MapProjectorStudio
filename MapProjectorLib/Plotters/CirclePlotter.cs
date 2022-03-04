@@ -1,6 +1,5 @@
 ﻿using System;
 
-
 namespace MapProjectorLib.Plotters
 {
     class CirclePlotter : TransformPlotter

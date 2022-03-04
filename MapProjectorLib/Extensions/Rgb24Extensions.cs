@@ -1,4 +1,4 @@
-﻿using System;
+﻿
 using SixLabors.ImageSharp.PixelFormats;
 
 namespace MapProjectorLib.Extensions
