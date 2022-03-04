@@ -14,8 +14,10 @@ The project is separated into 3 parts:
 
 ## Getting Started
 
-Right now the only way to run this is to clone the repository and build the project. `MapProjectorCLI.exe` is what 
-you'll use to do the projections.
+If you're on windows, you can download the release and run the exe. If you're on MacOS or Linux or just don't like 
+running sketchy exe files, clone the repository and build the project. 
+
+`MapProjectorCLI.exe` is what you'll use to do the projections.
 
 Ideally you will start with an image file of a map already in an `Equirectangular` projection. Pass that file in to 
 the `-f` or `--file` parameter of the CLI.
