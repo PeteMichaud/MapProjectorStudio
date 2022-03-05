@@ -44,6 +44,11 @@ namespace MapProjectorLib
             return new Image(SixLabors.ImageSharp.Image.Load<Rgb24>(fileName));
         }
 
+        public void Dispose()
+        {
+            _image.Dispose();
+        }
+
         public void PlotLine(
             double t0, double t1,
             LinePlotter linePlotter,

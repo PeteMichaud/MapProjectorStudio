@@ -209,7 +209,7 @@ namespace MapProjectorLib
                             phi, lambda,
                             outX, outY);
                     }
-                    else if (!tParams.noback)
+                    else if (tParams.UseBackgroundColor)
                     {
                         outImage[outX, outY] = tParams.backgroundColor;
                     }
@@ -239,9 +239,11 @@ namespace MapProjectorLib
                 if (!IsPointWithinRadius(tParams, phi, lambda) ||
                     !ProjectInv(tParams, phi, lambda, ref x, ref y) ||
                     !SetDataInv(inImage, outImage, tParams, ox, oy, x, y))
-                    if (!tParams.noback)
-                        outImage[ox, oy] = tParams.backgroundColor;
-            }
+                    if (tParams.UseBackgroundColor)
+                    {
+                            outImage[ox, oy] = tParams.backgroundColor;
+                    }
+                }
         }
 
         bool SetDataInv(

@@ -16,7 +16,9 @@ namespace MapProjectorLib
             if (pParams.backImage != null)
             {
                 outImage = pParams.backImage.Clone();
-                tParams.noback = true;
+                tParams.UseBackgroundColor = false;
+                pParams.backImage.Dispose();
+                pParams.backImage = null;
             }
 
             if (pParams.Adjust)

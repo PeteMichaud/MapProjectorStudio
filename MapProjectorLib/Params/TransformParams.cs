@@ -84,7 +84,7 @@ namespace MapProjectorLib
 
         //
 
-        public bool noback { get; set; } = false;
+        public bool UseBackgroundColor { get; set; } = true;
 
         public override string ToString()
         {
