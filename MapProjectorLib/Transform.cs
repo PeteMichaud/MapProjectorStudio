@@ -151,13 +151,12 @@ namespace MapProjectorLib
                    tParams.radius;
         }
 
-        static void ApplyRotation(double r, ref double x, ref double y)
+        static (double x, double y) ApplyRotation(double r, double x, double y)
         {
-            var x1 = x * Math.Cos(r) + y * Math.Sin(r);
-            var y1 = -x * Math.Sin(r) + y * Math.Cos(r);
-
-            x = x1;
-            y = y1;
+            return (
+                x: x * Math.Cos(r) + y * Math.Sin(r), 
+                y: -x * Math.Sin(r) + y * Math.Cos(r)
+            );
         }
 
         public void TransformImage(
@@ -187,7 +186,7 @@ namespace MapProjectorLib
 
                     if (tParams.rotate != 0)
                     {
-                        ApplyRotation(-tParams.rotate, ref x1, ref y1);
+                        (x1, y1) = ApplyRotation(-tParams.rotate, x1, y1);
                         SetY(y1);
                     }
 
@@ -267,7 +266,9 @@ namespace MapProjectorLib
             //applyRotation(-tParams.rotate,x,y)
 
             if (tParams.rotate != 0)
-                ApplyRotation(tParams.rotate, ref x, ref y);
+            {
+                (x, y) = ApplyRotation(tParams.rotate, x, y);
+            }
 
             var ix = (int) Math.Floor(
                 xOrigin + (x - tParams.xOffset) / scaleFactor);
@@ -303,7 +304,9 @@ namespace MapProjectorLib
                                   tParams.scale;
 
                 if (tParams.rotate != 0)
-                    ApplyRotation(tParams.rotate, ref x, ref y);
+                {
+                       (x, y) = ApplyRotation(tParams.rotate, x, y);
+                }
 
                 x = xOrigin + (x - tParams.xOffset) / scaleFactor;
                 y = yOrigin + (y - tParams.yOffset) / -scaleFactor;
