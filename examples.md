@@ -153,3 +153,21 @@
 ![ToHammer](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/ToHammer.png)
 
 
+## WithBackgroundColor
+
+Many projections leave a blank area around the perimeter of the map. Fill that blank area with an optional background color
+
+`--bgcolor 255,0,0 --projection perspective -f ..\..\Tests\earth_equirect.png -o ..\..\Tests\Output\WithBackgroundColor.png`
+
+![WithBackgroundColor](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/WithBackgroundColor.png)
+
+
+## WithBackgroundImage
+
+Many projections leave a blank area around the perimeter of the map. Fill that blank area with an optional background image
+
+`--bg ..\..\Tests\background.png --projection hammer -f ..\..\Tests\earth_equirect.png -o ..\..\Tests\Output\WithBackgroundImage.png`
+
+![WithBackgroundImage](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/WithBackgroundImage.png)
+
+
