@@ -5,10 +5,11 @@ using MapProjectorLib;
 using CommandLine;
 using CommandLine.Text;
 using SixLabors.ImageSharp.PixelFormats;
-
+using System.Reflection;
+using System.IO;
 namespace MapProjectorCLI
 {
-    class Program
+    public class Program
     {
         static void Main(string[] args)
         {
@@ -39,16 +40,23 @@ namespace MapProjectorCLI
 
         }
 
-        static (bool result, ProjectionParams pParams) ProcessParams(CLIParams cliParams)
+
+        internal static (bool result, ProjectionParams pParams) ProcessParams(CLIParams cliParams)
         {
             Image srcImage = null;
             Image backImage = null;
 
+            //cross platform
+            var assm = typeof(Program).GetTypeInfo().Assembly;
+            var currentDir = Path.GetDirectoryName(assm.Location);
+
             try
             {
-                srcImage = Projector.LoadImage(cliParams.srcImageFileName);
+                var fullPath = Path.Combine(currentDir, cliParams.srcImageFileName);
+
+                srcImage = Projector.LoadImage(fullPath);
             } 
-            catch(System.IO.IOException)
+            catch(IOException)
             {
                 Console.WriteLine($"Could not open file {cliParams.srcImageFileName}");
                 return (false, null);
@@ -58,10 +66,12 @@ namespace MapProjectorCLI
             {
                 if(!string.IsNullOrEmpty(cliParams.backImageFileName))
                 {
-                    backImage = Projector.LoadImage(cliParams.backImageFileName);
+                    var fullPath = Path.Combine(currentDir, cliParams.backImageFileName);
+
+                    backImage = Projector.LoadImage(fullPath);
                 }
             }
-            catch (System.IO.IOException)
+            catch (IOException)
             {
                 Console.WriteLine($"Could not open background file {cliParams.backImageFileName}");
                 return (false, null);

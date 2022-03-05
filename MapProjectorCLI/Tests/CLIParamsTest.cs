@@ -15,7 +15,7 @@ namespace MapProjectorCLI.Tests
         const double OneDegree = 2 * Math.PI / 360.0;
         const double OneHour = 2 * Math.PI / 24.0;
 
-        const string defaultArgs = "-f file.png -o out.png";
+        const string defaultArgs = "-f ..\\..\\Tests\\earth_equirect.png -o out.png";
         private string[] ToArgs(string rawArgs, bool withDefaults = true)
         {
             if(withDefaults)
@@ -938,5 +938,23 @@ namespace MapProjectorCLI.Tests
                 Assert.AreEqual(0, cliParams.widgetDay);
             });
         }
+
+        [Test]
+        public void ProcessParamsTest()
+        {
+            var args = ToArgs($"");
+            Parse(args, cliParams =>
+            {
+                Assert.DoesNotThrow(() =>
+                {
+                    (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                    Assert.True(success);
+                    Assert.True(projectionParams.srcImage != null);
+                });
+
+            });
+
+        }
+
     }
 }
