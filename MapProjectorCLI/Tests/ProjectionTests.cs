@@ -99,7 +99,7 @@ namespace MapProjectorCLI.Tests
         {
             var args = ToArgs($"--projection mercator --invert",
                 MethodBase.GetCurrentMethod().Name,
-                "If you start with a projection other than equirectangular, use the --invert flag to convert FROM the target projection", 
+                "If you start with a projection other than equirectangular, use the --invert flag to convert FROM the target projection. Notice that some projections don't include the necessary data to completely recreate an equirect map.", 
                 "earth_mercator");
             Parse(args, cliParams =>
             {
