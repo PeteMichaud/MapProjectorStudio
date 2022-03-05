@@ -20,7 +20,9 @@ namespace MapProjectorCLI
                 (var success, var pParams) = ProcessParams(cliParams);
                 if (success)
                 {
-                    DoProjection(pParams);
+                    //Console.Write(pParams.ToString());
+                    Projector.Project(pParams);
+                    Console.WriteLine($"Complete! Check {pParams.outImageFileName} for results.");
                 }
                 else
                 {
@@ -198,14 +200,6 @@ namespace MapProjectorCLI
             }).ToArray();
 
             return new Rgb24(byteColors[0], byteColors[1], byteColors[2]);
-        }
-
-        static void DoProjection(ProjectionParams pParams)
-        {
-            //Console.Write(pParams.ToString());
-            Projector.Project(pParams);
-            Console.WriteLine($"Complete! Check {pParams.outImageFileName} for results.");
-
         }
     }
 }
