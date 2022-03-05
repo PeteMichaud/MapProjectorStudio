@@ -1,5 +1,4 @@
 ﻿using System;
-using MapProjectorLib.Mappers;
 using MapProjectorLib.Plotters;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
@@ -198,25 +197,25 @@ namespace MapProjectorLib
             }
         }
 
-        public void Map(ImageMapper f, double xOffset, double yOffset)
-        {
-            var height = _image.Height;
-            var width = _image.Width;
+        //public void Map(ImageMapper f, double xOffset, double yOffset)
+        //{
+        //    var height = _image.Height;
+        //    var width = _image.Width;
 
-            double hh = height / 2;
-            double hw = width / 2;
-            var scale = f.Scale(width, height);
+        //    double hh = height / 2;
+        //    double hw = width / 2;
+        //    var scale = f.Scale(width, height);
 
-            for (var y = 0; y < height; y++)
-            {
-                var y0 = (hh - y) * scale + yOffset;
-                f.InitY(y0);
-                for (var x = 0; x < width; x++)
-                {
-                    var x0 = (x - hw) * scale + xOffset;
-                    SafeSetPixel(x, y, f.Map(x0, y0));
-                }
-            }
-        }
+        //    for (var y = 0; y < height; y++)
+        //    {
+        //        var y0 = (hh - y) * scale + yOffset;
+        //        f.InitY(y0);
+        //        for (var x = 0; x < width; x++)
+        //        {
+        //            var x0 = (x - hw) * scale + xOffset;
+        //            SafeSetPixel(x, y, f.Map(x0, y0));
+        //        }
+        //    }
+        //}
     }
 }

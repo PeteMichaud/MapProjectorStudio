@@ -63,8 +63,6 @@
     <Compile Include="Enums\MapWidget.cs" />
     <Compile Include="Extensions\Rgb24Extensions.cs" />
     <Compile Include="Image.cs" />
-    <Compile Include="Mappers\ImageMapper.cs" />
-    <Compile Include="Mappers\SkyMapper.cs" />
     <Compile Include="Params\LoopParams.cs" />
     <Compile Include="Params\ProjectionParams.cs" />
     <Compile Include="Projector.cs" />
