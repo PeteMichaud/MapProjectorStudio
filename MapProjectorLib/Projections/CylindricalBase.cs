@@ -48,7 +48,7 @@ namespace MapProjectorLib.Projections
             {
                 // Transform to new lat and long.
                 // cartesian coords from latlong
-                ConvertLatLong(ref phi, ref lambda, x, y, z, transformMatrix);
+                ConvertLatLong(ref phi, ref lambda, transformMatrix);
                 return true;
             }
 

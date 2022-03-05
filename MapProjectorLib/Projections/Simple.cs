@@ -17,7 +17,7 @@
             ref double phi, ref double lambda)
         {
             var result = ProjectSimple(x, y, ref phi, ref lambda);
-            ConvertLatLong(ref phi, ref lambda, x1, y1, z1, transformMatrix);
+            ConvertLatLong(ref phi, ref lambda, transformMatrix);
             return result;
         }
 

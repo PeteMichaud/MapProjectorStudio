@@ -302,16 +302,16 @@ namespace MapProjectorLib
         // cartesian coords in x,y,z.
         protected static void ConvertLatLong(
             ref double phi, ref double lambda,
-            double x, double y, double z,
             Matrix3 m)
         {
             if (m.isIdentity) return;
 
-            x = Math.Cos(lambda) * Math.Cos(phi);
-            y = Math.Sin(lambda) * Math.Cos(phi);
-            z = Math.Sin(phi);
+            var x = Math.Cos(lambda) * Math.Cos(phi);
+            var y = Math.Sin(lambda) * Math.Cos(phi);
+            var z = Math.Sin(phi);
 
             m.Apply(ref x, ref y, ref z);
+            
             phi = Math.Asin(z);
             lambda = Math.Atan2(y, x);
         }

@@ -4,7 +4,7 @@
 
 If you start with a projection other than equirectangular, use the --invert flag to convert FROM the target projection. Notice that some projections don't include the necessary data to completely recreate an equirect map.
 
-`--projection mercator --invert -f ..\..\Tests\earth_mercator.png -o ..\..\Tests\Output\InvertFromMercator.png`
+`--projection mercator --invert -f ..\..\Tests\Input\earth_mercator.png -o ..\..\Tests\Output\InvertFromMercator.png`
 
 ![InvertFromMercator](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/InvertFromMercator.png)
 
@@ -13,7 +13,7 @@ If you start with a projection other than equirectangular, use the --invert flag
 
 
 
-`--projection LatLong -f ..\..\Tests\earth_equirect.png -o ..\..\Tests\Output\ToLatLong.png`
+`--projection LatLong -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\ToLatLong.png`
 
 ![ToLatLong](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/ToLatLong.png)
 
@@ -22,7 +22,7 @@ If you start with a projection other than equirectangular, use the --invert flag
 
 
 
-`--projection Equirect -f ..\..\Tests\earth_equirect.png -o ..\..\Tests\Output\ToEquirect.png`
+`--projection Equirect -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\ToEquirect.png`
 
 ![ToEquirect](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/ToEquirect.png)
 
@@ -31,7 +31,7 @@ If you start with a projection other than equirectangular, use the --invert flag
 
 
 
-`--projection Equirectangular -f ..\..\Tests\earth_equirect.png -o ..\..\Tests\Output\ToEquirectangular.png`
+`--projection Equirectangular -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\ToEquirectangular.png`
 
 ![ToEquirectangular](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/ToEquirectangular.png)
 
@@ -40,7 +40,7 @@ If you start with a projection other than equirectangular, use the --invert flag
 
 
 
-`--projection EqualArea -f ..\..\Tests\earth_equirect.png -o ..\..\Tests\Output\ToEqualArea.png`
+`--projection EqualArea -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\ToEqualArea.png`
 
 ![ToEqualArea](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/ToEqualArea.png)
 
@@ -49,7 +49,7 @@ If you start with a projection other than equirectangular, use the --invert flag
 
 
 
-`--projection Sinusoidal -f ..\..\Tests\earth_equirect.png -o ..\..\Tests\Output\ToSinusoidal.png`
+`--projection Sinusoidal -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\ToSinusoidal.png`
 
 ![ToSinusoidal](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/ToSinusoidal.png)
 
@@ -58,7 +58,7 @@ If you start with a projection other than equirectangular, use the --invert flag
 
 
 
-`--projection Sinusoidal2 -f ..\..\Tests\earth_equirect.png -o ..\..\Tests\Output\ToSinusoidal2.png`
+`--projection Sinusoidal2 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\ToSinusoidal2.png`
 
 ![ToSinusoidal2](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/ToSinusoidal2.png)
 
@@ -67,7 +67,7 @@ If you start with a projection other than equirectangular, use the --invert flag
 
 
 
-`--projection Mollweide -f ..\..\Tests\earth_equirect.png -o ..\..\Tests\Output\ToMollweide.png`
+`--projection Mollweide -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\ToMollweide.png`
 
 ![ToMollweide](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/ToMollweide.png)
 
@@ -76,7 +76,7 @@ If you start with a projection other than equirectangular, use the --invert flag
 
 
 
-`--projection Mercator -f ..\..\Tests\earth_equirect.png -o ..\..\Tests\Output\ToMercator.png`
+`--projection Mercator -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\ToMercator.png`
 
 ![ToMercator](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/ToMercator.png)
 
@@ -85,7 +85,7 @@ If you start with a projection other than equirectangular, use the --invert flag
 
 
 
-`--projection Cylindrical -f ..\..\Tests\earth_equirect.png -o ..\..\Tests\Output\ToCylindrical.png`
+`--projection Cylindrical -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\ToCylindrical.png`
 
 ![ToCylindrical](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/ToCylindrical.png)
 
@@ -94,7 +94,7 @@ If you start with a projection other than equirectangular, use the --invert flag
 
 
 
-`--projection Azimuthal -f ..\..\Tests\earth_equirect.png -o ..\..\Tests\Output\ToAzimuthal.png`
+`--projection Azimuthal -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\ToAzimuthal.png`
 
 ![ToAzimuthal](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/ToAzimuthal.png)
 
@@ -103,7 +103,7 @@ If you start with a projection other than equirectangular, use the --invert flag
 
 
 
-`--projection Orthographic -f ..\..\Tests\earth_equirect.png -o ..\..\Tests\Output\ToOrthographic.png`
+`--projection Orthographic -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\ToOrthographic.png`
 
 ![ToOrthographic](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/ToOrthographic.png)
 
@@ -112,7 +112,7 @@ If you start with a projection other than equirectangular, use the --invert flag
 
 
 
-`--projection Rectilinear -f ..\..\Tests\earth_equirect.png -o ..\..\Tests\Output\ToRectilinear.png`
+`--projection Rectilinear -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\ToRectilinear.png`
 
 ![ToRectilinear](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/ToRectilinear.png)
 
@@ -121,7 +121,7 @@ If you start with a projection other than equirectangular, use the --invert flag
 
 
 
-`--projection Stereographic -f ..\..\Tests\earth_equirect.png -o ..\..\Tests\Output\ToStereographic.png`
+`--projection Stereographic -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\ToStereographic.png`
 
 ![ToStereographic](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/ToStereographic.png)
 
@@ -130,7 +130,7 @@ If you start with a projection other than equirectangular, use the --invert flag
 
 
 
-`--projection Gnomonic -f ..\..\Tests\earth_equirect.png -o ..\..\Tests\Output\ToGnomonic.png`
+`--projection Gnomonic -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\ToGnomonic.png`
 
 ![ToGnomonic](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/ToGnomonic.png)
 
@@ -139,7 +139,7 @@ If you start with a projection other than equirectangular, use the --invert flag
 
 
 
-`--projection Perspective -f ..\..\Tests\earth_equirect.png -o ..\..\Tests\Output\ToPerspective.png`
+`--projection Perspective -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\ToPerspective.png`
 
 ![ToPerspective](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/ToPerspective.png)
 
@@ -148,7 +148,7 @@ If you start with a projection other than equirectangular, use the --invert flag
 
 
 
-`--projection Bonne -f ..\..\Tests\earth_equirect.png -o ..\..\Tests\Output\ToBonne.png`
+`--projection Bonne -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\ToBonne.png`
 
 ![ToBonne](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/ToBonne.png)
 
@@ -157,7 +157,7 @@ If you start with a projection other than equirectangular, use the --invert flag
 
 
 
-`--projection Hammer -f ..\..\Tests\earth_equirect.png -o ..\..\Tests\Output\ToHammer.png`
+`--projection Hammer -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\ToHammer.png`
 
 ![ToHammer](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/ToHammer.png)
 
@@ -166,7 +166,7 @@ If you start with a projection other than equirectangular, use the --invert flag
 
 Many projections leave a blank area around the perimeter of the map. Fill that blank area with an optional background color
 
-`--bgcolor 255,0,0 --projection perspective -f ..\..\Tests\earth_equirect.png -o ..\..\Tests\Output\WithBackgroundColor.png`
+`--bgcolor 255,0,0 --projection perspective -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\WithBackgroundColor.png`
 
 ![WithBackgroundColor](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/WithBackgroundColor.png)
 
@@ -175,7 +175,7 @@ Many projections leave a blank area around the perimeter of the map. Fill that b
 
 Many projections leave a blank area around the perimeter of the map. Fill that blank area with an optional background image
 
-`--bg ..\..\Tests\background.png --projection hammer -f ..\..\Tests\earth_equirect.png -o ..\..\Tests\Output\WithBackgroundImage.png`
+`--bg ..\..\Tests\Input\background.png --projection hammer -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\WithBackgroundImage.png`
 
 ![WithBackgroundImage](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/WithBackgroundImage.png)
 

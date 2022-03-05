@@ -15,7 +15,7 @@ namespace MapProjectorCLI.Tests
         const double OneDegree = 2 * Math.PI / 360.0;
         const double OneHour = 2 * Math.PI / 24.0;
 
-        const string defaultArgs = "-f ..\\..\\Tests\\earth_equirect.png -o out.png";
+        const string defaultArgs = "-f ..\\..\\Tests\\Input\\earth_equirect.png -o out.png";
         private string[] ToArgs(string rawArgs, bool withDefaults = true)
         {
             if(withDefaults)

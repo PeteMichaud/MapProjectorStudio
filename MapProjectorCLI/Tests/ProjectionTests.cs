@@ -13,11 +13,11 @@ namespace MapProjectorCLI.Tests
     {
         StringBuilder exampleText = new StringBuilder("# Examples\n\n");
         const string repoPath = @"https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output";
-        const string ioArgs = "-f ..\\..\\Tests\\{1}.png -o ..\\..\\Tests\\Output\\{0}.png";
-        private string[] ToArgs(string rawArgs, string outFileName, string readmeNotes = "", string inFileName= "earth_equirect")
+        const string ioArgs = "-f ..\\..\\Tests\\Input\\{1}.png -o ..\\..\\Tests\\Output\\{0}.png";
+        private string[] ToArgs(string rawArgs, string outFileName, string readmeNotes = "", string inFileName= "earth_equirect", bool addExample = true)
         {
             rawArgs += $" {string.Format(ioArgs, outFileName, inFileName)}";
-            AddExample(rawArgs, outFileName, readmeNotes);
+            if(addExample) AddExample(rawArgs, outFileName, readmeNotes);
             return rawArgs.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
         }
 
@@ -69,7 +69,7 @@ namespace MapProjectorCLI.Tests
         [Test]
         public void WithBackgroundImage()
         {
-            var args = ToArgs($"--bg ..\\..\\Tests\\background.png --projection hammer", 
+            var args = ToArgs($"--bg ..\\..\\Tests\\Input\\background.png --projection hammer", 
                 MethodBase.GetCurrentMethod().Name, 
                 "Many projections leave a blank area around the perimeter of the map. Fill that blank area with an optional background image");
             Parse(args, cliParams =>
@@ -107,6 +107,23 @@ namespace MapProjectorCLI.Tests
                 Projector.Project(projectionParams);
             });
 
+        }
+
+        [Test]
+        public void InvertAllProjections()
+        {
+
+            foreach (MapProjection proj in Enum.GetValues(typeof(MapProjection)))
+            {
+                var args = ToArgs($"--projection {proj} --invert",
+                     $"z{MethodBase.GetCurrentMethod().Name}_{proj}",
+                    addExample: false);
+                Parse(args, cliParams =>
+                {
+                    (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                    Projector.Project(projectionParams);
+                });
+            }
         }
 
     }

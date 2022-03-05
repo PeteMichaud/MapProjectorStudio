@@ -121,8 +121,8 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Tests\background.png" />
-    <Content Include="Tests\earth_equirect.png" />
+    <Content Include="Tests\Input\background.png" />
+    <Content Include="Tests\Input\earth_equirect.png" />
     <Content Include="Tests\Output\ToAzimuthal.png" />
     <Content Include="Tests\Output\ToBonne.png" />
     <Content Include="Tests\Output\ToCylindrical.png" />
@@ -142,7 +142,7 @@
     <Content Include="Tests\Output\ToStereographic.png" />
     <Content Include="Tests\Output\WithBackgroundColor.png" />
     <Content Include="Tests\Output\WithBackgroundImage.png" />
-    <Content Include="Tests\earth_mercator.png" />
+    <Content Include="Tests\Input\earth_mercator.png" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

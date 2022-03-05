@@ -44,7 +44,7 @@ namespace MapProjectorLib.Projections
                 if (phi >= -ProjMath.PiOverTwo && phi <= ProjMath.PiOverTwo)
                 {
                     ConvertLatLong(
-                        ref phi, ref lambda, x, y, z, transformMatrix);
+                        ref phi, ref lambda, transformMatrix);
 
                     return true;
                 }
@@ -61,7 +61,7 @@ namespace MapProjectorLib.Projections
             // Set x and y to where phi and lambda are mapped to
             // x, y are in image coordinates
             // Get projection coordinates for x and y
-            ConvertLatLong(ref phi, ref lambda, 0, 0, 0, transformMatrixInv);
+            ConvertLatLong(ref phi, ref lambda, transformMatrixInv);
 
             var r = 0.0;
             if (GetR(phi, ref r))
