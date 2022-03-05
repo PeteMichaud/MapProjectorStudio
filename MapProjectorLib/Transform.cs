@@ -94,7 +94,6 @@ namespace MapProjectorLib
             return (w, h);
         }
 
-
         public virtual void SetY(double y)
         {
             /* noop */
@@ -307,7 +306,6 @@ namespace MapProjectorLib
                 {
                        (x, y) = ApplyRotation(tParams.rotate, x, y);
                 }
-
                 x = xOrigin + (x - tParams.xOffset) / scaleFactor;
                 y = yOrigin + (y - tParams.yOffset) / -scaleFactor;
 
