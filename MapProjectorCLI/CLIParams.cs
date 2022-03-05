@@ -6,6 +6,17 @@ namespace MapProjectorCLI
 {
     internal class CLIParams
     {
+        static Parser CliParser => new Parser(config =>
+        {
+            config.CaseSensitive = false;
+            config.CaseInsensitiveEnumValues = true;
+        });
+
+        public static ParserResult<CLIParams> Parse(string[] args, Parser parser = null)
+        {
+            return (parser ?? CliParser).ParseArguments<CLIParams>(args);
+        }
+
         const double OneDay = 2 * Math.PI / 365.25;
         const double OneDegree = 2 * Math.PI / 360.0;
         const double OneHour = 2 * Math.PI / 24.0;
@@ -30,6 +41,7 @@ namespace MapProjectorCLI
         double _turn;
         double _turnIncr;
 
+        double _aw;
 
         double _widgetLat;
 
@@ -198,14 +210,21 @@ namespace MapProjectorCLI
         [Option(
             'a', Default = 1.0,
             HelpText = "Only relevant to Sinusoidal2 projection")]
-        public double a { get; set; } = 1.0;
+        public double a { get; set; }
 
         ////
 
         [Option(
-            "aw", Default = 20 * Math.PI / 180.0,
-            HelpText = "Only relevant to Perspective projection")]
-        public double aw { get; set; }
+            "aw", Default = 20,
+            HelpText = "Only relevant to Perspective projection (Radians)")]
+        public double aw 
+        { 
+            get => _aw; 
+            set 
+            {
+                _aw = ToRadians(value);
+            } 
+        }
 
         [Option(
             'x', Default = 8.0,
@@ -284,11 +303,6 @@ namespace MapProjectorCLI
             HelpText =
                 "Comma separated list of map widgets: Grid, Analemma, TemporaryHours, LocalHours, Altitudes, Tropics, Dateline, Datetime")]
         public MapWidget Widgets { get; set; }
-
-
-        // grid
-        //[Option("grid", Default = false, HelpText = "Draw Grid")]
-        //public bool grid { get; set; }
 
         [Option(
             "gridx", Default = 30,
