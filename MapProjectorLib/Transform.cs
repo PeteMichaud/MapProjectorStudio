@@ -10,7 +10,7 @@ namespace MapProjectorLib
         protected Matrix3 transformMatrix;
         protected Matrix3 transformMatrixInv;
 
-        public Transform()
+        protected Transform()
         {
             transformMatrix = new Matrix3();
             transformMatrixInv = new Matrix3();
@@ -65,7 +65,7 @@ namespace MapProjectorLib
             ref double x1, ref double y1, ref double z1,
             ref double phi, ref double lambda);
 
-        public abstract bool ProjectInv(
+        protected abstract bool ProjectInv(
             TransformParams tParams,
             double phi, double lambda,
             ref double x, ref double y);
@@ -101,10 +101,10 @@ namespace MapProjectorLib
         }
 
         protected virtual Rgb24 AdjustOutputColor(
-            Rgb24 inputcolor, double x, double y, double z,
+            Rgb24 inputColor, double x, double y, double z,
             TransformParams tParams)
         {
-            return inputcolor;
+            return inputColor;
         }
 
         public abstract double BasicScale(int width, int height);
@@ -142,7 +142,7 @@ namespace MapProjectorLib
             outImage[ox, oy] = outColor;
         }
 
-        public bool IsPointWithinRadius(
+        bool IsPointWithinRadius(
             TransformParams tParams, double phi, double lambda)
         {
             if (tParams.radius == 0) return true;
@@ -151,7 +151,7 @@ namespace MapProjectorLib
                    tParams.radius;
         }
 
-        void ApplyRotation(double r, ref double x, ref double y)
+        static void ApplyRotation(double r, ref double x, ref double y)
         {
             var x1 = x * Math.Cos(r) + y * Math.Sin(r);
             var y1 = -x * Math.Sin(r) + y * Math.Cos(r);
@@ -214,16 +214,16 @@ namespace MapProjectorLib
         {
             var ow = outImage.Width;
             var oh = outImage.Height;
-            var orgx = 0.5 * ow;
-            var orgy = 0.5 * oh;
+            var xOrigin = 0.5 * ow;
+            var yOrigin = 0.5 * oh;
 
             // Now scan across the output image
             for (var oy = 0; oy < oh; oy++)
             for (var ox = 0; ox < ow; ox++)
             {
                 // Compute lat and long
-                var phi = (orgy - oy - 0.5) * Math.PI / oh;
-                var lambda = (ox + 0.5 - orgx) * ProjMath.TwoPi / ow;
+                var phi = (yOrigin - oy - 0.5) * Math.PI / oh;
+                var lambda = (ox + 0.5 - xOrigin) * ProjMath.TwoPi / ow;
 
                 // Compute the scaled x,y coordinates for <phi,lambda>
                 double x = 0.0, y = 0.0;
@@ -235,7 +235,7 @@ namespace MapProjectorLib
             }
         }
 
-        protected bool SetDataInv(
+        bool SetDataInv(
             Image inImage, Image outImage,
             TransformParams tParams,
             double outX, double outY, // Coordinates in output image
@@ -270,7 +270,7 @@ namespace MapProjectorLib
             return true;
         }
 
-        public virtual bool MapXY(
+        public bool MapXY(
             Image outImage,
             TransformParams tParams,
             double phi, double lambda,
@@ -304,8 +304,8 @@ namespace MapProjectorLib
         }
 
         // Apply matrix to phi, lambda, and put the resulting
-        // cartesion coords in x,y,z.
-        protected void ConvertLatLong(
+        // cartesian coords in x,y,z.
+        protected static void ConvertLatLong(
             ref double phi, ref double lambda,
             double x, double y, double z,
             Matrix3 m)
@@ -314,15 +314,14 @@ namespace MapProjectorLib
             y = Math.Sin(lambda) * Math.Cos(phi);
             z = Math.Sin(phi);
 
-            if (!m.isIdentity)
-            {
-                m.Apply(ref x, ref y, ref z);
-                phi = Math.Asin(z);
-                lambda = Math.Atan2(y, x);
-            }
+            if (m.isIdentity) return;
+
+            m.Apply(ref x, ref y, ref z);
+            phi = Math.Asin(z);
+            lambda = Math.Atan2(y, x);
         }
 
-        protected double Distance(
+        static double Distance(
             double phi0, double lambda0, double phi1, double lambda1)
         {
             var x0 = Math.Cos(lambda0) * Math.Cos(phi0);
@@ -366,15 +365,10 @@ namespace MapProjectorLib
                 DrawDatetime(image, tParams);
         }
 
-        //void AddLines(Image image, TransformParams tParams)
-        //{
-        //    DrawGrid(image, tParams);
-        //}
-
         void DrawLocalHours(Image image, TransformParams tParams)
         {
             var latPlotter = new LatPlotter(image, tParams, this);
-            var nx = 24;
+            const int nx = 24;
             for (var i = 0; i < nx; i++)
             {
                 var lambda = (i - nx / 2) * 2 * Math.PI / nx +
@@ -391,10 +385,10 @@ namespace MapProjectorLib
             Image image,
             TransformParams tParams)
         {
-            var gridx = tParams.gridX;
-            var gridy = tParams.gridY;
-            var nx = 360 / gridx;
-            var ny = 180 / gridy;
+            var gridX = tParams.gridX;
+            var gridY = tParams.gridY;
+            var nx = 360 / gridX;
+            var ny = 180 / gridY;
 
             for (var i = 0; i < nx; i++)
             {
@@ -514,8 +508,8 @@ namespace MapProjectorLib
             var date = 2 * Math.PI * day / 365;
             var phi = ProjMath.SunDec(date);
             var eot = ProjMath.EquationOfTime(date) / (24 * 60 * 60);
-            var apparenttime = time + eot; // AT = MT + EOT
-            var lambda = -(2 * Math.PI * apparenttime);
+            var apparentTime = time + eot; // AT = MT + EOT
+            var lambda = -(2 * Math.PI * apparentTime);
             double x = 0.0, y = 0.0;
             MapXY(image, tParams, phi, lambda, ref x, ref y);
 

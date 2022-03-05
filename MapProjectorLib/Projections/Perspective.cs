@@ -162,7 +162,7 @@ namespace MapProjectorLib.Projections
             return false;
         }
 
-        public override bool ProjectInv(
+        protected override bool ProjectInv(
             TransformParams tParams,
             double phi, double lambda, ref double x, ref double y)
         {
@@ -217,11 +217,11 @@ namespace MapProjectorLib.Projections
         }
 
         protected override Rgb24 AdjustOutputColor(
-            Rgb24 inputcolor,
+            Rgb24 inputColor,
             double xProjected, double yProjected, double zProjected,
             TransformParams tParams)
         {
-            if (!tParams.sun) return inputcolor;
+            if (!tParams.sun) return inputColor;
 
             // Is where we are sunny?
             // Compute pi/2 - angle of the x-axis with the normal at the relevant point.
@@ -231,8 +231,8 @@ namespace MapProjectorLib.Projections
                               sunz * zProjected;
 
             return sunAltitude < ProjMath.SunriseAngle
-                ? inputcolor.Dim(nightdim)
-                : inputcolor.Dim(0.8 + 0.2 * sunAltitude);
+                ? inputColor.Dim(nightdim)
+                : inputColor.Dim(0.8 + 0.2 * sunAltitude);
         }
     }
 }

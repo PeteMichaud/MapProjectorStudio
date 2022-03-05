@@ -53,7 +53,7 @@ namespace MapProjectorLib.Projections
             return false;
         }
 
-        public override bool ProjectInv(
+        protected override bool ProjectInv(
             TransformParams tParams,
             double phi, double lambda,
             ref double x, ref double y)
