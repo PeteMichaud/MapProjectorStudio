@@ -95,6 +95,7 @@
     <Compile Include="CLIParams.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tests\ProjectionTests.cs" />
     <Compile Include="Tests\CLIParamsTest.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -121,7 +122,25 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Tests\earth_equirect.png" />
+    <Content Include="Tests\Output\ToAzimuthal.png" />
+    <Content Include="Tests\Output\ToBonne.png" />
+    <Content Include="Tests\Output\ToCylindrical.png" />
+    <Content Include="Tests\Output\ToEqualArea.png" />
+    <Content Include="Tests\Output\ToEquirect.png" />
+    <Content Include="Tests\Output\ToEquirectangular.png" />
+    <Content Include="Tests\Output\ToGnomonic.png" />
+    <Content Include="Tests\Output\ToHammer.png" />
+    <Content Include="Tests\Output\ToLatLong.png" />
+    <Content Include="Tests\Output\ToMercator.png" />
+    <Content Include="Tests\Output\ToMollweide.png" />
+    <Content Include="Tests\Output\ToOrthographic.png" />
+    <Content Include="Tests\Output\ToPerspective.png" />
+    <Content Include="Tests\Output\ToRectilinear.png" />
+    <Content Include="Tests\Output\ToSinusoidal.png" />
+    <Content Include="Tests\Output\ToSinusoidal2.png" />
+    <Content Include="Tests\Output\ToStereographic.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
