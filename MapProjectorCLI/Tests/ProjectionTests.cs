@@ -50,22 +50,10 @@ namespace MapProjectorCLI.Tests
             Console.WriteLine($"Examples written to {exampleFile}");
         }
 
-        //[Test]
-        //public void ToLatLon()
-        //{
-        //    var args = ToArgs($"", MethodBase.GetCurrentMethod().Name);
-        //    Parse(args, cliParams =>
-        //    {
-        //        (var success, var projectionParams) = Program.ProcessParams(cliParams);
-        //        Projector.Project(projectionParams);
-        //    });
-
-        //}
-
         [Test]
         public void RunAllProjections()
         {
-            foreach(MapProjection proj in Enum.GetValues(typeof(MapProjection)))
+            foreach (MapProjection proj in Enum.GetValues(typeof(MapProjection)))
             {
 
                 var args = ToArgs($"--projection {proj}", $"To{proj}");
@@ -77,6 +65,35 @@ namespace MapProjectorCLI.Tests
 
             }
         }
+
+        [Test]
+        public void WithBackgroundImage()
+        {
+            var args = ToArgs($"--bg ..\\..\\Tests\\background.png --projection hammer", 
+                MethodBase.GetCurrentMethod().Name, 
+                "Many projections leave a blank area around the perimeter of the map. Fill that blank area with an optional background image");
+            Parse(args, cliParams =>
+            {
+                (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                Projector.Project(projectionParams);
+            });
+
+        }
+
+        [Test]
+        public void WithBackgroundColor()
+        {
+            var args = ToArgs($"--bgcolor 255,0,0 --projection perspective",
+                MethodBase.GetCurrentMethod().Name,
+                "Many projections leave a blank area around the perimeter of the map. Fill that blank area with an optional background color");
+            Parse(args, cliParams =>
+            {
+                (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                Projector.Project(projectionParams);
+            });
+
+        }
+
 
     }
 }
