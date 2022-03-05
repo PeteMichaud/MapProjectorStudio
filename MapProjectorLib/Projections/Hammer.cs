@@ -13,7 +13,7 @@ namespace MapProjectorLib.Projections
             double x, double y,
             ref double phi, ref double lambda)
         {
-            var result = false;
+
             var z2 = 2 - ProjMath.Sqr(x) - ProjMath.Sqr(2 * y);
             var z = Math.Sqrt(z2);
             var t1 = 2 * y * z;
@@ -21,10 +21,11 @@ namespace MapProjectorLib.Projections
             {
                 phi = Math.Asin(t1);
                 lambda = 2 * Math.Atan2(x * z, z2 - 1);
-                if (lambda >= -Math.PI && lambda <= Math.PI) result = true;
+                if (lambda >= -Math.PI && lambda <= Math.PI) 
+                    return true;
             }
 
-            return result;
+            return false;
         }
 
         protected override bool ProjectInvSimple(

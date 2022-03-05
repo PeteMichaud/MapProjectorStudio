@@ -146,7 +146,8 @@ namespace MapProjectorLib.Projections
             {
                 phi = Math.Asin(z);
                 lambda = Math.Atan2(y, x);
-            } else
+            } 
+            else
             {
                 // This is a point on the ellipsoid, so convert to lat long
                 var r = Math.Sqrt(

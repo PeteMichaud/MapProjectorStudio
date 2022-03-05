@@ -109,7 +109,7 @@ namespace MapProjectorLib
         public abstract double BasicScale(int width, int height);
 
         //
-        bool IsPointWithinRadius(
+        static bool IsPointWithinRadius(
             TransformParams tParams, double phi, double lambda)
         {
             if (tParams.radius == 0) return true;
@@ -160,9 +160,8 @@ namespace MapProjectorLib
                     {
                         ref Rgb24 outPixel = ref outPixelRow[outX];
 
-                        var x = scaleFactor * (outX + 0.5 - xOrigin) +
+                        var x1 = scaleFactor * (outX + 0.5 - xOrigin) +
                             tParams.xOffset;
-                        var x1 = x;
                         var y1 = y;
 
                         if (tParams.rotate != 0)
@@ -173,6 +172,7 @@ namespace MapProjectorLib
 
                         double x0 = 0.0, y0 = 0.0, z0 = 0.0;
                         double phi = 0.0, lambda = 0.0;
+
                         bool inProjectionBounds = Project(tParams, x1, y1,
                             ref x0, ref y0, ref z0,
                             ref phi, ref lambda);
