@@ -1,5 +1,14 @@
 # Examples
 
+## InvertFromMercator
+
+If you start with a projection other than equirectangular, use the --invert flag to convert FROM the target projection
+
+`--projection mercator --invert -f ..\..\Tests\earth_mercator.png -o ..\..\Tests\Output\InvertFromMercator.png`
+
+![InvertFromMercator](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/InvertFromMercator.png)
+
+
 ## ToLatLong
 
 

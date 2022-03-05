@@ -37,7 +37,8 @@ namespace MapProjectorLib
                     transform.TransformImageInv(
                         pParams.srcImage, outImage, tParams);
                     // No widgets for inverse transformation yet
-                } else
+                } 
+                else
                 {
                     transform.TransformImage(
                         pParams.srcImage, outImage, tParams);

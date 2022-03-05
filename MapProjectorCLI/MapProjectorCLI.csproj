@@ -142,6 +142,7 @@
     <Content Include="Tests\Output\ToStereographic.png" />
     <Content Include="Tests\Output\WithBackgroundColor.png" />
     <Content Include="Tests\Output\WithBackgroundImage.png" />
+    <Content Include="Tests\earth_mercator.png" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

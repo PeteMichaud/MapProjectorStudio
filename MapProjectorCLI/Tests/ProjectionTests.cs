@@ -13,10 +13,10 @@ namespace MapProjectorCLI.Tests
     {
         StringBuilder exampleText = new StringBuilder("# Examples\n\n");
         const string repoPath = @"https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output";
-        const string ioArgs = "-f ..\\..\\Tests\\earth_equirect.png -o ..\\..\\Tests\\Output\\{0}.png";
-        private string[] ToArgs(string rawArgs, string outFileName, string readmeNotes = "")
+        const string ioArgs = "-f ..\\..\\Tests\\{1}.png -o ..\\..\\Tests\\Output\\{0}.png";
+        private string[] ToArgs(string rawArgs, string outFileName, string readmeNotes = "", string inFileName= "earth_equirect")
         {
-            rawArgs += $" {string.Format(ioArgs, outFileName)}";
+            rawArgs += $" {string.Format(ioArgs, outFileName, inFileName)}";
             AddExample(rawArgs, outFileName, readmeNotes);
             return rawArgs.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
         }
@@ -94,6 +94,20 @@ namespace MapProjectorCLI.Tests
 
         }
 
+        [Test]
+        public void InvertFromMercator()
+        {
+            var args = ToArgs($"--projection mercator --invert",
+                MethodBase.GetCurrentMethod().Name,
+                "If you start with a projection other than equirectangular, use the --invert flag to convert FROM the target projection", 
+                "earth_mercator");
+            Parse(args, cliParams =>
+            {
+                (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                Projector.Project(projectionParams);
+            });
+
+        }
 
     }
 }
