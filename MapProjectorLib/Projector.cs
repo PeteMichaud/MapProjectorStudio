@@ -11,12 +11,15 @@ namespace MapProjectorLib
 
             var transform = Transform.GetTransform(pParams.TargetProjection);
 
-            var outImage = new Image(pParams.Width, pParams.Height);
+            Image outImage;
 
-            if (pParams.backImage != null)
+            if (pParams.backImage == null)
+            {
+                outImage = new Image(pParams.Width, pParams.Height, tParams.backgroundColor);
+            } 
+            else
             {
                 outImage = pParams.backImage.Clone();
-                tParams.UseBackgroundColor = false;
                 pParams.backImage.Dispose();
                 pParams.backImage = null;
             }

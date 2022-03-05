@@ -84,8 +84,6 @@ namespace MapProjectorLib
 
         //
 
-        public bool UseBackgroundColor { get; set; } = true;
-
         public override string ToString()
         {
             return string.Format(

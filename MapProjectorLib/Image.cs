@@ -20,6 +20,12 @@ namespace MapProjectorLib
             _image = new Image<Rgb24>(width, height);
         }
 
+        public Image(int width, int height, Rgb24 backgroundColor)
+        {
+            _image = new Image<Rgb24>(width, height, backgroundColor);
+        }
+
+
         public int Width => _image.Width;
         public int Height => _image.Height;
 
@@ -47,6 +53,11 @@ namespace MapProjectorLib
         public void Dispose()
         {
             _image.Dispose();
+        }
+
+        public void ProcessPixelRows(PixelAccessorAction<Rgb24> pixelAccessor)
+        {
+            _image.ProcessPixelRows(pixelAccessor);
         }
 
         public void PlotLine(

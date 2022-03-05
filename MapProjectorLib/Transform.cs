@@ -109,38 +109,6 @@ namespace MapProjectorLib
         public abstract double BasicScale(int width, int height);
 
         //
-
-        void SetData(
-            Image inImage, Image outImage,
-            TransformParams tParams,
-            double x, double y, double z,
-            double phi, double lambda,
-            int ox, int oy)
-        {
-            var imgWidth = inImage.Width;
-            var imgHeight = inImage.Height;
-
-            var halfWidth = imgWidth * 0.5;
-            var halfHeight = imgHeight * 0.5;
-            var scaledWidth = imgWidth * ProjMath.OneOverTwoPi;
-            var scaledHeight = imgHeight * ProjMath.OneOverPi;
-
-            // Use unsigned so we don't have to test for negative indices
-            var scaledX = (int) Math.Floor(halfWidth + lambda * scaledWidth);
-            // Clamp in case of rounding errors
-            if (scaledX >= imgWidth) scaledX = 0;
-
-            // Use unsigned so we don't have to test for negative indices
-
-            var scaledY = (int) Math.Floor(halfHeight - phi * scaledHeight);
-            if (scaledY >= imgHeight) scaledY = imgHeight - 1;
-
-            var outColor = AdjustOutputColor(
-                inImage[scaledX, scaledY], x, y, z, tParams);
-
-            outImage[ox, oy] = outColor;
-        }
-
         bool IsPointWithinRadius(
             TransformParams tParams, double phi, double lambda)
         {
@@ -162,86 +130,101 @@ namespace MapProjectorLib
             Image inImage, Image outImage,
             TransformParams tParams)
         {
+            // precomputed values for the hot loop
+            var imgWidth = inImage.Width;
+            var imgHeight = inImage.Height;
             var outWidth = outImage.Width;
             var outHeight = outImage.Height;
             var xOrigin = 0.5 * outWidth;
             var yOrigin = 0.5 * outHeight;
-
+            var halfWidth = imgWidth * 0.5;
+            var halfHeight = imgHeight * 0.5;
+            var scaledWidth = imgWidth * ProjMath.OneOverTwoPi;
+            var scaledHeight = imgHeight * ProjMath.OneOverPi;
             // Scale so that half width is 1
             var scaleFactor = BasicScale(outWidth, outHeight) / tParams.scale;
+            //
 
-            for (var outY = 0; outY < outHeight; outY++)
+            outImage.ProcessPixelRows(outAccessor =>
             {
-                var y = scaleFactor * (yOrigin - outY - 0.5) + tParams.yOffset;
-                if (tParams.rotate == 0) SetY(y);
-
-                for (var outX = 0; outX < outWidth; outX++)
+                for (int outY = 0; outY < outAccessor.Height; outY++)
                 {
-                    // Really ought to just apply a 3x2 matrix to the point
-                    var x = scaleFactor * (outX + 0.5 - xOrigin) +
+                    var y = scaleFactor * (yOrigin - outY - 0.5) + tParams.yOffset;
+                    if (tParams.rotate == 0) SetY(y);
+
+                    Span<Rgb24> outPixelRow = outAccessor.GetRowSpan(outY);
+
+                    // pixelRow.Length has the same value as accessor.Width,
+                    // but using pixelRow.Length allows the JIT to optimize away bounds checks:
+                    for (int outX = 0; outX < outPixelRow.Length; outX++)
+                    {
+                        ref Rgb24 outPixel = ref outPixelRow[outX];
+
+                        var x = scaleFactor * (outX + 0.5 - xOrigin) +
                             tParams.xOffset;
-                    var x1 = x;
-                    var y1 = y;
+                        var x1 = x;
+                        var y1 = y;
 
-                    if (tParams.rotate != 0)
-                    {
-                        (x1, y1) = ApplyRotation(-tParams.rotate, x1, y1);
-                        SetY(y1);
-                    }
+                        if (tParams.rotate != 0)
+                        {
+                            (x1, y1) = ApplyRotation(-tParams.rotate, x1, y1);
+                            SetY(y1);
+                        }
 
-                    double x0 = 0.0, y0 = 0.0, z0 = 0.0;
-                    double phi = 0.0, lambda = 0.0;
+                        double x0 = 0.0, y0 = 0.0, z0 = 0.0;
+                        double phi = 0.0, lambda = 0.0;
+                        bool inProjectionBounds = Project(tParams, x1, y1,
+                            ref x0, ref y0, ref z0,
+                            ref phi, ref lambda);
 
-                    var projSuccess = Project(
-                        tParams, x1, y1, 
-                        ref x0, ref y0, ref z0, 
-                        ref phi, ref lambda);
+                        if (inProjectionBounds && IsPointWithinRadius(tParams, phi, lambda))
+                        {
+                            // Use unsigned so we don't have to test for negative indices
+                            var scaledX = (int)Math.Floor(halfWidth + lambda * scaledWidth);
+                            // Clamp in case of rounding errors
+                            if (scaledX >= imgWidth) scaledX = 0;
 
-                    var isWithinRadius = IsPointWithinRadius(tParams, phi, lambda);
+                            // Use unsigned so we don't have to test for negative indices
 
-                    if (projSuccess && isWithinRadius)
-                    {
-                        SetData(
-                            inImage, outImage, tParams, 
-                            x0, y0, z0, 
-                            phi, lambda,
-                            outX, outY);
-                    }
-                    else if (tParams.UseBackgroundColor)
-                    {
-                        outImage[outX, outY] = tParams.backgroundColor;
+                            var scaledY = (int)Math.Floor(halfHeight - phi * scaledHeight);
+                            if (scaledY >= imgHeight) scaledY = imgHeight - 1;
+
+                            var outColor = AdjustOutputColor(
+                                inImage[scaledX, scaledY], x0, y0, z0, tParams);
+
+                            outPixel = outColor;
+                        }
                     }
                 }
-            }
+            });
+
         }
 
         public void TransformImageInv(
             Image inImage, Image outImage,
             TransformParams tParams)
         {
-            var ow = outImage.Width;
-            var oh = outImage.Height;
-            var xOrigin = 0.5 * ow;
-            var yOrigin = 0.5 * oh;
+            var outWidth = outImage.Width;
+            var outHeight = outImage.Height;
+            var xOrigin = 0.5 * outWidth;
+            var yOrigin = 0.5 * outHeight;
 
             // Now scan across the output image
-            for (var oy = 0; oy < oh; oy++)
-            for (var ox = 0; ox < ow; ox++)
+            for (var oy = 0; oy < outHeight; oy++)
+            for (var ox = 0; ox < outWidth; ox++)
             {
                 // Compute lat and long
-                var phi = (yOrigin - oy - 0.5) * Math.PI / oh;
-                var lambda = (ox + 0.5 - xOrigin) * ProjMath.TwoPi / ow;
+                var phi = (yOrigin - oy - 0.5) * Math.PI / outHeight;
+                var lambda = (ox + 0.5 - xOrigin) * ProjMath.TwoPi / outWidth;
 
                 // Compute the scaled x,y coordinates for <phi,lambda>
                 double x = 0.0, y = 0.0;
                 if (!IsPointWithinRadius(tParams, phi, lambda) ||
                     !ProjectInv(tParams, phi, lambda, ref x, ref y) ||
                     !SetDataInv(inImage, outImage, tParams, ox, oy, x, y))
-                    if (tParams.UseBackgroundColor)
-                    {
-                            outImage[ox, oy] = tParams.backgroundColor;
-                    }
+                {
                 }
+            }
         }
 
         bool SetDataInv(
