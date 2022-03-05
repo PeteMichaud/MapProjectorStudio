@@ -46,37 +46,46 @@ namespace MapProjectorCLI
             Image srcImage = null;
             Image backImage = null;
 
-            //cross platform
-            var assm = typeof(Program).GetTypeInfo().Assembly;
-            var currentDir = Path.GetDirectoryName(assm.Location);
-
-            try
+            //Qualify File Paths and Load Files
             {
-                var fullPath = Path.Combine(currentDir, cliParams.srcImageFileName);
+                //cross platform
+                var assm = typeof(Program).GetTypeInfo().Assembly;
+                var currentDir = Path.GetDirectoryName(assm.Location);
 
-                srcImage = Projector.LoadImage(fullPath);
-            } 
-            catch(IOException)
-            {
-                Console.WriteLine($"Could not open file {cliParams.srcImageFileName}");
-                return (false, null);
-            }
-
-            try
-            {
-                if(!string.IsNullOrEmpty(cliParams.backImageFileName))
+                string QualifiedPath(string maybeQualifiedPath)
                 {
-                    var fullPath = Path.Combine(currentDir, cliParams.backImageFileName);
+                    if (Path.IsPathRooted(maybeQualifiedPath)) return maybeQualifiedPath;
+                    return Path.Combine(currentDir, maybeQualifiedPath);
+                }
 
-                    backImage = Projector.LoadImage(fullPath);
+                cliParams.srcImageFileName = QualifiedPath(cliParams.srcImageFileName);
+                cliParams.outImageFileName = QualifiedPath(cliParams.outImageFileName);
+
+                try
+                {
+                    srcImage = Projector.LoadImage(cliParams.srcImageFileName);
+                }
+                catch (IOException)
+                {
+                    Console.WriteLine($"Could not open file {cliParams.srcImageFileName}");
+                    return (false, null);
+                }
+
+                try
+                {
+                    if (!string.IsNullOrEmpty(cliParams.backImageFileName))
+                    {
+                        cliParams.backImageFileName = QualifiedPath(cliParams.backImageFileName);
+                        backImage = Projector.LoadImage(cliParams.backImageFileName);
+                    }
+                }
+                catch (IOException)
+                {
+                    Console.WriteLine($"Could not open background file {cliParams.backImageFileName}");
+                    return (false, null);
                 }
             }
-            catch (IOException)
-            {
-                Console.WriteLine($"Could not open background file {cliParams.backImageFileName}");
-                return (false, null);
-            }
-
+            
             var tParams = new TransformParams()
             {
                 Widgets = cliParams.Widgets,
