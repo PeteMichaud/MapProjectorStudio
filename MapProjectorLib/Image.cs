@@ -6,7 +6,7 @@ using SixLabors.ImageSharp.PixelFormats;
 namespace MapProjectorLib
 {
     //Just a wrapper class for ImageSharp so I can easily change it out later
-    public class Image
+    public class Image : IDisposable
     {
         readonly Image<Rgb24> _image;
 

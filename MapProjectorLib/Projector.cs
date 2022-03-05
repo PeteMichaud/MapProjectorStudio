@@ -68,6 +68,9 @@ namespace MapProjectorLib
                     outImage.Save(pParams.outImageFileName);
                 }
             }
+
+            outImage.Dispose();
+            pParams.srcImage.Dispose();
         }
 
         public static Rgb24 ToColor(string colStr)
