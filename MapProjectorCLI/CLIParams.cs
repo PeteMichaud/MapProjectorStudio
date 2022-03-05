@@ -31,6 +31,7 @@ namespace MapProjectorCLI
 
         double _rotate;
 
+        int _loopCount;
 
         ////Transform Params
 
@@ -87,7 +88,14 @@ namespace MapProjectorCLI
         [Option(
             "loop", Default = 1,
             HelpText = "Number of Images to Output along given increments")]
-        public int LoopCount { get; set; }
+        public int LoopCount 
+        { 
+            get => _loopCount; 
+            set 
+            { 
+                _loopCount = Math.Max(1, value); 
+            } 
+        }
 
         [Option("tiltinc", Default = 0, HelpText = "Tilt Increment (Degrees)")]
         public double TiltIncr

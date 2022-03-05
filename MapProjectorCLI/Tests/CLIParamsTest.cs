@@ -224,6 +224,18 @@ namespace MapProjectorCLI.Tests
         }
 
         [Test]
+        public void EnsureLegalLoopCount()
+        {
+            var val = -2;
+            var args = ToArgs($"--loop {val}");
+            Parse(args, cliParams =>
+            {
+                Assert.AreEqual(1, cliParams.LoopCount);
+            });
+
+        }
+
+        [Test]
         public void SetTiltIncr()
         {
             var val = 1;
