@@ -1,4 +1,5 @@
-﻿using SixLabors.ImageSharp.PixelFormats;
+﻿using System;
+using SixLabors.ImageSharp.PixelFormats;
 
 namespace MapProjectorLib
 {
@@ -12,6 +13,12 @@ namespace MapProjectorLib
 
             var outImage = new Image(pParams.Width, pParams.Height);
 
+            if (pParams.backImage != null)
+            {
+                outImage = pParams.backImage.Clone();
+                tParams.noback = true;
+            }
+
             if (pParams.Adjust)
             {
                 (pParams.Width, pParams.Height) =
@@ -21,12 +28,6 @@ namespace MapProjectorLib
 
             for (var i = 0; i < pParams.loopParams.LoopCount; i++)
             {
-                if (pParams.backImage != null)
-                {
-                    outImage = pParams.backImage.Clone();
-                    tParams.noback = true;
-                }
-
                 transform.Init(tParams);
 
                 if (pParams.Invert)
@@ -59,7 +60,8 @@ namespace MapProjectorLib
                     tParams.z += pParams.loopParams.zIncr;
                     tParams.time += pParams.loopParams.TimeIncr;
                     tParams.date += pParams.loopParams.DateIncr;
-                } else
+                } 
+                else
                 {
                     outImage.Save(pParams.outImageFileName);
                 }
