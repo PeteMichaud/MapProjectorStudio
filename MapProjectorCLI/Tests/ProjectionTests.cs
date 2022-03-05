@@ -35,7 +35,7 @@ namespace MapProjectorCLI.Tests
      
         public void AddExample(string argStr, string title)
         {
-            exampleText.AppendLine($"## {title}\n\n`{argStr}`\n\n[[{repoPath}/{title}.png|alt={title}]]\n\n");
+            exampleText.AppendLine($"## {title}\n\n`{argStr}`\n\n![{title}]({repoPath}/{title}.png)\n\n");
         }
 
         [TearDown]
