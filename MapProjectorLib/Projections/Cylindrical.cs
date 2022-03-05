@@ -2,7 +2,7 @@
 
 namespace MapProjectorLib.Projections
 {
-    class Cylindrical : CylindricalBase
+    internal class Cylindrical : CylindricalBase
     {
         protected override double GetLat(double y)
         {
@@ -14,7 +14,8 @@ namespace MapProjectorLib.Projections
             return x;
         }
 
-        protected override bool GetXY(double phi, double lambda, ref double x, ref double y)
+        protected override bool GetXY(
+            double phi, double lambda, ref double x, ref double y)
         {
             x = lambda;
             y = Math.Tan(phi);

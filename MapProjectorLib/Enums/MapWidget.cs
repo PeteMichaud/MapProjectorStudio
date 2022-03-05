@@ -13,6 +13,6 @@ namespace MapProjectorLib
         Altitudes = 16,
         Tropics = 32,
         Dateline = 64,
-        Datetime = 128,
+        Datetime = 128
     }
 }

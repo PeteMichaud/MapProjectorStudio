@@ -2,12 +2,12 @@
 
 namespace MapProjectorLib.Projections
 {
-    class Mercator : CylindricalBase
+    internal class Mercator : CylindricalBase
     {
         protected override double GetLat(double y)
         {
-            double k = Math.Exp(Math.Abs(y));
-            double phi = Math.Acos(2 * k / (k * k + 1));
+            var k = Math.Exp(Math.Abs(y));
+            var phi = Math.Acos(2 * k / (k * k + 1));
             if (y < 0) phi = -phi;
             return phi;
         }
@@ -17,16 +17,14 @@ namespace MapProjectorLib.Projections
             return x;
         }
 
-        protected override bool GetXY(double phi, double lambda, ref double x, ref double y)
+        protected override bool GetXY(
+            double phi, double lambda, ref double x, ref double y)
         {
             x = lambda;
-            y = Math.Log(((1 +  Math.Sin(Math.Abs(phi))) / Math.Cos(Math.Abs(phi))));
-            if (phi < 0)
-            {
-                y = -y;
-            }
+            y = Math.Log(
+                (1 + Math.Sin(Math.Abs(phi))) / Math.Cos(Math.Abs(phi)));
+            if (phi < 0) y = -y;
             return true;
         }
-
     }
 }

@@ -2,9 +2,10 @@
 
 namespace MapProjectorLib.Projections
 {
-    class Sinusoidal : CylindricalBase
+    internal class Sinusoidal : CylindricalBase
     {
-        private double _m;
+        double _m;
+
         // f(phi) = phi, g(phi) = Math.Cos(phi)
         protected override double GetMaxHeight(TransformParams tParams)
         {
@@ -20,10 +21,11 @@ namespace MapProjectorLib.Projections
 
         protected override double GetLong(double x)
         {
-          return x * _m;
+            return x * _m;
         }
 
-        protected override bool GetXY(double phi, double lambda, ref double x, ref double y)
+        protected override bool GetXY(
+            double phi, double lambda, ref double x, ref double y)
         {
             x = lambda * Math.Cos(phi);
             y = phi;

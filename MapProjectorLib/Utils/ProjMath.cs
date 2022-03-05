@@ -2,7 +2,7 @@
 
 namespace MapProjectorLib
 {
-    static class ProjMath
+    internal static class ProjMath
     {
         public const double TwoPi = 2.0 * Math.PI;
         public const double OneOverPi = 1.0 / Math.PI;
@@ -12,39 +12,6 @@ namespace MapProjectorLib
 
         public const double SecsPerDay = 86400;
 
-        static public double Cot(double theta)
-        {
-            return 1.0 / Math.Tan(theta);
-        }
-
-        static public double ToRadians(double deg) { 
-            return deg * Math.PI / 180.0; 
-        }
-
-        static public double HoursToRadians(double hours) { 
-            return hours * Math.PI / 12.0; 
-        }
-
-        static public double ToDegrees(double rad) { 
-            return rad * 180.0 / Math.PI; 
-        }
-
-        static public double Hours(double rad) { 
-            return rad * 12.0 / Math.PI; 
-        }
-
-        static public double Sqr(double x) { 
-            return x * x; 
-        }
-
-        static public double Cube(double x) {
-            return x * x * x; 
-        }
-
-        static public double Frac(double x) { 
-            return x - Math.Floor(x); 
-        }
-
         //
 
         // 16 minutes half-diameter + 34 minutes refraction
@@ -52,58 +19,110 @@ namespace MapProjectorLib
         // The earth
         public const double Eccentricity = 0.017;
 
-        // It's orbit
-        static public double Inclination = ToRadians(23.45);
-        static public double Perihelion = ToRadians(12.25);// Angle from winter solstice to perihelion
-        static public double EquinoxAngle = Math.PI / 2.0 - Perihelion; // Angle from equinox to perihelion
-        public const double PerihelionTime = -1.323859; // Time from equinox to perihelion
+        public const double
+            PerihelionTime = -1.323859; // Time from equinox to perihelion
 
-        // Sun declination for sunrise/sunset
-        static public double SunriseAngle = ToRadians(-(16.0 + 34) / 60.0);
         public const double DaysInYear = 365.242;
 
-        public static bool FindRoot(double t0, double t1, double epsilon, ref double t, Func<double, double> projectionEquation)
+        // It's orbit
+        public static double Inclination = ToRadians(23.45);
+
+        public static double
+            Perihelion =
+                ToRadians(12.25); // Angle from winter solstice to perihelion
+
+        public static double
+            EquinoxAngle =
+                Math.PI / 2.0 - Perihelion; // Angle from equinox to perihelion
+
+        // Sun declination for sunrise/sunset
+        public static double SunriseAngle = ToRadians(-(16.0 + 34) / 60.0);
+
+        public static double Cot(double theta)
         {
+            return 1.0 / Math.Tan(theta);
+        }
 
-            double p0 = projectionEquation(t0);
-            double p1 = projectionEquation(t1);
-          
-            if (p0 > p1) {
-                double temp;
-                temp = t0; t0 = t1; t1 = temp;
-                temp = p0; p0 = p1; p1 = temp;
-            };
+        public static double ToRadians(double deg)
+        {
+            return deg * Math.PI / 180.0;
+        }
 
-            if (p0 > 0 || p1< 0) {
-                throw new ArgumentException(string.Format("No Root for", t0, t1, p0, p1));
-            } 
-            else
+        public static double HoursToRadians(double hours)
+        {
+            return hours * Math.PI / 12.0;
+        }
+
+        public static double ToDegrees(double rad)
+        {
+            return rad * 180.0 / Math.PI;
+        }
+
+        public static double Hours(double rad)
+        {
+            return rad * 12.0 / Math.PI;
+        }
+
+        public static double Sqr(double x)
+        {
+            return x * x;
+        }
+
+        public static double Cube(double x)
+        {
+            return x * x * x;
+        }
+
+        public static double Frac(double x)
+        {
+            return x - Math.Floor(x);
+        }
+
+        public static bool FindRoot(
+            double t0, double t1, double epsilon, ref double t,
+            Func<double, double> projectionEquation)
+        {
+            var p0 = projectionEquation(t0);
+            var p1 = projectionEquation(t1);
+
+            if (p0 > p1)
             {
-                while (t1 - t0 > epsilon)
-                {
-                    double t2 = (t0 + t1) / 2.0;
-                    double p2 = projectionEquation(t2);
-                    if (p2 <= 0.0)
-                    {
-                        t0 = t2;
-                    }
-                    else
-                    {
-                        t1 = t2;
-                    }
-                }
-                t = t0;
-                return true;
+                double temp;
+                temp = t0;
+                t0 = t1;
+                t1 = temp;
+                temp = p0;
+                p0 = p1;
+                p1 = temp;
             }
+
+            ;
+
+            if (p0 > 0 || p1 < 0)
+                throw new ArgumentException(
+                    string.Format("No Root for", t0, t1, p0, p1));
+
+            while (t1 - t0 > epsilon)
+            {
+                var t2 = (t0 + t1) / 2.0;
+                var p2 = projectionEquation(t2);
+                if (p2 <= 0.0)
+                    t0 = t2;
+                else
+                    t1 = t2;
+            }
+
+            t = t0;
+            return true;
         }
 
         // The angle the sun is round from perihelion at time m, measured from
         // perihelion.
         public static double PerihelionAngle(double m)
         {
-            double e = Eccentricity;
-            double r = m + 2 * e * Math.Sin(m) + 5 * ProjMath.Sqr(e) * Math.Sin(2 * m) / 4 +
-                       ProjMath.Cube(e) * (-Math.Sin(m) / 4 + 13 * Math.Sin(3 * m) / 12);
+            var e = Eccentricity;
+            var r = m + 2 * e * Math.Sin(m) + 5 * Sqr(e) * Math.Sin(2 * m) / 4 +
+                    Cube(e) * (-Math.Sin(m) / 4 + 13 * Math.Sin(3 * m) / 12);
             return r;
         }
 
@@ -113,20 +132,16 @@ namespace MapProjectorLib
         public static double GetPerihelionTime()
         {
             double theta0 = 0;
-            double theta1 = 2 * Math.PI;
-            double epsilon = 1e-8;
+            var theta1 = 2 * Math.PI;
+            var epsilon = 1e-8;
             while (theta1 - theta0 > epsilon)
             {
-                double theta2 = (theta0 + theta1) / 2.0;
-                double p = PerihelionAngle(theta2) - EquinoxAngle;
+                var theta2 = (theta0 + theta1) / 2.0;
+                var p = PerihelionAngle(theta2) - EquinoxAngle;
                 if (p <= 0.0)
-                {
                     theta0 = theta2;
-                }
                 else
-                {
                     theta1 = theta2;
-                }
             }
 
             return -theta1;
@@ -137,14 +152,14 @@ namespace MapProjectorLib
         // mean time + equation = apparent time
         public static double EquationOfTime(double date)
         {
-            double p = Perihelion;
-            double m = date - PerihelionTime;
-            double s =
-              -591.7 * Math.Sin(2 * (m + p))
-              - 459.6 * Math.Sin(m) +
-               +19.8 * Math.Sin(m + 2 * p)
-               - 19.8 * Math.Sin(3 * m + 2 * p)
-               - 12.8 * Math.Sin(4 * (m + p))
+            var p = Perihelion;
+            var m = date - PerihelionTime;
+            var s =
+                -591.7 * Math.Sin(2 * (m + p))
+                - 459.6 * Math.Sin(m) +
+                +19.8 * Math.Sin(m + 2 * p)
+                - 19.8 * Math.Sin(3 * m + 2 * p)
+                - 12.8 * Math.Sin(4 * (m + p))
                 - 4.8 * Math.Sin(2 * m)
                 + 0.9 * Math.Sin(3 * m + 4 * p)
                 - 0.9 * Math.Sin(5 * m + 4 * p)
@@ -162,9 +177,9 @@ namespace MapProjectorLib
             // Need time from perihelion to equinox
 
             // Add the time from the perihelion and equinox
-            double t = date - PerihelionTime;
+            var t = date - PerihelionTime;
             // r is the angle of the sun, from the perihelion
-            double r = PerihelionAngle(t);
+            var r = PerihelionAngle(t);
             // So subtract the angle between perihelion and equinox
             return r - EquinoxAngle;
         }
@@ -183,44 +198,41 @@ namespace MapProjectorLib
         {
             // Compute altitude of sun at the given date and time,
             // on the zero meridian at latitude phi
-            double delta = Math.Asin(SunHeight(date)); // Declination of the sun
+            var delta = Math.Asin(SunHeight(date)); // Declination of the sun
 
             // Rotate lat = phi, long = 0 round by time
             // Find x,y,z coords on the sphere - no need to use an ellipsoid, as the
             // tangents at a location are the same.
-            double x = Math.Cos(time) * Math.Cos(phi);
-            double y = Math.Sin(time) * Math.Cos(phi);
-            double z = Math.Sin(phi);
+            var x = Math.Cos(time) * Math.Cos(phi);
+            var y = Math.Sin(time) * Math.Cos(phi);
+            var z = Math.Sin(phi);
 
             // The sun vector - the sun is at -x
-            double sunx = -Math.Cos(delta);
+            var sunx = -Math.Cos(delta);
             double suny = 0;
-            double sunz = Math.Sin(delta);
+            var sunz = Math.Sin(delta);
 
             // Dot product to get angle to normal
-            double alt = Math.PI / 2.0 - Math.Acos(x * sunx + y * suny + z * sunz);
+            var alt = Math.PI / 2.0 - Math.Acos(x * sunx + y * suny + z * sunz);
             return alt;
         }
 
         public static double Sunrise(double date, double phi)
         {
             double t0 = 0;
-            double t1 = Math.PI;
-            double epsilon = 1e-6;
+            var t1 = Math.PI;
+            var epsilon = 1e-6;
             while (t1 - t0 > epsilon)
             {
-                double t = (t1 + t0) / 2.0;
-                double h = SunAltitude(date + t / DaysInYear, phi, t);
+                var t = (t1 + t0) / 2.0;
+                var h = SunAltitude(date + t / DaysInYear, phi, t);
 
                 if (h < SunriseAngle)
-                {
                     t0 = t;
-                }
                 else
-                {
                     t1 = t;
-                }
             }
+
             return t0;
         }
     }

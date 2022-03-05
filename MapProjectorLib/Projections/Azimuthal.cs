@@ -2,15 +2,13 @@
 
 namespace MapProjectorLib.Projections
 {
-    class Azimuthal : PolarBase
+    internal class Azimuthal : PolarBase
     {
-        public override (int w, int h) AdjustSize(int w, int h, TransformParams tParams)
+        public override (int w, int h) AdjustSize(
+            int w, int h, TransformParams tParams)
         {
-            int w1 = (int)(tParams.scale * h);
-            if (w1 < w)
-            { 
-                w = w1; 
-            }
+            var w1 = (int) (tParams.scale * h);
+            if (w1 < w) w = w1;
             return (w, h);
         }
 

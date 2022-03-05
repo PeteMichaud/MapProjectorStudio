@@ -4,22 +4,20 @@ namespace MapProjectorLib
 {
     public class Projector
     {
-       
-        static public void Project(ProjectionParams pParams)
+        public static void Project(ProjectionParams pParams)
         {
             var tParams = pParams.transformParams;
 
-            Transform transform = Transform.GetTransform(pParams.TargetProjection);
+            var transform = Transform.GetTransform(pParams.TargetProjection);
 
             var outImage = new Image(pParams.Width, pParams.Height);
 
             if (pParams.Adjust)
-            {
-                (pParams.Width, pParams.Height) = 
-                    transform.AdjustSize(pParams.Width, pParams.Height, tParams);
-            }
+                (pParams.Width, pParams.Height) =
+                    transform.AdjustSize(
+                        pParams.Width, pParams.Height, tParams);
 
-            for (int i = 0; i < pParams.loopParams.LoopCount; i++)
+            for (var i = 0; i < pParams.loopParams.LoopCount; i++)
             {
                 if (pParams.backImage != null)
                 {
@@ -31,18 +29,22 @@ namespace MapProjectorLib
 
                 if (pParams.Invert)
                 {
-                    transform.TransformImageInv(pParams.srcImage, outImage, tParams);
+                    transform.TransformImageInv(
+                        pParams.srcImage, outImage, tParams);
                     // No commands for inverse transformation yet
-                }
-                else
+                } else
                 {
-                    transform.TransformImage(pParams.srcImage, outImage, tParams);
+                    transform.TransformImage(
+                        pParams.srcImage, outImage, tParams);
                     transform.DoCommands(outImage, tParams);
                 }
 
                 if (pParams.loopParams.LoopCount > 1)
                 {
-                    outImage.Save(string.Format("{0}{1,4:0000}.{2}", pParams.outImageName, i, pParams.outImageExt));
+                    outImage.Save(
+                        string.Format(
+                            "{0}{1,4:0000}.{2}", pParams.outImageName, i,
+                            pParams.outImageExt));
 
                     tParams.turn += pParams.loopParams.TurnIncr;
                     tParams.tilt += pParams.loopParams.TiltIncr;
@@ -53,15 +55,14 @@ namespace MapProjectorLib
                     tParams.z += pParams.loopParams.zIncr;
                     tParams.time += pParams.loopParams.TimeIncr;
                     tParams.date += pParams.loopParams.DateIncr;
-                }
-                else
+                } else
                 {
                     outImage.Save(pParams.outImageFileName);
-                }      
+                }
             }
         }
-    
-        static public Rgb24 ToColor(string colStr)
+
+        public static Rgb24 ToColor(string colStr)
         {
             var colors = colStr.Split(',', ':');
             byte.TryParse(colors[0], out var r);
@@ -71,7 +72,7 @@ namespace MapProjectorLib
             return new Rgb24(r, g, b);
         }
 
-        static public Image LoadImage(string fileName)
+        public static Image LoadImage(string fileName)
         {
             return Image.Load(fileName);
         }

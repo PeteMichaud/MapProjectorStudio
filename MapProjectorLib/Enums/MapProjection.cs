@@ -1,5 +1,4 @@
-﻿
-namespace MapProjectorLib
+﻿namespace MapProjectorLib
 {
     public enum MapProjection
     {
@@ -19,7 +18,6 @@ namespace MapProjectorLib
         Gnomonic,
         Perspective,
         Bonne,
-        Hammer,
+        Hammer
     }
-
 }

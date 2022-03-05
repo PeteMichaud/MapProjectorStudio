@@ -1,17 +1,45 @@
 ﻿using System;
 using CommandLine;
 using MapProjectorLib;
+
 namespace MapProjectorCLI
 {
-    class CLIParams
+    internal class CLIParams
     {
+        readonly double OneDay = 2 * Math.PI / 365.25;
         readonly double OneDegree = 2 * Math.PI / 360.0;
         readonly double OneHour = 2 * Math.PI / 24.0;
-        readonly double OneDay = 2 * Math.PI / 365.25;
+        double _dateIncr;
+
+        double _lat;
+        double _latIncr;
+
+        double _lon;
+        double _longIncr;
+
+        double _rotate;
+
+
+        ////Transform Params
+
+
+        double _tilt;
+        double _tiltIncr;
+        double _timeIncr;
+        double _turn;
+        double _turnIncr;
+
+
+        double _widgetLat;
+
+        double _widgetLon;
 
         //Projection Params
 
-        [Option("projection", Required = false, HelpText = "Target Projection (or Source Projection if Invert flag specified)")]
+        [Option(
+            "projection", Required = false,
+            HelpText =
+                "Target Projection (or Source Projection if Invert flag specified)")]
         public MapProjection TargetProjection { get; set; }
 
         [Option('f', "file", Required = true, HelpText = "Source File Name")]
@@ -20,7 +48,10 @@ namespace MapProjectorCLI
         [Option('o', "out", Required = true, HelpText = "Output File Name")]
         public string outImageFileName { get; set; }
 
-        [Option("adjust", Default = false, HelpText = "Set Source image to adjusted width and height options before processing")]
+        [Option(
+            "adjust", Default = false,
+            HelpText =
+                "Set Source image to adjusted width and height options before processing")]
         public bool Adjust { get; set; }
 
         [Option('w', "width", Required = false, HelpText = "Target Width")]
@@ -29,53 +60,59 @@ namespace MapProjectorCLI
         [Option('h', "height", Required = false, HelpText = "Target Height")]
         public int Height { get; set; }
 
-        [Option("bg", Required = false, HelpText = "Background Image File Name")]
+        [Option(
+            "bg", Required = false, HelpText = "Background Image File Name")]
         public string backImageFileName { get; set; }
 
-        [Option('i', "invert", Required = false, HelpText = "Invert the specified operation")]
+        [Option(
+            'i', "invert", Required = false,
+            HelpText = "Invert the specified operation")]
         public bool Invert { get; set; }
 
         ////Loop Params
 
-        [Option("loop", Default = 1, HelpText = "Number of Images to Output along given increments")]
+        [Option(
+            "loop", Default = 1,
+            HelpText = "Number of Images to Output along given increments")]
         public int LoopCount { get; set; }
 
         [Option("tiltinc", Default = 0, HelpText = "Tilt Increment (Degrees)")]
         public double TiltIncr
         {
             get => _tiltIncr;
-            set { _tiltIncr = value * OneDegree; }
+            set => _tiltIncr = value * OneDegree;
         }
-        double _tiltIncr;
 
         [Option("turninc", Default = 0, HelpText = "Turn Increment (Degrees)")]
         public double TurnIncr
         {
             get => _turnIncr;
-            set { _turnIncr = value * OneDegree; }
+            set => _turnIncr = value * OneDegree;
         }
-        double _turnIncr;
 
-        [Option("latinc", Default = 0, HelpText = "Latitude Increment (Degrees)")]
+        [Option(
+            "latinc", Default = 0, HelpText = "Latitude Increment (Degrees)")]
         public double LatIncr
         {
             get => _latIncr;
-            set { _latIncr = value * OneDegree; }
+            set => _latIncr = value * OneDegree;
         }
-        double _latIncr;
 
-        [Option("longinc", Default = 0, HelpText = "Longitude Increment (Degrees)")]
+        [Option(
+            "longinc", Default = 0, HelpText = "Longitude Increment (Degrees)")]
         public double LongIncr
         {
             get => _longIncr;
-            set { _longIncr = value * OneDegree; }
+            set => _longIncr = value * OneDegree;
         }
-        double _longIncr;
 
-        [Option("xinc", Default = 0, HelpText = "X (Horizontal) Increment (Pixels)")]
+        [Option(
+            "xinc", Default = 0,
+            HelpText = "X (Horizontal) Increment (Pixels)")]
         public double xIncr { get; set; }
 
-        [Option("yinc", Default = 0, HelpText = "Y (Vertical) Increment (Pixels)")]
+        [Option(
+            "yinc", Default = 0, HelpText = "Y (Vertical) Increment (Pixels)")]
         public double yIncr { get; set; }
 
         [Option("zinc", Default = 0, HelpText = "Z (Zoom) Increment (Pixels)")]
@@ -85,68 +122,63 @@ namespace MapProjectorCLI
         public double DateIncr
         {
             get => _dateIncr;
-            set { _dateIncr = value * OneDay; }
+            set => _dateIncr = value * OneDay;
         }
-        double _dateIncr;
 
         [Option("timeinc", Default = 0, HelpText = "Time Increment (Hours)")]
         public double TimeIncr
         {
             get => _timeIncr;
-            set { _timeIncr = value * OneHour; }
+            set => _timeIncr = value * OneHour;
         }
-        double _timeIncr;
 
-
-
-
-
-        ////Transform Params
-
-
-        double _tilt;
-        [Option("tilt", Default = 0, HelpText = "Rotation Around Center Point (Degrees)")]
+        [Option(
+            "tilt", Default = 0,
+            HelpText = "Rotation Around Center Point (Degrees)")]
         public double tilt
         {
             get => _tilt;
-            set { _tilt = value * OneDegree; }
+            set => _tilt = value * OneDegree;
         }
-        double _turn;
+
         [Option("turn", Default = 0, HelpText = "Vertical Rotation (Degrees)")]
         public double turn
         {
             get => _turn;
-            set { _turn = value * OneDegree; }
+            set => _turn = value * OneDegree;
         }
 
-        double _rotate;
-        [Option("rotate", Default = 0, HelpText = "Rotate in 2D plane (Degrees)")]
+        [Option(
+            "rotate", Default = 0, HelpText = "Rotate in 2D plane (Degrees)")]
         public double rotate
         {
             get => _rotate;
-            set { _rotate = value * OneDegree; }
+            set => _rotate = value * OneDegree;
         }
 
-        double _lat;
         [Option("lat", Default = 0, HelpText = "Latitude of Center (Degrees)")]
         public double lat
         {
             get => _lat;
-            set { _lat = value * OneDegree; }
+            set => _lat = value * OneDegree;
         }
 
-        double _lon;
         [Option("lon", Default = 0, HelpText = "Longitude of Center (Degrees)")]
         public double lon
         {
             get => _lon;
-            set { _lon = value * OneDegree; }
+            set => _lon = value * OneDegree;
         }
 
-        [Option("scale", Default = 1.0, HelpText = "Output Scale (Percent, 1 = 100%)")]
+        [Option(
+            "scale", Default = 1.0,
+            HelpText = "Output Scale (Percent, 1 = 100%)")]
         public double scale { get; set; }
 
-        [Option("radius", Default = 0.0, HelpText = "Radius around center point that the output is rendered")]
+        [Option(
+            "radius", Default = 0.0,
+            HelpText =
+                "Radius around center point that the output is rendered")]
         public double radius { get; set; }
 
         [Option("xoff", Default = 0.0, HelpText = "X Offset")]
@@ -155,60 +187,101 @@ namespace MapProjectorCLI
         [Option("yoff", Default = 0.0, HelpText = "Y Offset")]
         public double yOffset { get; set; }
 
-        [Option("bgColor", Required = false, HelpText = "Background color R,G,B (0-255)")]
+        [Option(
+            "bgColor", Required = false,
+            HelpText = "Background color R,G,B (0-255)")]
         public string _backgroundColorValues { get; set; }
 
         ////
 
-        [Option('a', Default = 1.0, HelpText = "Only relevant to Sinusoidal2 projection")]
+        [Option(
+            'a', Default = 1.0,
+            HelpText = "Only relevant to Sinusoidal2 projection")]
         public double a { get; set; } = 1.0;
 
         ////
 
-        [Option("aw", Default = (20 * Math.PI / 180.0), HelpText = "Only relevant to Perspective projection")]
+        [Option(
+            "aw", Default = 20 * Math.PI / 180.0,
+            HelpText = "Only relevant to Perspective projection")]
         public double aw { get; set; }
 
-        [Option('x', Default = 8.0, HelpText = "X dimension of viewing position, measured in planet radii")]
+        [Option(
+            'x', Default = 8.0,
+            HelpText =
+                "X dimension of viewing position, measured in planet radii")]
         public double x { get; set; }
 
-        [Option('y', Default = 0.0, HelpText = "Y dimension of viewing position, measured in planet radii")]
+        [Option(
+            'y', Default = 0.0,
+            HelpText =
+                "Y dimension of viewing position, measured in planet radii")]
         public double y { get; set; }
 
-        [Option('z', Default = 0.0, HelpText = "Z dimension of viewing position, measured in planet radii")]
+        [Option(
+            'z', Default = 0.0,
+            HelpText =
+                "Z dimension of viewing position, measured in planet radii")]
         public double z { get; set; }
 
-        [Option("ox", Default = 1.0, HelpText = "X dimension of Oblateness, measured in planet radii")]
+        [Option(
+            "ox", Default = 1.0,
+            HelpText = "X dimension of Oblateness, measured in planet radii")]
         public double ox { get; set; }
 
-        [Option("oy", Default = 1.0, HelpText = "Y dimension of Oblateness, measured in planet radii")]
+        [Option(
+            "oy", Default = 1.0,
+            HelpText = "Y dimension of Oblateness, measured in planet radii")]
         public double oy { get; set; }
 
-        [Option("oz", Default = 1.1, HelpText = "Z dimension of Oblateness, measured in planet radii")]
+        [Option(
+            "oz", Default = 1.1,
+            HelpText = "Z dimension of Oblateness, measured in planet radii")]
         public double oz { get; set; }
 
-        [Option("sun", Default = false, HelpText = "Simulate the sun on the perspective view (date and time are relevant)")]
+        [Option(
+            "sun", Default = false,
+            HelpText =
+                "Simulate the sun on the perspective view (date and time are relevant)")]
         public bool sun { get; set; }
 
-        [Option("time", Default = 0.0, HelpText = "Hours from midnight, UTC, in decimal hours (so 4.5 is half past four in the morning). Relevant for the -sun option")]
+        [Option(
+            "time", Default = 0.0,
+            HelpText =
+                "Hours from midnight, UTC, in decimal hours (so 4.5 is half past four in the morning). Relevant for the -sun option")]
         public double time { get; set; }
 
-        [Option("date", Default = 0.0, HelpText = "Day number in year. Relevant for the -sun option")]
+        [Option(
+            "date", Default = 0.0,
+            HelpText = "Day number in year. Relevant for the -sun option")]
         public double date { get; set; }
 
         ////
 
-        [Option('p', Default = 0.0, HelpText = "Reference parallel for projections that can use it: equalarea, sinusoidal, mollweide")]
+        [Option(
+            'p', Default = 0.0,
+            HelpText =
+                "Reference parallel for projections that can use it: equalarea, sinusoidal, mollweide")]
         public double p { get; set; }
 
-        [Option("conic", Default = 1.0, HelpText = "Relevant to polar projections: azimuthal, gnomonic, rectilinear, stereographic")]
+        [Option(
+            "conic", Default = 1.0,
+            HelpText =
+                "Relevant to polar projections: azimuthal, gnomonic, rectilinear, stereographic")]
         public double conic { get; set; }
 
-        [Option("conicr", Default = 0.0, HelpText = "Conic Radius. Relevant to polar projections: azimuthal, gnomonic, rectilinear, stereographic")]
+        [Option(
+            "conicr", Default = 0.0,
+            HelpText =
+                "Conic Radius. Relevant to polar projections: azimuthal, gnomonic, rectilinear, stereographic")]
         public double conicr { get; set; }
 
         //Widgets
 
-        [Option("widget", Required = false, HelpText = "Comma separated list of map widgets: Grid, Analemma, TemporaryHours, LocalHours, Altitudes, Tropics, Dateline, Datetime")]
+        [Option(
+            "widget", Required = false,
+            HelpText =
+                "Comma separated list of map widgets: Grid, Analemma, TemporaryHours, LocalHours, Altitudes, Tropics, Dateline, Datetime")]
         public MapWidget Widgets { get; set; }
 
 
@@ -216,39 +289,50 @@ namespace MapProjectorCLI
         //[Option("grid", Default = false, HelpText = "Draw Grid")]
         //public bool grid { get; set; }
 
-        [Option("gridx", Default = 30, HelpText = "X Spacing of Grid (Degrees) (use --widget grid)")]
+        [Option(
+            "gridx", Default = 30,
+            HelpText = "X Spacing of Grid (Degrees) (use --widget grid)")]
         public int gridx { get; set; }
 
-        [Option("gridy", Default = 30, HelpText = "Y Spacing of Grid (Degrees) (use --widget grid)")]
+        [Option(
+            "gridy", Default = 30,
+            HelpText = "Y Spacing of Grid (Degrees) (use --widget grid)")]
         public int gridy { get; set; } = 0;
 
-        [Option("gridoff", Default = 0, HelpText = "Grid Angular Offset (use --widget grid)")]
+        [Option(
+            "gridoff", Default = 0,
+            HelpText = "Grid Angular Offset (use --widget grid)")]
         public double gridoff { get; set; }
 
-        [Option("gridcolor", Required = false, HelpText = "Grid line color R,G,B (0-255) (use --widget)")]
+        [Option(
+            "gridcolor", Required = false,
+            HelpText = "Grid line color R,G,B (0-255) (use --widget)")]
         public string _gridColorValues { get; set; }
 
         [Option("widgetColor", HelpText = "Widget Color  R,G,B (0-255)")]
         public string _widgetColorValues { get; set; }
 
-
-        double _widgetLat;
-        [Option("wlat", Default = 0.0, HelpText = "Widget Origin Latitude (Radians)")]
+        [Option(
+            "wlat", Default = 0.0,
+            HelpText = "Widget Origin Latitude (Radians)")]
         public double widgetLat
         {
             get => _widgetLat;
-            set { _widgetLat = ToRadians(value); }
+            set => _widgetLat = ToRadians(value);
         }
 
-        double _widgetLon;
-        [Option("wlon", Default = 0.0, HelpText = "Widget Origin Longitude (Radians)")]
+        [Option(
+            "wlon", Default = 0.0,
+            HelpText = "Widget Origin Longitude (Radians)")]
         public double widgetLon
         {
             get => _widgetLon;
-            set { _widgetLon = ToRadians(value); }
+            set => _widgetLon = ToRadians(value);
         }
 
-        [Option("wday", Default = 0.0, HelpText = "Widget Day (for Dateline and Datetime widgets)")]
+        [Option(
+            "wday", Default = 0.0,
+            HelpText = "Widget Day (for Dateline and Datetime widgets)")]
         public double widgetDay { get; set; }
 
         //
@@ -258,6 +342,4 @@ namespace MapProjectorCLI
             return deg * Math.PI / 180.0;
         }
     }
-
-
 }

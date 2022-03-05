@@ -2,14 +2,15 @@
 
 namespace MapProjectorLib.Mappers
 {
-    class SkyMapper : ImageMapper
+    internal class SkyMapper : ImageMapper
     {
-        readonly Transform _transform;
-        readonly TransformParams _tParams;
-        readonly Rgb24 _skyColor;
         readonly Rgb24 _bgColor;
-        
-        public SkyMapper(Transform transform, TransformParams tParams, Rgb24 sky, Rgb24 bg)
+        readonly Rgb24 _skyColor;
+        readonly TransformParams _tParams;
+        readonly Transform _transform;
+
+        public SkyMapper(
+            Transform transform, TransformParams tParams, Rgb24 sky, Rgb24 bg)
         {
             _transform = transform;
             _tParams = tParams;
@@ -26,14 +27,10 @@ namespace MapProjectorLib.Mappers
         {
             double x0 = 0.0, y0 = 0.0, z0 = 0.0;
             double phi = 0.0, lambda = 0.0;
-            if (_transform.Project(_tParams, x, y, ref x0, ref y0, ref z0, ref phi, ref lambda))
-            {
+            if (_transform.Project(
+                _tParams, x, y, ref x0, ref y0, ref z0, ref phi, ref lambda))
                 return _bgColor;
-            }
-            else
-            {
-                return _skyColor;
-            }
+            return _skyColor;
         }
 
         public override double Scale(int width, int height)

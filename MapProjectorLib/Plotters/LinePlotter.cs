@@ -1,5 +1,4 @@
-﻿
-namespace MapProjectorLib.Plotters
+﻿namespace MapProjectorLib.Plotters
 {
     public abstract class LinePlotter
     {

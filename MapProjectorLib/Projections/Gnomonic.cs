@@ -2,7 +2,7 @@
 
 namespace MapProjectorLib.Projections
 {
-    class Gnomonic : PolarBase
+    internal class Gnomonic : PolarBase
     {
         protected override void GetPhi(double r, ref double phi)
         {
@@ -16,6 +16,7 @@ namespace MapProjectorLib.Projections
                 r = 1 / (2 * Math.Tan(phi));
                 return true;
             }
+
             return false;
         }
     }

@@ -1,7 +1,6 @@
-﻿
-namespace MapProjectorLib.Projections
+﻿namespace MapProjectorLib.Projections
 {
-    class LatLong : CylindricalBase
+    internal class LatLong : CylindricalBase
     {
         //private double k;
 
@@ -14,18 +13,18 @@ namespace MapProjectorLib.Projections
         {
             return y;
         }
-        
+
         protected override double GetLong(double x)
         {
-          return x;
+            return x;
         }
 
-        protected override bool GetXY(double phi, double lambda, ref double x, ref double y)
+        protected override bool GetXY(
+            double phi, double lambda, ref double x, ref double y)
         {
             x = lambda;
             y = phi;
             return true;
         }
-
     }
 }
