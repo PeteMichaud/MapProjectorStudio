@@ -159,28 +159,26 @@ namespace MapProjectorLib
 
         public void Apply(ref double x, ref double y, ref double z)
         {
-            if (!isIdentity)
-            {
-                var x1 = this[0] * x + this[1] * y + this[2] * z;
-                var y1 = this[3] * x + this[4] * y + this[5] * z;
-                var z1 = this[6] * x + this[7] * y + this[8] * z;
-                x = x1;
-                y = y1;
-                z = z1;
-            }
+            if (isIdentity) return;
+
+            var x1 = this[0] * x + this[1] * y + this[2] * z;
+            var y1 = this[3] * x + this[4] * y + this[5] * z;
+            var z1 = this[6] * x + this[7] * y + this[8] * z;
+            x = x1;
+            y = y1;
+            z = z1;
         }
 
         public void ApplyLatLong(ref double phi, ref double lambda)
         {
-            if (!isIdentity)
-            {
-                var x = Math.Cos(lambda) * Math.Cos(phi);
-                var y = Math.Sin(lambda) * Math.Cos(phi);
-                var z = Math.Sin(phi);
-                Apply(ref x, ref y, ref z);
-                phi = Math.Asin(z);
-                lambda = Math.Atan2(y, x);
-            }
+            if (isIdentity) return;
+
+            var x = Math.Cos(lambda) * Math.Cos(phi);
+            var y = Math.Sin(lambda) * Math.Cos(phi);
+            var z = Math.Sin(phi);
+            Apply(ref x, ref y, ref z);
+            phi = Math.Asin(z);
+            lambda = Math.Atan2(y, x);
         }
     }
 }

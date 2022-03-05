@@ -22,7 +22,7 @@ namespace MapProjectorLib.Projections
             // For consistency with other transforms, we rotate to set lat = 0
             transformMatrix = new Matrix3(RotationAxis.Y, -ProjMath.PiOverTwo) *
                               transformMatrix;
-            transformMatrixInv = transformMatrixInv * new Matrix3(
+            transformMatrixInv *= new Matrix3(
                 RotationAxis.Y, ProjMath.PiOverTwo);
 
             k = tParams.conic;

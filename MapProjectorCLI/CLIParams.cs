@@ -6,9 +6,10 @@ namespace MapProjectorCLI
 {
     internal class CLIParams
     {
-        readonly double OneDay = 2 * Math.PI / 365.25;
-        readonly double OneDegree = 2 * Math.PI / 360.0;
-        readonly double OneHour = 2 * Math.PI / 24.0;
+        const double OneDay = 2 * Math.PI / 365.25;
+        const double OneDegree = 2 * Math.PI / 360.0;
+        const double OneHour = 2 * Math.PI / 24.0;
+
         double _dateIncr;
 
         double _lat;

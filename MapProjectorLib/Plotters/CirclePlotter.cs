@@ -4,15 +4,15 @@ namespace MapProjectorLib.Plotters
 {
     internal class CirclePlotter : TransformPlotter
     {
-        public double phi;
-        public double theta;
+        public double Phi;
+        public double Theta;
 
         public CirclePlotter(
             Image image, TransformParams tParams, Transform transform)
             : base(image, tParams, transform)
         {
-            theta = 0;
-            phi = 0;
+            Theta = 0;
+            Phi = 0;
         }
 
         public override bool GetXY(double t, ref double x, ref double y)
@@ -21,9 +21,9 @@ namespace MapProjectorLib.Plotters
             var y0 = Math.Sin(t);
             double z0 = 0;
 
-            RotateX(phi, ref x0, ref y0, ref z0);
-            RotateY(phi, ref x0, ref y0, ref z0);
-            RotateZ(theta, ref x0, ref y0, ref z0);
+            RotateX(Phi, ref x0, ref y0, ref z0);
+            RotateY(Phi, ref x0, ref y0, ref z0);
+            RotateZ(Theta, ref x0, ref y0, ref z0);
 
             var phi0 = Math.Asin(z0);
             var lambda0 = Math.Atan2(y0, x0);

@@ -2,18 +2,18 @@
 {
     internal class LatPlotter : TransformPlotter
     {
-        public double lambda;
+        public double Lambda;
 
         public LatPlotter(
             Image image, TransformParams tParams, Transform transform)
             : base(image, tParams, transform)
         {
-            lambda = 0;
+            Lambda = 0;
         }
 
         public override bool GetXY(double t, ref double x, ref double y)
         {
-            return _transform.MapXY(_image, _tParams, t, lambda, ref x, ref y);
+            return _transform.MapXY(_image, _tParams, t, Lambda, ref x, ref y);
         }
     }
 }

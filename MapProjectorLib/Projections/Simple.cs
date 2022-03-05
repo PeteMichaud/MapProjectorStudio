@@ -2,14 +2,13 @@
 {
     internal abstract class Simple : Transform
     {
-        public abstract bool ProjectSimple(
+        protected abstract bool ProjectSimple(
             double x, double y,
             ref double phi, ref double lambda);
 
-        public abstract bool ProjectInvSimple(
+        protected abstract bool ProjectInvSimple(
             double phi, double lambda,
             ref double x, ref double y);
-
 
         public override bool Project(
             TransformParams tParams,

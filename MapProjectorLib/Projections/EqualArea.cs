@@ -4,7 +4,7 @@ namespace MapProjectorLib.Projections
 {
     internal class EqualArea : CylindricalBase
     {
-        double k;
+        double _k;
 
         // f(phi) =  Math.Sin(phi)/k, g(phi) = 1, where k = sqr(cos(p))
         protected override double GetMaxHeight(TransformParams tParams)
@@ -15,12 +15,12 @@ namespace MapProjectorLib.Projections
         public override void Init(TransformParams tParams)
         {
             base.Init(tParams);
-            k = Math.Cos(tParams.p) * Math.Cos(tParams.p);
+            _k = Math.Cos(tParams.p) * Math.Cos(tParams.p);
         }
 
         protected override double GetLat(double y)
         {
-            return Math.Asin(y * k);
+            return Math.Asin(y * _k);
         }
 
         protected override double GetLong(double x)
@@ -32,7 +32,7 @@ namespace MapProjectorLib.Projections
             double phi, double lambda, ref double x, ref double y)
         {
             x = lambda;
-            y = Math.Sin(phi) / k;
+            y = Math.Sin(phi) / _k;
             return true;
         }
     }

@@ -11,7 +11,7 @@ namespace MapProjectorLib
     {
         readonly Image<Rgb24> _image;
 
-        public Image(Image<Rgb24> image)
+        Image(Image<Rgb24> image)
         {
             _image = image;
         }
@@ -80,16 +80,16 @@ namespace MapProjectorLib
 
             if (ny > nx)
             {
-                var xinc = x0 > x1 ? -1 : 1;
-                var yinc = y0 > y1 ? -1 : 1;
+                var xIncr = x0 > x1 ? -1 : 1;
+                var yIncr = y0 > y1 ? -1 : 1;
                 var x = x0;
                 var c = 0;
 
-                for (var y = y0; y != y1 + yinc; y += yinc)
+                for (var y = y0; y != y1 + yIncr; y += yIncr)
                 {
                     SafeSetPixel(x, y, color);
 
-                    if (xinc == 1 && x > x1 || xinc == -1 && x < x1)
+                    if (xIncr == 1 && x > x1 || xIncr == -1 && x < x1)
                         throw new Exception("foo");
 
                     c += nx;
@@ -97,22 +97,22 @@ namespace MapProjectorLib
                     if (c >= ny)
                     {
                         c -= ny;
-                        x += xinc;
+                        x += xIncr;
                     }
                 }
             } else
             {
-                var xinc = x0 > x1 ? -1 : 1;
-                var yinc = y0 > y1 ? -1 : 1;
+                var xIncr = x0 > x1 ? -1 : 1;
+                var yIncr = y0 > y1 ? -1 : 1;
                 var y = y0;
                 var c = 0;
 
-                for (var x = x0; x != x1 + xinc; x += xinc)
+                for (var x = x0; x != x1 + xIncr; x += xIncr)
                 {
                     SafeSetPixel(x, y, color);
 
                     //I'm not sure this can happen. Seems like it maybe can't, but the clause is here so I'm afraid to remove it
-                    if (yinc == 1 && y > y1 || yinc == -1 && y < y1)
+                    if (yIncr == 1 && y > y1 || yIncr == -1 && y < y1)
                         throw new Exception("foo");
 
                     c += ny;
@@ -120,7 +120,7 @@ namespace MapProjectorLib
                     if (c >= nx)
                     {
                         c -= nx;
-                        y += yinc;
+                        y += yIncr;
                     }
                 }
             }
@@ -176,29 +176,29 @@ namespace MapProjectorLib
 
 
         // Add a latitude, longitude grid to the image
-        public void AddGrid(double gridx, double gridy, Rgb24 color)
+        public void AddGrid(double gridX, double gridY, Rgb24 color)
         {
             var height = _image.Height;
             var width = _image.Width;
 
-            var ystep = gridy * height / 180.0;
-            var xstep = gridx * width / 360.0;
+            var yStep = gridY * height / 180.0;
+            var xStep = gridX * width / 360.0;
             // Quicker this way around with big images
             for (var y = 0; y < height; y++)
-            for (var xgrad = 0.0; (int) xgrad < width; xgrad += xstep)
+            for (var xgrad = 0.0; (int) xgrad < width; xgrad += xStep)
             {
                 var x = (int) xgrad;
                 SafeSetPixel(x, y, color);
             }
 
-            for (var ygrad = 0.0; (int) ygrad < height; ygrad += ystep)
+            for (var ygrad = 0.0; (int) ygrad < height; ygrad += yStep)
             {
                 var y = (int) ygrad;
                 for (var x = 0; x < width; x++) SafeSetPixel(x, y, color);
             }
         }
 
-        public void Map(ImageMapper f, double xoff, double yoff)
+        public void Map(ImageMapper f, double xOffset, double yOffset)
         {
             var height = _image.Height;
             var width = _image.Width;
@@ -206,14 +206,14 @@ namespace MapProjectorLib
             double hh = height / 2;
             double hw = width / 2;
             var scale = f.Scale(width, height);
-            //fprintf(stderr, "%f %f %f\n", xoff, yoff, scale);
+
             for (var y = 0; y < height; y++)
             {
-                var y0 = (hh - y) * scale + yoff;
+                var y0 = (hh - y) * scale + yOffset;
                 f.InitY(y0);
                 for (var x = 0; x < width; x++)
                 {
-                    var x0 = (x - hw) * scale + xoff;
+                    var x0 = (x - hw) * scale + xOffset;
                     SafeSetPixel(x, y, f.Map(x0, y0));
                 }
             }

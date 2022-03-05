@@ -5,12 +5,12 @@ namespace MapProjectorLib.Projections
     internal class Sinusoidal2 : CylindricalBase
     {
         double _m;
-        double a;
-        double b;
-        double k;
+        double _a;
+        double _b;
+        double _k;
 
-
-        // f(phi) = bt, g(phi) = (cos(t) + a)/(a+1), where  Math.Sin(t) + at = k(a+1)sin(phi)
+        // f(phi) = bt, g(phi) = (cos(t) + a)/(a+1),
+        // where  Math.Sin(t) + at = k(a+1)sin(phi)
         // and b + (a * pi)/2 = k*(a+1)
 
         protected override double GetMaxHeight(TransformParams tParams)
@@ -20,12 +20,12 @@ namespace MapProjectorLib.Projections
             return b0 * ProjMath.PiOverTwo;
         }
 
-        void CalcParams(double a, double phi, ref double k, ref double b)
+        static void CalcParams(double a, double phi, ref double k, ref double b)
         {
             // Find the t value for phi
             double t1 = 0;
             var t2 = ProjMath.PiOverTwo;
-            var epsilon = 1e-6;
+            const double epsilon = 1e-6;
             double k0 = 0.0, b0 = 0.0;
 
             while (Math.Abs(t2 - t1) > epsilon)
@@ -49,15 +49,15 @@ namespace MapProjectorLib.Projections
         public override void Init(TransformParams tParams)
         {
             base.Init(tParams);
-            a = tParams.a;
-            CalcParams(tParams.a, tParams.p, ref k, ref b);
+            _a = tParams.a;
+            CalcParams(tParams.a, tParams.p, ref _k, ref _b);
         }
 
         protected override double GetLat(double y)
         {
-            var t = y / b;
-            var phi = Math.Asin(b * (Math.Sin(t) + a * t) / (k * (a + 1)));
-            _m = (a + 1) / (Math.Cos(t) + a);
+            var t = y / _b;
+            var phi = Math.Asin(_b * (Math.Sin(t) + _a * t) / (_k * (_a + 1)));
+            _m = (_a + 1) / (Math.Cos(t) + _a);
 
             return phi;
         }
@@ -74,15 +74,15 @@ namespace MapProjectorLib.Projections
 
             double ProjectionEquation(double tProjEq)
             {
-                return b * (Math.Sin(tProjEq) + a * tProjEq) / (k * (a + 1)) -
+                return _b * (Math.Sin(tProjEq) + _a * tProjEq) / (_k * (_a + 1)) -
                        Math.Sin(phi);
             }
 
             if (ProjMath.FindRoot(
                 -Math.PI / 2, Math.PI / 2, 1e-5, ref t, ProjectionEquation))
             {
-                y = b * t;
-                x = lambda * (Math.Cos(t) + a) / (a + 1);
+                y = _b * t;
+                x = lambda * (Math.Cos(t) + _a) / (_a + 1);
 
                 return true;
             }

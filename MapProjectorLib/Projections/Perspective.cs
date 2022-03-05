@@ -6,48 +6,51 @@ namespace MapProjectorLib.Projections
 {
     internal class Perspective : Transform
     {
-        const double nightdim = 0.5;
+        //todo: make param
+        const double nightDim = 0.5;
 
         // Cached oblateness factors
         double a;
+        double b;
+        double c;
 
         // And their squares
         double a2;
-        double b;
         double b2;
-        double c;
-
         double c2;
 
         // And their inverse squares
         double ia2;
         double ib2;
         double ic2;
-        double iscalefactor;
+
+        // Viewpoint position
+        double viewX;
+        double viewY;
+        double viewZ;
 
         // Rotated viewpoint position
-        double rx;
-        double ry;
-        double rz;
-        double scalefactor;
+        double rotatedViewX;
+        double rotatedViewY;
+        double rotatedViewZ;
 
         //
 
-        protected double sunx;
-        protected double suny;
-        protected double sunz;
+        double scaleFactor;
+        double invScaleFactor;
 
-        // Viewpoint position
-        double vx;
-        double vy;
-        double vz;
+        //
+
+        double sunX;
+        double sunY;
+        double sunZ;
 
         public override double BasicScale(int width, int height)
         {
             return 2.0 / height;
         }
 
-        public static (double sunX, double sunY, double sunZ)
+        static (double sunX, double sunY, double sunZ)
             CalculateSunCoordinates(TransformParams tParams)
         {
             // Construct the sun parameters
@@ -67,9 +70,9 @@ namespace MapProjectorLib.Projections
             var eot = ProjMath.EquationOfTime(date) * 2.0 * Math.PI /
                       (60.0 * 60.0 * 24.0);
             // AT = MT + EOT
-            var atime = tParams.time + eot;
-            var sunX = -Math.Cos(atime) * q;
-            var sunY = Math.Sin(atime) * q;
+            var apparentTime = tParams.time + eot;
+            var sunX = -Math.Cos(apparentTime) * q;
+            var sunY = Math.Sin(apparentTime) * q;
             var sunZ = sunHeight;
 
             return (sunX, sunY, sunZ);
@@ -79,18 +82,18 @@ namespace MapProjectorLib.Projections
         {
             base.Init(tParams);
 
-            vx = tParams.x;
-            vy = tParams.y;
-            vz = tParams.z;
+            viewX = tParams.x;
+            viewY = tParams.y;
+            viewZ = tParams.z;
 
-            rx = vx;
-            ry = vy;
-            rz = vz;
+            rotatedViewX = viewX;
+            rotatedViewY = viewY;
+            rotatedViewZ = viewZ;
 
-            transformMatrix.Apply(ref rx, ref ry, ref rz);
+            transformMatrix.Apply(ref rotatedViewX, ref rotatedViewY, ref rotatedViewZ);
 
-            scalefactor = (vx + 1) * Math.Tan(tParams.aw / 2);
-            iscalefactor = 1 / scalefactor;
+            scaleFactor = (viewX + 1) * Math.Tan(tParams.aw / 2);
+            invScaleFactor = 1 / scaleFactor;
 
             a = tParams.ox;
             b = tParams.oy;
@@ -104,7 +107,7 @@ namespace MapProjectorLib.Projections
             ib2 = 1 / b2;
             ic2 = 1 / c2;
 
-            (sunx, suny, sunz) = CalculateSunCoordinates(tParams);
+            (sunX, sunY, sunZ) = CalculateSunCoordinates(tParams);
         }
 
         public override bool Project(
@@ -115,51 +118,49 @@ namespace MapProjectorLib.Projections
         {
             // Apply our rotation to the point we are projecting to
             double x1 = -1;
-            var y1 = scalefactor * x0 + vy;
-            var z1 = scalefactor * y0 + vz;
+            var y1 = scaleFactor * x0 + viewY;
+            var z1 = scaleFactor * y0 + viewZ;
 
             transformMatrix.Apply(ref x1, ref y1, ref z1);
 
             // Projecting from (rx, ry, rz) to point (x1, y1, z1)
             // Solve a quadratic obtained from equating line equation with r = 1
-            var qa = a2 * ProjMath.Sqr(rx - x1) + b2 * ProjMath.Sqr(ry - y1) +
-                     c2 * ProjMath.Sqr(rz - z1);
-            var qb = 2 * (a2 * x1 * (rx - x1) + b2 * y1 * (ry - y1) +
-                          c2 * z1 * (rz - z1));
+            var qa = a2 * ProjMath.Sqr(rotatedViewX - x1) + b2 * ProjMath.Sqr(rotatedViewY - y1) +
+                     c2 * ProjMath.Sqr(rotatedViewZ - z1);
+            var qb = 2 * (a2 * x1 * (rotatedViewX - x1) + b2 * y1 * (rotatedViewY - y1) +
+                          c2 * z1 * (rotatedViewZ - z1));
             var qc = a2 * ProjMath.Sqr(x1) + b2 * ProjMath.Sqr(y1) +
                 c2 * ProjMath.Sqr(z1) - 1;
             var qm = qb * qb - 4 * qa * qc;
 
-            if (qm >= 0)
+            if (!(qm >= 0)) return false;
+
+            // Since qa is always positive, the + solution is nearest to the point
+            // of view, so we always use that one.
+            var k = (-qb + Math.Sqrt(qm)) / (2 * qa);
+            x = k * rotatedViewX + (1 - k) * x1;
+            y = k * rotatedViewY + (1 - k) * y1;
+            z = k * rotatedViewZ + (1 - k) * z1;
+
+            if (a == 1.0 && b == 1.0 && c == 1.0)
             {
-                // Since qa is always positive, the + solution is nearest to the point
-                // of view, so we always use that one.
-                var k = (-qb + Math.Sqrt(qm)) / (2 * qa);
-                x = k * rx + (1 - k) * x1;
-                y = k * ry + (1 - k) * y1;
-                z = k * rz + (1 - k) * z1;
-
-                if (a == 1.0 && b == 1.0 && c == 1.0)
-                {
-                    phi = Math.Asin(z);
-                    lambda = Math.Atan2(y, x);
-                } else
-                {
-                    // This is a point on the ellipsoid, so convert to lat long
-                    var r = Math.Sqrt(
-                        ProjMath.Sqr(a2 * x) + ProjMath.Sqr(b2 * y));
-                    phi = Math.Atan(c2 * z / r);
-                    lambda = Math.Atan2(b2 * y, a2 * x);
-                    // Now return the spherical x, y, z corresponding to phi, lambda
-                    x = Math.Cos(lambda) * Math.Cos(phi);
-                    y = Math.Sin(lambda) * Math.Cos(phi);
-                    z = Math.Sin(phi);
-                }
-
-                return true;
+                phi = Math.Asin(z);
+                lambda = Math.Atan2(y, x);
+            } else
+            {
+                // This is a point on the ellipsoid, so convert to lat long
+                var r = Math.Sqrt(
+                    ProjMath.Sqr(a2 * x) + ProjMath.Sqr(b2 * y));
+                phi = Math.Atan(c2 * z / r);
+                lambda = Math.Atan2(b2 * y, a2 * x);
+                // Now return the spherical x, y, z corresponding to phi, lambda
+                x = Math.Cos(lambda) * Math.Cos(phi);
+                y = Math.Sin(lambda) * Math.Cos(phi);
+                z = Math.Sin(phi);
             }
 
-            return false;
+            return true;
+
         }
 
         protected override bool ProjectInv(
@@ -200,15 +201,15 @@ namespace MapProjectorLib.Projections
 
             // Test for visibility - dot product of nx,ny,nz and the line
             // towards to viewpoint must be positive
-            var p = (vx - x0) * nx + (vy - y0) * ny + (vz - z0) * nz;
+            var p = (viewX - x0) * nx + (viewY - y0) * ny + (viewZ - z0) * nz;
             if (p >= 0)
             {
                 // Project from (vx, vy, vz) through (x0,y0,z0) to (-1, y, z)
-                var t = (1 + x0) / (x0 - vx);
-                x = t * vy + (1 - t) * y0; // Note change of axes
-                y = t * vz + (1 - t) * z0;
-                x = (x - vy) * iscalefactor;
-                y = (y - vz) * iscalefactor;
+                var t = (1 + x0) / (x0 - viewX);
+                x = t * viewY + (1 - t) * y0; // Note change of axes
+                y = t * viewZ + (1 - t) * z0;
+                x = (x - viewY) * invScaleFactor;
+                y = (y - viewZ) * invScaleFactor;
 
                 return true;
             }
@@ -227,11 +228,11 @@ namespace MapProjectorLib.Projections
             // Compute pi/2 - angle of the x-axis with the normal at the relevant point.
             // This should be Math.Asin(...) but we are only interested in small angles
             // so assume Math.Sin x = x
-            var sunAltitude = sunx * xProjected + suny * yProjected +
-                              sunz * zProjected;
+            var sunAltitude = sunX * xProjected + sunY * yProjected +
+                              sunZ * zProjected;
 
             return sunAltitude < ProjMath.SunriseAngle
-                ? inputColor.Dim(nightdim)
+                ? inputColor.Dim(nightDim)
                 : inputColor.Dim(0.8 + 0.2 * sunAltitude);
         }
     }

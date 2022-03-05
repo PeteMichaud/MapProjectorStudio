@@ -11,13 +11,10 @@ namespace MapProjectorLib.Projections
 
         protected override bool GetR(double phi, ref double r)
         {
-            if (phi >= 0.0)
-            {
-                r = Math.Cos(phi);
-                return true;
-            }
+            if (!(phi >= 0.0)) return false;
 
-            return false;
+            r = Math.Cos(phi);
+            return true;
         }
     }
 }

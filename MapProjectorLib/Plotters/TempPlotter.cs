@@ -5,28 +5,26 @@ namespace MapProjectorLib.Plotters
     // Draw a temporary hour line
     internal class TempPlotter : TransformPlotter
     {
-        public double lambda;
-        public double phi;
-        public double time;
+        public double Lambda;
+        public double Phi;
+        public double Time;
 
         public TempPlotter(
             Image image, TransformParams tParams, Transform transform)
             : base(image, tParams, transform)
         {
-            time = 0;
-            phi = 0;
-            lambda = 0;
+            Time = 0;
+            Phi = 0;
+            Lambda = 0;
         }
 
         // t is the solar declination
         // phi,lambda is origin
-        public override bool GetXY(double t, ref double x, ref double y)
+        public override bool GetXY(double delta, ref double x, ref double y)
         {
-            var delta = t;
             // time/angle between sunrise and noon and noon and sunset
-            var tau = Math.Acos(-Math.Tan(phi) * Math.Tan(delta));
-            //fprintf(stderr,"%g %g %g %g\n", t, phi, lambda, tau);
-            var h = tau * (time - 12) / 6.0 + lambda;
+            var tau = Math.Acos(-Math.Tan(Phi) * Math.Tan(delta));
+            var h = tau * (Time - 12) / 6.0 + Lambda;
 
             return _transform.MapXY(_image, _tParams, delta, h, ref x, ref y);
         }

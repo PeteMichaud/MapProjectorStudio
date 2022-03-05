@@ -2,7 +2,7 @@
 
 namespace MapProjectorLib
 {
-    public class Projector
+    public static class Projector
     {
         public static void Project(ProjectionParams pParams)
         {
@@ -43,7 +43,9 @@ namespace MapProjectorLib
                 {
                     outImage.Save(
                         string.Format(
-                            "{0}{1,4:0000}.{2}", pParams.outImageName, i,
+                            "{0}{1,4:0000}.{2}",
+                            pParams.outImageName,
+                            i,
                             pParams.outImageExt));
 
                     tParams.turn += pParams.loopParams.TurnIncr;

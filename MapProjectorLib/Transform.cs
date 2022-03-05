@@ -373,7 +373,7 @@ namespace MapProjectorLib
             {
                 var lambda = (i - nx / 2) * 2 * Math.PI / nx +
                              tParams.widgetLon;
-                latPlotter.lambda = lambda;
+                latPlotter.Lambda = lambda;
                 // Omit the last section of the lines of latitude.
                 image.PlotLine(
                     -ProjMath.Inclination, +ProjMath.Inclination, latPlotter,
@@ -395,7 +395,7 @@ namespace MapProjectorLib
                 var latPlotter = new LatPlotter(image, tParams, this);
 
                 var lambda = (i - nx / 2) * 2 * Math.PI / nx;
-                latPlotter.lambda = lambda;
+                latPlotter.Lambda = lambda;
                 // Omit the last section of the lines of latitude.
                 //image.PlotLine(-pi/2+radians(gridy), pi/2-radians(gridy), latplotter, cmdtParams.color);
                 image.PlotLine(
@@ -406,7 +406,7 @@ namespace MapProjectorLib
             var longPlotter = new LongPlotter(image, tParams, this);
             for (var i = 0; i <= ny; i++)
             {
-                longPlotter.phi = (i - ny / 2) * Math.PI / ny;
+                longPlotter.Phi = (i - ny / 2) * Math.PI / ny;
                 image.PlotLine(
                     -Math.PI, Math.PI, longPlotter, tParams.gridColor, 16);
             }
@@ -420,7 +420,7 @@ namespace MapProjectorLib
             for (var i = 0; i < nx; i++)
             {
                 var time = 2 * Math.PI * (i - nx / 2) / nx;
-                analemmaPlotter.time = time;
+                analemmaPlotter.Time = time;
                 image.PlotLine(
                     0, ProjMath.TwoPi, analemmaPlotter, tParams.widgetColor,
                     16);
@@ -431,13 +431,13 @@ namespace MapProjectorLib
         {
             var fooPlotter = new FooPlotter(image, tParams, this)
             {
-                lambda = tParams.widgetLon,
-                phi = tParams.widgetLat
+                Lambda = tParams.widgetLon,
+                Phi = tParams.widgetLat
             };
 
             for (var i = 10; i <= 80; i += 10)
             {
-                fooPlotter.theta = ProjMath.ToRadians(i);
+                fooPlotter.Theta = ProjMath.ToRadians(i);
                 image.PlotLine(
                     0, ProjMath.TwoPi, fooPlotter, tParams.widgetColor, 16);
             }
@@ -449,13 +449,13 @@ namespace MapProjectorLib
         {
             var tempPlotter = new TempPlotter(image, tParams, this)
             {
-                lambda = tParams.widgetLon,
-                phi = tParams.widgetLat
+                Lambda = tParams.widgetLon,
+                Phi = tParams.widgetLat
             };
 
             for (var i = 6; i <= 18; i++)
             {
-                tempPlotter.time = i;
+                tempPlotter.Time = i;
                 image.PlotLine(
                     -ProjMath.Inclination, +ProjMath.Inclination, tempPlotter,
                     tParams.widgetColor, 4);
@@ -468,12 +468,12 @@ namespace MapProjectorLib
         {
             var longPlotter = new LongPlotter(image, tParams, this)
             {
-                phi = ProjMath.Inclination
+                Phi = ProjMath.Inclination
             };
 
             image.PlotLine(
                 -Math.PI, Math.PI, longPlotter, tParams.widgetColor, 16);
-            longPlotter.phi = -ProjMath.Inclination;
+            longPlotter.Phi = -ProjMath.Inclination;
             image.PlotLine(
                 -Math.PI, Math.PI, longPlotter, tParams.widgetColor, 16);
         }
@@ -489,7 +489,7 @@ namespace MapProjectorLib
             while (day >= 365) day -= 365;
 
             var date = 2 * Math.PI * day / 365;
-            longPlotter.phi = ProjMath.SunDec(date);
+            longPlotter.Phi = ProjMath.SunDec(date);
 
             image.PlotLine(
                 -Math.PI, Math.PI, longPlotter, tParams.widgetColor, 16);

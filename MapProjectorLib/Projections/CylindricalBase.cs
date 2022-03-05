@@ -9,7 +9,7 @@ namespace MapProjectorLib.Projections
         // The drawing area is 2pi units across. The scale factor therefore
         // is w/2pi. The north pole is at w/2pi * f(pi/2)
 
-        double phi0;
+        double _phi0;
 
         // Abstract
         protected abstract bool GetXY(
@@ -21,7 +21,7 @@ namespace MapProjectorLib.Projections
         // Virtual
         public override void SetY(double y)
         {
-            phi0 = GetLat(y);
+            _phi0 = GetLat(y);
         }
 
         protected virtual double GetMaxHeight(TransformParams tParams)
@@ -34,18 +34,13 @@ namespace MapProjectorLib.Projections
             return 2.0 * Math.PI / width;
         }
 
-        public override void Init(TransformParams tParams)
-        {
-            base.Init(tParams);
-        }
-
         public override bool Project(
             TransformParams tParams,
             double x0, double y0,
             ref double x, ref double y, ref double z,
             ref double phi, ref double lambda)
         {
-            phi = phi0;
+            phi = _phi0;
             lambda = GetLong(x0);
 
             if (lambda >= -Math.PI && lambda <= Math.PI &&

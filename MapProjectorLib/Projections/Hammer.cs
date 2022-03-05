@@ -9,7 +9,7 @@ namespace MapProjectorLib.Projections
             return 2.0 / width;
         }
 
-        public override bool ProjectSimple(
+        protected override bool ProjectSimple(
             double x, double y,
             ref double phi, ref double lambda)
         {
@@ -27,7 +27,7 @@ namespace MapProjectorLib.Projections
             return result;
         }
 
-        public override bool ProjectInvSimple(
+        protected override bool ProjectInvSimple(
             double phi, double lambda, ref double x, ref double y)
         {
             var z = Math.Sqrt(1 + Math.Cos(phi) * Math.Cos(lambda / 2));

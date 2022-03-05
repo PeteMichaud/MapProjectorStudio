@@ -87,8 +87,7 @@ namespace MapProjectorLib
 
             if (p0 > p1)
             {
-                double temp;
-                temp = t0;
+                var temp = t0;
                 t0 = t1;
                 t1 = temp;
                 temp = p0;
@@ -100,7 +99,7 @@ namespace MapProjectorLib
 
             if (p0 > 0 || p1 < 0)
                 throw new ArgumentException(
-                    string.Format("No Root for", t0, t1, p0, p1));
+                    $"No Root for {t0} {t1} {p0} {p1}");
 
             while (t1 - t0 > epsilon)
             {
@@ -133,7 +132,7 @@ namespace MapProjectorLib
         {
             double theta0 = 0;
             var theta1 = 2 * Math.PI;
-            var epsilon = 1e-8;
+            const double epsilon = 1e-8;
             while (theta1 - theta0 > epsilon)
             {
                 var theta2 = (theta0 + theta1) / 2.0;
@@ -221,7 +220,7 @@ namespace MapProjectorLib
         {
             double t0 = 0;
             var t1 = Math.PI;
-            var epsilon = 1e-6;
+            const double epsilon = 1e-6;
             while (t1 - t0 > epsilon)
             {
                 var t = (t1 + t0) / 2.0;

@@ -2,9 +2,9 @@
 {
     internal abstract class TransformPlotter : LinePlotter
     {
-        protected Image _image;
-        protected TransformParams _tParams;
-        protected Transform _transform;
+        protected readonly Image _image;
+        protected readonly TransformParams _tParams;
+        protected readonly Transform _transform;
 
         public TransformPlotter(
             Image image, TransformParams tParams, Transform transform)
