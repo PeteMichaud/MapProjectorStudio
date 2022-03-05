@@ -4,6 +4,7 @@ using CommandLine;
 using MapProjectorLib;
 using System.Reflection;
 using System.Text;
+using System.IO;
 
 namespace MapProjectorCLI.Tests
 {
@@ -13,10 +14,10 @@ namespace MapProjectorCLI.Tests
         StringBuilder exampleText = new StringBuilder("# Examples\n\n");
         const string repoPath = @"https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output";
         const string ioArgs = "-f ..\\..\\Tests\\earth_equirect.png -o ..\\..\\Tests\\Output\\{0}.png";
-        private string[] ToArgs(string rawArgs, string outFileName)
+        private string[] ToArgs(string rawArgs, string outFileName, string readmeNotes = "")
         {
             rawArgs += $" {string.Format(ioArgs, outFileName)}";
-            AddExample(rawArgs, outFileName);
+            AddExample(rawArgs, outFileName, readmeNotes);
             return rawArgs.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
         }
 
@@ -33,15 +34,20 @@ namespace MapProjectorCLI.Tests
             });
         }
      
-        public void AddExample(string argStr, string title)
+        public void AddExample(string argStr, string title, string readmeNotes)
         {
-            exampleText.AppendLine($"## {title}\n\n`{argStr}`\n\n![{title}]({repoPath}/{title}.png)\n\n");
+            exampleText.AppendLine($"## {title}\n\n{readmeNotes}\n\n`{argStr}`\n\n![{title}]({repoPath}/{title}.png)\n\n");
         }
 
         [TearDown]
         public void OutputExampleFile()
         {
-            Console.WriteLine(exampleText.ToString());
+            var assm = typeof(Program).GetTypeInfo().Assembly;
+            var currentDir = Path.GetDirectoryName(assm.Location);
+            string exampleFile = Path.Combine(currentDir, "..\\..\\..\\examples.md");
+
+            File.WriteAllText(exampleFile, exampleText.ToString());
+            Console.WriteLine($"Examples written to {exampleFile}");
         }
 
         //[Test]
@@ -61,6 +67,7 @@ namespace MapProjectorCLI.Tests
         {
             foreach(MapProjection proj in Enum.GetValues(typeof(MapProjection)))
             {
+
                 var args = ToArgs($"--projection {proj}", $"To{proj}");
                 Parse(args, cliParams =>
                 {
@@ -69,7 +76,6 @@ namespace MapProjectorCLI.Tests
                 });
 
             }
-
         }
 
     }
