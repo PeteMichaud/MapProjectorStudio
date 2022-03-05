@@ -13,9 +13,11 @@ namespace MapProjectorLib
             var outImage = new Image(pParams.Width, pParams.Height);
 
             if (pParams.Adjust)
+            {
                 (pParams.Width, pParams.Height) =
                     transform.AdjustSize(
                         pParams.Width, pParams.Height, tParams);
+            }
 
             for (var i = 0; i < pParams.loopParams.LoopCount; i++)
             {
@@ -31,12 +33,12 @@ namespace MapProjectorLib
                 {
                     transform.TransformImageInv(
                         pParams.srcImage, outImage, tParams);
-                    // No commands for inverse transformation yet
+                    // No widgets for inverse transformation yet
                 } else
                 {
                     transform.TransformImage(
                         pParams.srcImage, outImage, tParams);
-                    transform.DoCommands(outImage, tParams);
+                    transform.DrawWidgets(outImage, tParams);
                 }
 
                 if (pParams.loopParams.LoopCount > 1)

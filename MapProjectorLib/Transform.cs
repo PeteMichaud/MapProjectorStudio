@@ -194,16 +194,25 @@ namespace MapProjectorLib
                     double x0 = 0.0, y0 = 0.0, z0 = 0.0;
                     double phi = 0.0, lambda = 0.0;
 
-                    if (
-                        Project(
-                            tParams, x1, y1, ref x0, ref y0, ref z0, ref phi,
-                            ref lambda)
-                        && IsPointWithinRadius(tParams, phi, lambda))
+                    var projSuccess = Project(
+                        tParams, x1, y1, 
+                        ref x0, ref y0, ref z0, 
+                        ref phi, ref lambda);
+
+                    var isWithinRadius = IsPointWithinRadius(tParams, phi, lambda);
+
+                    if (projSuccess && isWithinRadius)
+                    {
                         SetData(
-                            inImage, outImage, tParams, x0, y0, z0, phi, lambda,
+                            inImage, outImage, tParams, 
+                            x0, y0, z0, 
+                            phi, lambda,
                             outX, outY);
+                    }
                     else if (!tParams.noback)
+                    {
                         outImage[outX, outY] = tParams.backgroundColor;
+                    }
                 }
             }
         }
@@ -310,11 +319,11 @@ namespace MapProjectorLib
             double x, double y, double z,
             Matrix3 m)
         {
+            if (m.isIdentity) return;
+
             x = Math.Cos(lambda) * Math.Cos(phi);
             y = Math.Sin(lambda) * Math.Cos(phi);
             z = Math.Sin(phi);
-
-            if (m.isIdentity) return;
 
             m.Apply(ref x, ref y, ref z);
             phi = Math.Asin(z);
@@ -337,7 +346,7 @@ namespace MapProjectorLib
 
         // Commands
 
-        public void DoCommands(Image image, TransformParams tParams)
+        public void DrawWidgets(Image image, TransformParams tParams)
         {
             if (tParams.Widgets.HasFlag(MapWidget.Grid))
                 DrawGrid(image, tParams);
