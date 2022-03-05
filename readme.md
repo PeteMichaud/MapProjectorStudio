@@ -14,16 +14,21 @@ The project is separated into 3 parts:
 
 ## Getting Started
 
-If you're on windows, you can download the release and run the exe. If you're on MacOS or Linux or just don't like 
-running sketchy exe files, clone the repository and build the project. 
+If you're on windows, you can download the release and run `MapProjectorCLI.exe`. 
 
-`MapProjectorCLI.exe` is what you'll use to do the projections.
+If you're on MacOS or Linex you can run the exe using mono the usual way, like `mono MapProjectorCLI.exe`
+
+If don't like running sketchy exe files, clone the repository and build the project. 
+
+### Usage
+
+[See list of example parameters and their outputs](examples.md)
 
 Ideally you will start with an image file of a map already in an `Equirectangular` projection. Pass that file in to 
 the `-f` or `--file` parameter of the CLI.
 
 If you have a map in a different projection like `Mercator`, you can use the cli to convert it to `Equirectangular` 
-using the `--invert` flat like so:
+using the `--invert` flag like so:
 
 `-f path/to/your/file.png -o target/path/to/your/output_equirect_file.png --projection mercator --invert`
 
