@@ -132,13 +132,12 @@ namespace MapProjectorLib
         static void DrawTropics(
             Image image, TransformParams tParams, Transform transform)
         {
-            var longPlotter = new LongPlotter(image, tParams, transform)
-            {
-                Phi = ProjMath.Inclination
-            };
+            var longPlotter = new LongPlotter(image, tParams, transform);
 
+            longPlotter.Phi = ProjMath.Inclination;
             image.PlotLine(
                 -Math.PI, Math.PI, longPlotter, tParams.widgetColor, 16);
+            
             longPlotter.Phi = -ProjMath.Inclination;
             image.PlotLine(
                 -Math.PI, Math.PI, longPlotter, tParams.widgetColor, 16);
@@ -175,8 +174,8 @@ namespace MapProjectorLib
             var time = day % 1.0d - 0.5; // Time relative to noon
             var date = 2 * Math.PI * day / 365;
             var phi = ProjMath.SunDec(date);
-            var eot = ProjMath.EquationOfTime(date) / (24 * 60 * 60);
-            var apparentTime = time + eot; // AT = MT + EOT
+            var eot = ProjMath.EquationOfTime(date) / ProjMath.SecondsPerDay;
+            var apparentTime = time + eot; // AT = Mean Time + EOT
             var lambda = -(2 * Math.PI * apparentTime);
             (var inBounds, var mappedPoint) = transform.MapXY(image, tParams, phi, lambda);
             

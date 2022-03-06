@@ -436,7 +436,7 @@ If you start with a projection other than equirectangular, use the --invert flag
 
 
 
-`--widget temporaryhours --projection gnomonic -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\WidgetTropicsWithProjection.png`
+`--widget tropics --projection gnomonic -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\WidgetTropicsWithProjection.png`
 
 ![WidgetTropicsWithProjection](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/WidgetTropicsWithProjection.png)
 

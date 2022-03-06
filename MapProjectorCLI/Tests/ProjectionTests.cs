@@ -428,7 +428,7 @@ namespace MapProjectorCLI.Tests
         [Test]
         public void WidgetTropicsWithProjection()
         {
-            var args = ToArgs($"--widget temporaryhours --projection gnomonic",
+            var args = ToArgs($"--widget tropics --projection gnomonic",
                     MethodBase.GetCurrentMethod().Name);
             Parse(args, cliParams =>
             {
