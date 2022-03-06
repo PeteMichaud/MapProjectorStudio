@@ -149,6 +149,7 @@ namespace MapProjectorLib
 
         // The value of the equation of time
         // mean time + equation = apparent time
+        //computes the difference between apparent solar time and mean solar time
         public static double EquationOfTime(double date)
         {
             var p = Perihelion;
