@@ -77,7 +77,7 @@
     <Compile Include="Utils\Line.cs" />
     <Compile Include="Utils\Matrix3.cs" />
     <Compile Include="Plotters\AnalemmaPlotter.cs" />
-    <Compile Include="Plotters\FooPlotter.cs" />
+    <Compile Include="Plotters\AltitudesPlotter.cs" />
     <Compile Include="Plotters\CirclePlotter.cs" />
     <Compile Include="Plotters\LongPlotter.cs" />
     <Compile Include="Plotters\LatPlotter.cs" />

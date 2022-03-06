@@ -2,14 +2,14 @@
 
 namespace MapProjectorLib.Plotters
 {
-    //todo: what should this actually be called?
-    internal class FooPlotter : TransformPlotter
+
+    internal class AltitudesPlotter : TransformPlotter
     {
         public double Lambda;
         public double Phi;
         public double Theta;
 
-        public FooPlotter(
+        public AltitudesPlotter(
             Image image, TransformParams tParams, Transform transform)
             : base(image, tParams, transform)
         {

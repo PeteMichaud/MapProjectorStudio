@@ -97,7 +97,7 @@ namespace MapProjectorLib
         static void DrawAltitudes(
             Image image, TransformParams tParams, Transform transform)
         {
-            var fooPlotter = new FooPlotter(image, tParams, transform)
+            var fooPlotter = new AltitudesPlotter(image, tParams, transform)
             {
                 Lambda = tParams.widgetLon,
                 Phi = tParams.widgetLat
