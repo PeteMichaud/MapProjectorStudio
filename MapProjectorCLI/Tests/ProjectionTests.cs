@@ -57,6 +57,7 @@ namespace MapProjectorCLI.Tests
             {
 
                 var args = ToArgs($"--projection {proj}", $"To{proj}");
+
                 Parse(args, cliParams =>
                 {
                     (var success, var projectionParams) = Program.ProcessParams(cliParams);
@@ -72,6 +73,7 @@ namespace MapProjectorCLI.Tests
             var args = ToArgs($"--bg ..\\..\\Tests\\Input\\background.png --projection hammer", 
                 MethodBase.GetCurrentMethod().Name, 
                 "Many projections leave a blank area around the perimeter of the map. Fill that blank area with an optional background image");
+            
             Parse(args, cliParams =>
             {
                 (var success, var projectionParams) = Program.ProcessParams(cliParams);
@@ -86,6 +88,7 @@ namespace MapProjectorCLI.Tests
             var args = ToArgs($"--bgcolor 255,0,0 --projection perspective",
                 MethodBase.GetCurrentMethod().Name,
                 "Many projections leave a blank area around the perimeter of the map. Fill that blank area with an optional background color");
+            
             Parse(args, cliParams =>
             {
                 (var success, var projectionParams) = Program.ProcessParams(cliParams);
@@ -101,6 +104,7 @@ namespace MapProjectorCLI.Tests
                 MethodBase.GetCurrentMethod().Name,
                 "If you start with a projection other than equirectangular, use the --invert flag to convert FROM the target projection. Notice that some projections don't include the necessary data to completely recreate an equirect map.", 
                 "earth_mercator");
+
             Parse(args, cliParams =>
             {
                 (var success, var projectionParams) = Program.ProcessParams(cliParams);
@@ -118,6 +122,7 @@ namespace MapProjectorCLI.Tests
                 var args = ToArgs($"--projection {proj} --invert",
                      $"z{MethodBase.GetCurrentMethod().Name}_{proj}",
                     addExample: false);
+
                 Parse(args, cliParams =>
                 {
                     (var success, var projectionParams) = Program.ProcessParams(cliParams);
@@ -134,6 +139,7 @@ namespace MapProjectorCLI.Tests
         {
             var args = ToArgs($"--widget grid",
                     MethodBase.GetCurrentMethod().Name);
+
             Parse(args, cliParams =>
             {
                 (var success, var projectionParams) = Program.ProcessParams(cliParams);
@@ -147,6 +153,7 @@ namespace MapProjectorCLI.Tests
         {
             var args = ToArgs($"--widget grid --gridx 15 --gridy 60",
                     MethodBase.GetCurrentMethod().Name);
+
             Parse(args, cliParams =>
             {
                 (var success, var projectionParams) = Program.ProcessParams(cliParams);
@@ -160,6 +167,7 @@ namespace MapProjectorCLI.Tests
         {
             var args = ToArgs($"--widget grid --gridcolor 0,255,0",
                     MethodBase.GetCurrentMethod().Name);
+
             Parse(args, cliParams =>
             {
                 (var success, var projectionParams) = Program.ProcessParams(cliParams);
@@ -173,6 +181,7 @@ namespace MapProjectorCLI.Tests
         {
             var args = ToArgs($"--widget grid --projection hammer",
                     MethodBase.GetCurrentMethod().Name);
+
             Parse(args, cliParams =>
             {
                 (var success, var projectionParams) = Program.ProcessParams(cliParams);
@@ -188,6 +197,7 @@ namespace MapProjectorCLI.Tests
         {
             var args = ToArgs($"--widget analemma",
                     MethodBase.GetCurrentMethod().Name);
+
             Parse(args, cliParams =>
             {
                 (var success, var projectionParams) = Program.ProcessParams(cliParams);
@@ -201,6 +211,7 @@ namespace MapProjectorCLI.Tests
         {
             var args = ToArgs($"--widget analemma --gridx 60",
                     MethodBase.GetCurrentMethod().Name);
+
             Parse(args, cliParams =>
             {
                 (var success, var projectionParams) = Program.ProcessParams(cliParams);
@@ -214,6 +225,7 @@ namespace MapProjectorCLI.Tests
         {
             var args = ToArgs($"--widget analemma --widgetcolor 0,255,255",
                     MethodBase.GetCurrentMethod().Name);
+
             Parse(args, cliParams =>
             {
                 (var success, var projectionParams) = Program.ProcessParams(cliParams);
@@ -227,6 +239,7 @@ namespace MapProjectorCLI.Tests
         {
             var args = ToArgs($"--widget analemma --projection hammer",
                     MethodBase.GetCurrentMethod().Name);
+
             Parse(args, cliParams =>
             {
                 (var success, var projectionParams) = Program.ProcessParams(cliParams);
@@ -242,6 +255,7 @@ namespace MapProjectorCLI.Tests
         {
             var args = ToArgs($"--widget temporaryhours",
                     MethodBase.GetCurrentMethod().Name);
+
             Parse(args, cliParams =>
             {
                 (var success, var projectionParams) = Program.ProcessParams(cliParams);
@@ -255,6 +269,7 @@ namespace MapProjectorCLI.Tests
         {
             var args = ToArgs($"--widget temporaryhours --wlat 60 --wlon 60",
                     MethodBase.GetCurrentMethod().Name);
+
             Parse(args, cliParams =>
             {
                 (var success, var projectionParams) = Program.ProcessParams(cliParams);
@@ -268,6 +283,7 @@ namespace MapProjectorCLI.Tests
         {
             var args = ToArgs($"--widget temporaryhours --widgetcolor 128,128,255",
                     MethodBase.GetCurrentMethod().Name);
+
             Parse(args, cliParams =>
             {
                 (var success, var projectionParams) = Program.ProcessParams(cliParams);
@@ -281,6 +297,7 @@ namespace MapProjectorCLI.Tests
         {
             var args = ToArgs($"--widget temporaryhours --projection sinusoidal",
                     MethodBase.GetCurrentMethod().Name);
+
             Parse(args, cliParams =>
             {
                 (var success, var projectionParams) = Program.ProcessParams(cliParams);
@@ -296,6 +313,7 @@ namespace MapProjectorCLI.Tests
         {
             var args = ToArgs($"--widget localhours",
                     MethodBase.GetCurrentMethod().Name);
+
             Parse(args, cliParams =>
             {
                 (var success, var projectionParams) = Program.ProcessParams(cliParams);
@@ -309,6 +327,7 @@ namespace MapProjectorCLI.Tests
         {
             var args = ToArgs($"--widget localhours --wlon 60",
                     MethodBase.GetCurrentMethod().Name);
+
             Parse(args, cliParams =>
             {
                 (var success, var projectionParams) = Program.ProcessParams(cliParams);
@@ -322,6 +341,7 @@ namespace MapProjectorCLI.Tests
         {
             var args = ToArgs($"--widget localhours --widgetcolor 128,128,255",
                     MethodBase.GetCurrentMethod().Name);
+
             Parse(args, cliParams =>
             {
                 (var success, var projectionParams) = Program.ProcessParams(cliParams);
@@ -335,6 +355,7 @@ namespace MapProjectorCLI.Tests
         {
             var args = ToArgs($"--widget temporaryhours --projection orthographic",
                     MethodBase.GetCurrentMethod().Name);
+
             Parse(args, cliParams =>
             {
                 (var success, var projectionParams) = Program.ProcessParams(cliParams);
@@ -350,6 +371,7 @@ namespace MapProjectorCLI.Tests
         {
             var args = ToArgs($"--widget altitudes",
                     MethodBase.GetCurrentMethod().Name);
+
             Parse(args, cliParams =>
             {
                 (var success, var projectionParams) = Program.ProcessParams(cliParams);
@@ -363,6 +385,7 @@ namespace MapProjectorCLI.Tests
         {
             var args = ToArgs($"--widget Altitudes --wlat 45 --wlon 45",
                     MethodBase.GetCurrentMethod().Name);
+
             Parse(args, cliParams =>
             {
                 (var success, var projectionParams) = Program.ProcessParams(cliParams);
@@ -376,6 +399,7 @@ namespace MapProjectorCLI.Tests
         {
             var args = ToArgs($"--widget Altitudes --widgetcolor 128,255,128",
                     MethodBase.GetCurrentMethod().Name);
+
             Parse(args, cliParams =>
             {
                 (var success, var projectionParams) = Program.ProcessParams(cliParams);
@@ -389,6 +413,7 @@ namespace MapProjectorCLI.Tests
         {
             var args = ToArgs($"--widget temporaryhours --projection azimuthal",
                     MethodBase.GetCurrentMethod().Name);
+
             Parse(args, cliParams =>
             {
                 (var success, var projectionParams) = Program.ProcessParams(cliParams);
@@ -404,6 +429,7 @@ namespace MapProjectorCLI.Tests
         {
             var args = ToArgs($"--widget Tropics",
                     MethodBase.GetCurrentMethod().Name);
+
             Parse(args, cliParams =>
             {
                 (var success, var projectionParams) = Program.ProcessParams(cliParams);
@@ -417,6 +443,7 @@ namespace MapProjectorCLI.Tests
         {
             var args = ToArgs($"--widget Tropics --widgetcolor 128,255,128",
                     MethodBase.GetCurrentMethod().Name);
+
             Parse(args, cliParams =>
             {
                 (var success, var projectionParams) = Program.ProcessParams(cliParams);
@@ -430,6 +457,7 @@ namespace MapProjectorCLI.Tests
         {
             var args = ToArgs($"--widget tropics --projection gnomonic",
                     MethodBase.GetCurrentMethod().Name);
+
             Parse(args, cliParams =>
             {
                 (var success, var projectionParams) = Program.ProcessParams(cliParams);
@@ -445,6 +473,7 @@ namespace MapProjectorCLI.Tests
         {
             var args = ToArgs($"--widget Dateline",
                     MethodBase.GetCurrentMethod().Name);
+
             Parse(args, cliParams =>
             {
                 (var success, var projectionParams) = Program.ProcessParams(cliParams);
@@ -458,6 +487,7 @@ namespace MapProjectorCLI.Tests
         {
             var args = ToArgs($"--widget Dateline --wday 180",
                     MethodBase.GetCurrentMethod().Name);
+
             Parse(args, cliParams =>
             {
                 (var success, var projectionParams) = Program.ProcessParams(cliParams);
@@ -471,6 +501,7 @@ namespace MapProjectorCLI.Tests
         {
             var args = ToArgs($"--widget Dateline --widgetcolor 128,255,128",
                     MethodBase.GetCurrentMethod().Name);
+
             Parse(args, cliParams =>
             {
                 (var success, var projectionParams) = Program.ProcessParams(cliParams);
@@ -484,6 +515,7 @@ namespace MapProjectorCLI.Tests
         {
             var args = ToArgs($"--widget Dateline --projection azimuthal",
                     MethodBase.GetCurrentMethod().Name);
+
             Parse(args, cliParams =>
             {
                 (var success, var projectionParams) = Program.ProcessParams(cliParams);
@@ -500,6 +532,7 @@ namespace MapProjectorCLI.Tests
         {
             var args = ToArgs($"--widget Datetime",
                     MethodBase.GetCurrentMethod().Name);
+
             Parse(args, cliParams =>
             {
                 (var success, var projectionParams) = Program.ProcessParams(cliParams);
@@ -513,6 +546,7 @@ namespace MapProjectorCLI.Tests
         {
             var args = ToArgs($"--widget Datetime --wday 180",
                     MethodBase.GetCurrentMethod().Name);
+
             Parse(args, cliParams =>
             {
                 (var success, var projectionParams) = Program.ProcessParams(cliParams);
@@ -522,10 +556,11 @@ namespace MapProjectorCLI.Tests
         }
 
         [Test]
-        public void WidgeDatetimeColor()
+        public void WidgetDatetimeColor()
         {
             var args = ToArgs($"--widget Datetime --widgetcolor 128,255,128",
                     MethodBase.GetCurrentMethod().Name);
+
             Parse(args, cliParams =>
             {
                 (var success, var projectionParams) = Program.ProcessParams(cliParams);
@@ -539,6 +574,7 @@ namespace MapProjectorCLI.Tests
         {
             var args = ToArgs($"--widget Datetime --projection azimuthal",
                     MethodBase.GetCurrentMethod().Name);
+
             Parse(args, cliParams =>
             {
                 (var success, var projectionParams) = Program.ProcessParams(cliParams);
@@ -546,5 +582,78 @@ namespace MapProjectorCLI.Tests
             });
 
         }
+
+        //Indicatrix
+
+        [Test]
+        public void WidgetIndicatrixBasic()
+        {
+            var args = ToArgs($"--widget Indicatrix",
+                    MethodBase.GetCurrentMethod().Name);
+
+            Parse(args, cliParams =>
+            {
+                (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                Projector.Project(projectionParams);
+            });
+
+        }
+
+        [Test]
+        public void WidgetIndicatrixColor()
+        {
+            var args = ToArgs($"--widget Indicatrix --widgetcolor 128,255,128",
+                    MethodBase.GetCurrentMethod().Name);
+
+            Parse(args, cliParams =>
+            {
+                (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                Projector.Project(projectionParams);
+            });
+
+        }
+
+        [Test]
+        public void WidgetIndicatrixSpacing()
+        {
+            var args = ToArgs($"--widget Indicatrix --gridx 60 --gridy 60",
+                    MethodBase.GetCurrentMethod().Name);
+
+            Parse(args, cliParams =>
+            {
+                (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                Projector.Project(projectionParams);
+            });
+
+        }
+
+        [Test]
+        public void WidgetIndicatrixWithProjection()
+        {
+            var args = ToArgs($"--widget Indicatrix --projection azimuthal",
+                    MethodBase.GetCurrentMethod().Name);
+
+            Parse(args, cliParams =>
+            {
+                (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                Projector.Project(projectionParams);
+            });
+
+        }
+
+        [Test]
+        public void WidgetIndicatrixNaiveSpacing()
+        {
+            var args = ToArgs($"--widget Indicatrix --wnaivespacing",
+                    MethodBase.GetCurrentMethod().Name);
+
+            Parse(args, cliParams =>
+            {
+                (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                Projector.Project(projectionParams);
+            });
+
+        }
+
     }
 }

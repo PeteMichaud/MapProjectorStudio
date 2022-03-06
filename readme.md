@@ -94,15 +94,24 @@ Then use `output_equirect_file.png` as your new file input for further processin
 * -p               (Default: 0) Reference parallel for projections that can use it: equalarea, sinusoidal, mollweide
 * --conic          (Default: 1) Relevant to polar projections: azimuthal, gnomonic, rectilinear, stereographic
 * --conicr         (Default: 0) Conic Radius. Relevant to polar projections: azimuthal, gnomonic, rectilinear, stereographic
-* --widget         Comma separated list of map widgets to render: Grid, Analemma, TemporaryHours, LocalHours, Altitudes, Tropics, Dateline, Datetime
+* --widget         Comma separated list of map widgets to render: 
+    * Grid
+    * Analemma
+    * TemporaryHours
+    * LocalHours
+    * Altitudes
+    * Tropics
+    * Dateline
+    * Datetime
+    * Indicatrix
 * --gridx          (Default: 30) X Spacing of Grid (Degrees) (use --widget grid)
 * --gridy          (Default: 30) Y Spacing of Grid (Degrees) (use --widget grid)
-* --gridoff        (Default: 0) Grid Angular Offset (use --widget grid)
 * --gridcolor      Grid line color R,G,B (0-255) (use --widget grid)
 * --widgetColor    Widget Color  R,G,B (0-255) (use --widget)
 * --wlat           (Default: 0) Widget Origin Latitude (Radians)
 * --wlon           (Default: 0) Widget Origin Longitude (Radians)
 * --wday           (Default: 0) Widget Day (for Dateline and Datetime widgets)
+* --wnaivespacing  (Default: False) Indicatrix defaults to smart spacing, which skips some at the poles to avoid overlap. Using this flag will prevent smart spacing
 
 ## Goals
 
@@ -110,10 +119,12 @@ Then use `output_equirect_file.png` as your new file input for further processin
 * [x] Handling of arbitrary filetypes instead of only `ppm`
 * [x] The core is a library that can be included in any other project
 * [x] A separate CLI that has parity with the original MMPS software
+* [x] Improved visualization for the various widgets like the grid and analemma
 * [ ] GUI application allowing visual manipulation of maps and widgets, including 
       eventually layers that can be independently moved
-* [ ] Improved visualization for the various widgets like the grid and analemma
 * [ ] Parameterize the various hardcode planet data like Inclination
+* [ ] Optionally render widgets independently so can be composited later in whatever image editor
+* [ ] Render widgets in vector format for resolution independence
 
 ## History
 

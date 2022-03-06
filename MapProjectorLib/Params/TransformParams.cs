@@ -60,14 +60,16 @@ namespace MapProjectorLib
             time = 0.0; //Hours from midnight, UTC, in decimal hours (so 4.5 is half past four in the morning). Relevant for the --sun option
 
         public double turn = 0.0;
-        public Rgb24 widgetColor = new Rgb24(255, 0, 0);
-        public double widgetDay = 0.0;
-        public double widgetLat = 0.0; //radians
-        public double widgetLon = 0.0; //radians
 
         //Widgets
 
         public MapWidget Widgets;
+
+        public Rgb24 widgetColor = new Rgb24(255, 0, 0);
+        public double widgetDay = 0.0;
+        public double widgetLat = 0.0; //radians
+        public double widgetLon = 0.0; //radians
+        public bool widgetSmartSpacing = true;
 
         public double
             x = 8.0; //X dimension of viewing position, measured in planet radii

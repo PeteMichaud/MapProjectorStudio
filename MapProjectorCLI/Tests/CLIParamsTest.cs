@@ -933,6 +933,23 @@ namespace MapProjectorCLI.Tests
         }
 
         [Test]
+        public void SetWSmartSpacing()
+        {
+            var args = ToArgs($"--wnaivespacing");
+            Parse(args, cliParams =>
+            {
+                Assert.AreEqual(true, cliParams.widgetNaiveSpacing);
+            });
+
+            args = ToArgs($"");
+            Parse(args, cliParams =>
+            {
+                Assert.AreEqual(false, cliParams.widgetNaiveSpacing);
+            });
+
+        }
+
+        [Test]
         public void ProcessParamsTest()
         {
             var args = ToArgs($"");

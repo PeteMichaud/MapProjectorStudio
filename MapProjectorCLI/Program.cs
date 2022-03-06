@@ -137,6 +137,7 @@ namespace MapProjectorCLI
                 widgetLat = cliParams.widgetLat,
                 widgetLon = cliParams.widgetLon,
                 widgetDay = cliParams.widgetDay,
+                widgetSmartSpacing = !cliParams.widgetNaiveSpacing,
             };
 
             if (cliParams._backgroundColorValues != null)

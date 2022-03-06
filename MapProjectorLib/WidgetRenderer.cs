@@ -30,6 +30,10 @@ namespace MapProjectorLib
 
             if (tParams.Widgets.HasFlag(MapWidget.Datetime))
                 DrawDatetime(image, tParams, transform);
+
+            if (tParams.Widgets.HasFlag(MapWidget.Indicatrix))
+                DrawIndicatrix(image, tParams, transform);
+
         }
 
         static void DrawLocalHours(
@@ -61,7 +65,7 @@ namespace MapProjectorLib
             {
                 var latPlotter = new LatPlotter(image, tParams, transform);
 
-                var lambda = (i - nx / 2) * 2 * Math.PI / nx;
+                var lambda = (i - nx / 2) * ProjMath.TwoPi / nx;
                 latPlotter.Lambda = lambda;
                 // Omit the last section of the lines of latitude.
                 //image.PlotLine(-pi/2+radians(gridy), pi/2-radians(gridy), latplotter, cmdtParams.color);
@@ -94,23 +98,6 @@ namespace MapProjectorLib
             }
         }
 
-        static void DrawAltitudes(
-            Image image, TransformParams tParams, Transform transform)
-        {
-            var altitudesPlotter = new AltitudesPlotter(image, tParams, transform)
-            {
-                Lambda = tParams.widgetLon,
-                Phi = tParams.widgetLat
-            };
-
-            for (var i = 10; i <= 80; i += 10)
-            {
-                altitudesPlotter.Theta = ProjMath.ToRadians(i);
-                image.PlotLine(
-                    0, ProjMath.TwoPi, altitudesPlotter, tParams.widgetColor, 16);
-            }
-        }
-
         static void DrawTemporaryHours(
             Image image, TransformParams tParams, Transform transform)
         {
@@ -137,7 +124,7 @@ namespace MapProjectorLib
             longPlotter.Phi = ProjMath.Inclination;
             image.PlotLine(
                 -Math.PI, Math.PI, longPlotter, tParams.widgetColor, 16);
-            
+
             longPlotter.Phi = -ProjMath.Inclination;
             image.PlotLine(
                 -Math.PI, Math.PI, longPlotter, tParams.widgetColor, 16);
@@ -178,25 +165,58 @@ namespace MapProjectorLib
             var apparentTime = time + eot; // AT = Mean Time + EOT
             var lambda = -(2 * Math.PI * apparentTime);
             (var inBounds, var mappedPoint) = transform.MapXY(image, tParams, phi, lambda);
-            
-            if(inBounds) image.PlotPoint(mappedPoint.X, mappedPoint.Y, 1, tParams.widgetColor);
+
+            if (inBounds) image.PlotPoint(mappedPoint.X, mappedPoint.Y, 1, tParams.widgetColor);
         }
-    }
 
-    static void Drawindicatrix(
-    Image image, TransformParams tParams, Transform transform)
-    {
-        var fooPlotter = new AltitudesPlotter(image, tParams, transform)
+        static void DrawAltitudes(
+            Image image, TransformParams tParams, Transform transform)
         {
-            Lambda = tParams.widgetLon,
-            Phi = tParams.widgetLat
-        };
+            var altitudesPlotter = new AltitudesPlotter(image, tParams, transform)
+            {
+                Lambda = tParams.widgetLon,
+                Phi = tParams.widgetLat
+            };
 
-        for (var i = 10; i <= 80; i += 10)
+            for (var i = 10; i <= 80; i += 10)
+            {
+                altitudesPlotter.Theta = ProjMath.ToRadians(i);
+                image.PlotLine(
+                    0, ProjMath.TwoPi, altitudesPlotter, tParams.widgetColor, 16);
+            }
+        }
+
+        static void DrawIndicatrix(
+        Image image, TransformParams tParams, Transform transform)
         {
-            fooPlotter.Theta = ProjMath.ToRadians(i);
-            image.PlotLine(
-                0, ProjMath.TwoPi, fooPlotter, tParams.widgetColor, 16);
+            var circlePlotter = new CirclePlotter(image, tParams, transform)
+            {
+                Theta = ProjMath.ToRadians(100)
+            };
+
+
+            var nx = 360 / tParams.gridX + 1;
+            var ny = 180 / tParams.gridY + 1;
+            var skip = 0;
+            for (var y = 0; y < ny; y++)
+            {
+                circlePlotter.Phi = (y - ny / 2) * Math.PI / ny;
+
+                if (tParams.widgetSmartSpacing)
+                {
+                    //as the center of a particular indicatrix gets nearer to the poles, skip
+                    //some in that row to stop them overlapping so much
+                    skip = (int)Math.Abs(circlePlotter.Phi / ProjMath.OneOverPi);
+                }
+
+                for (var x = 0; x < nx; x+=(1+skip))
+                {
+                    circlePlotter.Lambda = (x - nx / 2) * ProjMath.TwoPi / nx;
+
+                    image.PlotLine(
+                       0, ProjMath.TwoPi, circlePlotter, tParams.widgetColor, 16);
+                }
+            }
         }
     }
 }

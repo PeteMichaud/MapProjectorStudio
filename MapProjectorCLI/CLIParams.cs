@@ -353,6 +353,11 @@ namespace MapProjectorCLI
             HelpText = "Widget Day (for Dateline and Datetime widgets)")]
         public double widgetDay { get; set; }
 
+        [Option(
+            "wnaivespacing", Default = false,
+            HelpText = "Disable smart spacing for Indictrix Widget (smart spacing can help with overalp at the poles by skipping some)")]
+        public bool widgetNaiveSpacing { get; set; }
+
         //
 
         static double ToRadians(double deg)

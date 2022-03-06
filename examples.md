@@ -162,15 +162,6 @@ If you start with a projection other than equirectangular, use the --invert flag
 ![ToHammer](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/ToHammer.png)
 
 
-## WidgeDatetimeColor
-
-
-
-`--widget Datetime --widgetcolor 128,255,128 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\WidgeDatetimeColor.png`
-
-![WidgeDatetimeColor](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/WidgeDatetimeColor.png)
-
-
 ## WidgetAltitudesBasic
 
 
@@ -288,6 +279,15 @@ If you start with a projection other than equirectangular, use the --invert flag
 ![WidgetDatetimeBasic](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/WidgetDatetimeBasic.png)
 
 
+## WidgetDatetimeColor
+
+
+
+`--widget Datetime --widgetcolor 128,255,128 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\WidgetDatetimeColor.png`
+
+![WidgetDatetimeColor](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/WidgetDatetimeColor.png)
+
+
 ## WidgetDatetimeDay
 
 
@@ -340,6 +340,51 @@ If you start with a projection other than equirectangular, use the --invert flag
 `--widget grid --projection hammer -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\WidgetGridWithProjection.png`
 
 ![WidgetGridWithProjection](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/WidgetGridWithProjection.png)
+
+
+## WidgetIndicatrixBasic
+
+
+
+`--widget Indicatrix -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\WidgetIndicatrixBasic.png`
+
+![WidgetIndicatrixBasic](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/WidgetIndicatrixBasic.png)
+
+
+## WidgetIndicatrixColor
+
+
+
+`--widget Indicatrix --widgetcolor 128,255,128 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\WidgetIndicatrixColor.png`
+
+![WidgetIndicatrixColor](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/WidgetIndicatrixColor.png)
+
+
+## WidgetIndicatrixNaiveSpacing
+
+
+
+`--widget Indicatrix --wnaivespacing -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\WidgetIndicatrixNaiveSpacing.png`
+
+![WidgetIndicatrixNaiveSpacing](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/WidgetIndicatrixNaiveSpacing.png)
+
+
+## WidgetIndicatrixSpacing
+
+
+
+`--widget Indicatrix --gridx 60 --gridy 60 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\WidgetIndicatrixSpacing.png`
+
+![WidgetIndicatrixSpacing](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/WidgetIndicatrixSpacing.png)
+
+
+## WidgetIndicatrixWithProjection
+
+
+
+`--widget Indicatrix --projection azimuthal -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\WidgetIndicatrixWithProjection.png`
+
+![WidgetIndicatrixWithProjection](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/WidgetIndicatrixWithProjection.png)
 
 
 ## WidgetLocalHoursBasic
