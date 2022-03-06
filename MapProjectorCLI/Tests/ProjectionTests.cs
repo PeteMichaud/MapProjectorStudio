@@ -126,5 +126,425 @@ namespace MapProjectorCLI.Tests
             }
         }
 
+        //Widgets
+
+        //Grid
+        [Test]
+        public void WidgetGridBasic()
+        {
+            var args = ToArgs($"--widget grid",
+                    MethodBase.GetCurrentMethod().Name);
+            Parse(args, cliParams =>
+            {
+                (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                Projector.Project(projectionParams);
+            });
+            
+        }
+
+        [Test]
+        public void WidgetGridSizing()
+        {
+            var args = ToArgs($"--widget grid --gridx 15 --gridy 60",
+                    MethodBase.GetCurrentMethod().Name);
+            Parse(args, cliParams =>
+            {
+                (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                Projector.Project(projectionParams);
+            });
+
+        }
+
+        [Test]
+        public void WidgetGridColor()
+        {
+            var args = ToArgs($"--widget grid --gridcolor 0,255,0",
+                    MethodBase.GetCurrentMethod().Name);
+            Parse(args, cliParams =>
+            {
+                (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                Projector.Project(projectionParams);
+            });
+
+        }
+
+        [Test]
+        public void WidgetGridWithProjection()
+        {
+            var args = ToArgs($"--widget grid --projection hammer",
+                    MethodBase.GetCurrentMethod().Name);
+            Parse(args, cliParams =>
+            {
+                (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                Projector.Project(projectionParams);
+            });
+
+        }
+
+        //Analemma
+
+        [Test]
+        public void WidgetAnalemmaBasic()
+        {
+            var args = ToArgs($"--widget analemma",
+                    MethodBase.GetCurrentMethod().Name);
+            Parse(args, cliParams =>
+            {
+                (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                Projector.Project(projectionParams);
+            });
+
+        }
+
+        [Test]
+        public void WidgetAnalemmaSpacing()
+        {
+            var args = ToArgs($"--widget analemma --gridx 60",
+                    MethodBase.GetCurrentMethod().Name);
+            Parse(args, cliParams =>
+            {
+                (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                Projector.Project(projectionParams);
+            });
+
+        }
+
+        [Test]
+        public void WidgetAnalemmaColor()
+        {
+            var args = ToArgs($"--widget analemma --widgetcolor 0,255,255",
+                    MethodBase.GetCurrentMethod().Name);
+            Parse(args, cliParams =>
+            {
+                (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                Projector.Project(projectionParams);
+            });
+
+        }
+
+        [Test]
+        public void WidgetAnalemmaWithProjection()
+        {
+            var args = ToArgs($"--widget analemma --projection hammer",
+                    MethodBase.GetCurrentMethod().Name);
+            Parse(args, cliParams =>
+            {
+                (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                Projector.Project(projectionParams);
+            });
+
+        }
+
+        //TemporaryHours
+
+        [Test]
+        public void WidgetTemporaryHoursBasic()
+        {
+            var args = ToArgs($"--widget temporaryhours",
+                    MethodBase.GetCurrentMethod().Name);
+            Parse(args, cliParams =>
+            {
+                (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                Projector.Project(projectionParams);
+            });
+
+        }
+
+        [Test]
+        public void WidgetTemporaryHoursPosition()
+        {
+            var args = ToArgs($"--widget temporaryhours --wlat 60 --wlon 60",
+                    MethodBase.GetCurrentMethod().Name);
+            Parse(args, cliParams =>
+            {
+                (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                Projector.Project(projectionParams);
+            });
+
+        }
+
+        [Test]
+        public void WidgetTemporaryHoursColor()
+        {
+            var args = ToArgs($"--widget temporaryhours --widgetcolor 128,128,255",
+                    MethodBase.GetCurrentMethod().Name);
+            Parse(args, cliParams =>
+            {
+                (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                Projector.Project(projectionParams);
+            });
+
+        }
+
+        [Test]
+        public void WidgetTemporaryHoursWithProjection()
+        {
+            var args = ToArgs($"--widget temporaryhours --projection sinusoidal",
+                    MethodBase.GetCurrentMethod().Name);
+            Parse(args, cliParams =>
+            {
+                (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                Projector.Project(projectionParams);
+            });
+
+        }
+
+        //LocalHours
+
+        [Test]
+        public void WidgetLocalHoursBasic()
+        {
+            var args = ToArgs($"--widget localhours",
+                    MethodBase.GetCurrentMethod().Name);
+            Parse(args, cliParams =>
+            {
+                (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                Projector.Project(projectionParams);
+            });
+
+        }
+
+        [Test]
+        public void WidgetLocalHoursPosition()
+        {
+            var args = ToArgs($"--widget localhours --wlon 60",
+                    MethodBase.GetCurrentMethod().Name);
+            Parse(args, cliParams =>
+            {
+                (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                Projector.Project(projectionParams);
+            });
+
+        }
+
+        [Test]
+        public void WidgetLocalHoursColor()
+        {
+            var args = ToArgs($"--widget localhours --widgetcolor 128,128,255",
+                    MethodBase.GetCurrentMethod().Name);
+            Parse(args, cliParams =>
+            {
+                (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                Projector.Project(projectionParams);
+            });
+
+        }
+
+        [Test]
+        public void WidgetLocalHoursWithProjection()
+        {
+            var args = ToArgs($"--widget temporaryhours --projection orthographic",
+                    MethodBase.GetCurrentMethod().Name);
+            Parse(args, cliParams =>
+            {
+                (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                Projector.Project(projectionParams);
+            });
+
+        }
+
+        //Altitudes
+
+        [Test]
+        public void WidgetAltitudesBasic()
+        {
+            var args = ToArgs($"--widget altitudes",
+                    MethodBase.GetCurrentMethod().Name);
+            Parse(args, cliParams =>
+            {
+                (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                Projector.Project(projectionParams);
+            });
+
+        }
+
+        [Test]
+        public void WidgetAltitudesPosition()
+        {
+            var args = ToArgs($"--widget Altitudes --wlat 45 --wlon 45",
+                    MethodBase.GetCurrentMethod().Name);
+            Parse(args, cliParams =>
+            {
+                (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                Projector.Project(projectionParams);
+            });
+
+        }
+
+        [Test]
+        public void WidgetAltitudesColor()
+        {
+            var args = ToArgs($"--widget Altitudes --widgetcolor 128,255,128",
+                    MethodBase.GetCurrentMethod().Name);
+            Parse(args, cliParams =>
+            {
+                (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                Projector.Project(projectionParams);
+            });
+
+        }
+
+        [Test]
+        public void WidgetAltitudesWithProjection()
+        {
+            var args = ToArgs($"--widget temporaryhours --projection azimuthal",
+                    MethodBase.GetCurrentMethod().Name);
+            Parse(args, cliParams =>
+            {
+                (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                Projector.Project(projectionParams);
+            });
+
+        }
+
+        //Tropics
+
+        [Test]
+        public void WidgetTropicsBasic()
+        {
+            var args = ToArgs($"--widget Tropics",
+                    MethodBase.GetCurrentMethod().Name);
+            Parse(args, cliParams =>
+            {
+                (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                Projector.Project(projectionParams);
+            });
+
+        }
+
+        [Test]
+        public void WidgetTropicsColor()
+        {
+            var args = ToArgs($"--widget Tropics --widgetcolor 128,255,128",
+                    MethodBase.GetCurrentMethod().Name);
+            Parse(args, cliParams =>
+            {
+                (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                Projector.Project(projectionParams);
+            });
+
+        }
+
+        [Test]
+        public void WidgetTropicsWithProjection()
+        {
+            var args = ToArgs($"--widget temporaryhours --projection gnomonic",
+                    MethodBase.GetCurrentMethod().Name);
+            Parse(args, cliParams =>
+            {
+                (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                Projector.Project(projectionParams);
+            });
+
+        }
+
+        //Dateline
+
+        [Test]
+        public void WidgetDatelineBasic()
+        {
+            var args = ToArgs($"--widget Dateline",
+                    MethodBase.GetCurrentMethod().Name);
+            Parse(args, cliParams =>
+            {
+                (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                Projector.Project(projectionParams);
+            });
+
+        }
+
+        [Test]
+        public void WidgetDatelineDay()
+        {
+            var args = ToArgs($"--widget Dateline --wday 180",
+                    MethodBase.GetCurrentMethod().Name);
+            Parse(args, cliParams =>
+            {
+                (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                Projector.Project(projectionParams);
+            });
+
+        }
+
+        [Test]
+        public void WidgetDatelineColor()
+        {
+            var args = ToArgs($"--widget Dateline --widgetcolor 128,255,128",
+                    MethodBase.GetCurrentMethod().Name);
+            Parse(args, cliParams =>
+            {
+                (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                Projector.Project(projectionParams);
+            });
+
+        }
+
+        [Test]
+        public void WidgetDatelineWithProjection()
+        {
+            var args = ToArgs($"--widget Dateline --projection azimuthal",
+                    MethodBase.GetCurrentMethod().Name);
+            Parse(args, cliParams =>
+            {
+                (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                Projector.Project(projectionParams);
+            });
+
+        }
+
+        //Datetime
+
+
+        [Test]
+        public void WidgetDatetimeBasic()
+        {
+            var args = ToArgs($"--widget Datetime",
+                    MethodBase.GetCurrentMethod().Name);
+            Parse(args, cliParams =>
+            {
+                (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                Projector.Project(projectionParams);
+            });
+
+        }
+
+        [Test]
+        public void WidgetDatetimeDay()
+        {
+            var args = ToArgs($"--widget Datetime --wday 180",
+                    MethodBase.GetCurrentMethod().Name);
+            Parse(args, cliParams =>
+            {
+                (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                Projector.Project(projectionParams);
+            });
+
+        }
+
+        [Test]
+        public void WidgeDatetimeColor()
+        {
+            var args = ToArgs($"--widget Datetime --widgetcolor 128,255,128",
+                    MethodBase.GetCurrentMethod().Name);
+            Parse(args, cliParams =>
+            {
+                (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                Projector.Project(projectionParams);
+            });
+
+        }
+
+        [Test]
+        public void WidgetDatetimeWithProjection()
+        {
+            var args = ToArgs($"--widget Datetime --projection azimuthal",
+                    MethodBase.GetCurrentMethod().Name);
+            Parse(args, cliParams =>
+            {
+                (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                Projector.Project(projectionParams);
+            });
+
+        }
     }
 }

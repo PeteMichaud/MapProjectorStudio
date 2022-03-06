@@ -847,25 +847,6 @@ namespace MapProjectorCLI.Tests
             });
         }
 
-
-        [Test]
-        public void SetGridOffset()
-        {
-            var val = 10;
-            var args = ToArgs($"--gridoff {val}");
-            Parse(args, cliParams =>
-            {
-                Assert.AreEqual(val, cliParams.gridoff);
-            });
-
-            args = ToArgs($"");
-            Parse(args, cliParams =>
-            {
-                Assert.AreEqual(0, cliParams.gridoff);
-            });
-        }
-
-
         [Test]
         public void SetGridColor()
         {

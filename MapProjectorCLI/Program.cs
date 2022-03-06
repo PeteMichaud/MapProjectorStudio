@@ -133,7 +133,6 @@ namespace MapProjectorCLI
 
                 gridX = cliParams.gridx,
                 gridY = cliParams.gridy,
-                gridAngularOffset = cliParams.gridoff,
 
                 widgetLat = cliParams.widgetLat,
                 widgetLon = cliParams.widgetLon,

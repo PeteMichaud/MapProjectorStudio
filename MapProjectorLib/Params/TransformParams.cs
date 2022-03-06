@@ -23,7 +23,7 @@ namespace MapProjectorLib
         public double
             date = 0.0; //Day number in year. Relevant for the -sun option
 
-        public double gridAngularOffset = 0; //Angular Offset
+        //public double gridAngularOffset = 0; //Angular Offset
         public Rgb24 gridColor = new Rgb24(255, 255, 255);
 
         // Grid
@@ -122,8 +122,7 @@ namespace MapProjectorLib
     Grid: {24}
         X Spacing: {25}
         Y Spacing: {26}
-        Offset: {27}
-        Color: {28}
+        Color: {27}
 
 ",
                 tilt,
@@ -153,7 +152,6 @@ namespace MapProjectorLib
                 Widgets.HasFlag(MapWidget.Grid),
                 gridX,
                 gridY,
-                gridAngularOffset,
                 gridColor
             );
         }

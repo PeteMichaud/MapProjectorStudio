@@ -10,7 +10,6 @@ namespace MapProjectorLib
             var tParams = pParams.transformParams;
 
             var transform = Transform.GetTransform(pParams.TargetProjection);
-
             Image outImage;
 
             if (pParams.backImage == null)
@@ -45,7 +44,7 @@ namespace MapProjectorLib
                 {
                     transform.TransformImage(
                         pParams.srcImage, outImage, tParams);
-                    transform.DrawWidgets(outImage, tParams);
+                    WidgetRenderer.Render(outImage, tParams, transform);
                 }
 
                 if (pParams.loopParams.LoopCount > 1)

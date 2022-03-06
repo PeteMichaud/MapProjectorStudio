@@ -323,11 +323,6 @@ namespace MapProjectorCLI
         public int gridy { get; set; } = 0;
 
         [Option(
-            "gridoff", Default = 0,
-            HelpText = "Grid Angular Offset (use --widget grid)")]
-        public double gridoff { get; set; }
-
-        [Option(
             "gridcolor", Required = false,
             HelpText = "Grid line color R,G,B (0-255) (use --widget)")]
         public string _gridColorValues { get; set; }
