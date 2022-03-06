@@ -11,7 +11,7 @@ namespace MapProjectorLib.Projections
 
         protected override bool GetR(double phi, ref double r)
         {
-            if (phi > 0)
+            if (!ProjMath.AboutEqual(phi,0) && phi > 0)
             {
                 r = 1 / (2 * Math.Tan(phi));
                 return true;

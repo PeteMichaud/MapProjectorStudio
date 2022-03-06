@@ -178,10 +178,9 @@ namespace MapProjectorLib
             var eot = ProjMath.EquationOfTime(date) / (24 * 60 * 60);
             var apparentTime = time + eot; // AT = MT + EOT
             var lambda = -(2 * Math.PI * apparentTime);
-            double x = 0.0, y = 0.0;
-            transform.MapXY(image, tParams, phi, lambda, ref x, ref y);
-
-            image.PlotPoint(x, y, 1, tParams.widgetColor);
+            (var inBounds, var mappedPoint) = transform.MapXY(image, tParams, phi, lambda);
+            
+            if(inBounds) image.PlotPoint(mappedPoint.X, mappedPoint.Y, 1, tParams.widgetColor);
         }
     }
 }

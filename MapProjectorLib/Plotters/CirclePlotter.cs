@@ -15,10 +15,10 @@ namespace MapProjectorLib.Plotters
             Phi = 0;
         }
 
-        public override bool GetXY(double t, ref double x, ref double y)
+        public override (bool inBounds, PointD mappedPoint) GetXY(double progressAlongPlot)
         {
-            var x0 = Math.Cos(t);
-            var y0 = Math.Sin(t);
+            var x0 = Math.Cos(progressAlongPlot);
+            var y0 = Math.Sin(progressAlongPlot);
             double z0 = 0;
 
             RotateX(Phi, ref x0, ref y0, ref z0);
@@ -28,7 +28,7 @@ namespace MapProjectorLib.Plotters
             var phi0 = Math.Asin(z0);
             var lambda0 = Math.Atan2(y0, x0);
             return _transform.MapXY(
-                _image, _tParams, phi0, lambda0, ref x, ref y);
+                _image, _tParams, phi0, lambda0);
         }
 
         void RotateX(double theta, ref double x, ref double y, ref double z)

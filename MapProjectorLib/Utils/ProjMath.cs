@@ -10,7 +10,7 @@ namespace MapProjectorLib
         public const double PiOverTwo = Math.PI / 2.0;
         public const double OneOverTwoPi = 1.0 / (2.0 * Math.PI);
 
-        public const double SecsPerDay = 86400;
+        public const double SecondsPerDay = 86400;
 
         //
 
@@ -234,5 +234,12 @@ namespace MapProjectorLib
 
             return t0;
         }
+
+        const double epsilon = 1E-6;
+        public static bool AboutEqual(double d1, double d2)
+        {
+            return Math.Abs(d1 - d2) <= epsilon;
+        }
+
     }
 }

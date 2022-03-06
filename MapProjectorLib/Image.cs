@@ -64,13 +64,16 @@ namespace MapProjectorLib
             double t0, double t1,
             LinePlotter linePlotter,
             Rgb24 color,
-            int numInitialPoints)
+            int naiveLineResolution, 
+            int maxRecursiveDetailPerSegment = 10)
         {
-            var inc = (t1 - t0) / numInitialPoints;
-            for (var i = 0; i < numInitialPoints; i++)
-                PlotLineAux(
-                    t0 + i * inc, t0 + (i + 1) * inc,
-                    linePlotter, color, 10);
+            //if a segment is too distorted PlotLineSegment will try to
+            //split it up, which is why the initial line resolution is "naive"
+            var incr = (t1 - t0) / naiveLineResolution;
+            for (var i = 0; i < naiveLineResolution; i++)
+                PlotLineSegment(
+                    t0 + i * incr, t0 + (i + 1) * incr,
+                    linePlotter, color, maxRecursiveDetailPerSegment);
         }
 
         public void PlotPoint(double x, double y, int r, Rgb24 color)
@@ -88,104 +91,200 @@ namespace MapProjectorLib
             _image[x, y] = color;
         }
 
-        void DrawLine(int x0, int y0, int x1, int y1, Rgb24 color)
+        void DrawLine(int xStart, int yStart, int xEnd, int yEnd, Rgb24 color)
         {
-            var nx = Math.Abs(x1 - x0) + 1;
-            var ny = Math.Abs(y1 - y0) + 1;
-
-            if (ny > nx)
+            foreach(var pt in GetPointsOnLine(xStart, yStart, xEnd, yEnd))
             {
-                var xIncr = x0 > x1 ? -1 : 1;
-                var yIncr = y0 > y1 ? -1 : 1;
-                var x = x0;
-                var c = 0;
-
-                for (var y = y0; y != y1 + yIncr; y += yIncr)
-                {
-                    SafeSetPixel(x, y, color);
-
-                    if (xIncr == 1 && x > x1 || xIncr == -1 && x < x1)
-                        throw new Exception("foo");
-
-                    c += nx;
-
-                    if (c >= ny)
-                    {
-                        c -= ny;
-                        x += xIncr;
-                    }
-                }
-            } else
-            {
-                var xIncr = x0 > x1 ? -1 : 1;
-                var yIncr = y0 > y1 ? -1 : 1;
-                var y = y0;
-                var c = 0;
-
-                for (var x = x0; x != x1 + xIncr; x += xIncr)
-                {
-                    SafeSetPixel(x, y, color);
-
-                    //I'm not sure this can happen. Seems like it maybe can't, but the clause is here so I'm afraid to remove it
-                    if (yIncr == 1 && y > y1 || yIncr == -1 && y < y1)
-                        throw new Exception("foo");
-
-                    c += ny;
-
-                    if (c >= nx)
-                    {
-                        c -= nx;
-                        y += yIncr;
-                    }
-                }
+                SafeSetPixel(pt.X, pt.Y, color);
             }
         }
 
-        void PlotLineAux(
-            double t0, double t1,
+        // Bresenham's Line Algorithm
+        internal static System.Collections.Generic.IEnumerable<Point> GetPointsOnLine(int x0, int y0, int x1, int y1)
+        {
+            bool steep = Math.Abs(y1 - y0) > Math.Abs(x1 - x0);
+            if (steep)
+            {
+                int t;
+                t = x0; // swap x0 and y0
+                x0 = y0;
+                y0 = t;
+                t = x1; // swap x1 and y1
+                x1 = y1;
+                y1 = t;
+            }
+
+            if (x0 > x1)
+            {
+                int t;
+                t = x0; // swap x0 and x1
+                x0 = x1;
+                x1 = t;
+                t = y0; // swap y0 and y1
+                y0 = y1;
+                y1 = t;
+            }
+            
+            int dx = x1 - x0;
+            int dy = Math.Abs(y1 - y0);
+            int error = dx / 2;
+            int ystep = (y0 < y1) ? 1 : -1;
+            int y = y0;
+            for (int x = x0; x <= x1; x++)
+            {
+                yield return new Point((steep ? y : x), (steep ? x : y));
+                error -= dy;
+                if (error < 0)
+                {
+                    y += ystep;
+                    error += dx;
+                }
+            }
+            yield break;
+        }
+
+        // Sanity check for debugging purposes.
+        // PlotLineSegment checks the limit before recursing so when the program runs in
+        // production it never passes the recursion limit. This check is ensure a future
+        // bug can't be introduced, but it also compiles the check out of the hot loop
+        // for performance reasons
+        [System.Diagnostics.Conditional("DEBUG")]
+        void DebugCheckRecursionLimit(int recursionLimit)
+        {
+            if (recursionLimit < 0) throw new Exception("Recursion too deep, check recursionLimit before calling");
+        }
+
+        void PlotLineSegment(
+            double progressAlongPlotStart, double progressAlongPlotEnd,
             LinePlotter linePlotter,
             Rgb24 color,
-            int depth)
+            int recursionLimit)
         {
-            if (depth == 0) return;
+            DebugCheckRecursionLimit(recursionLimit);
 
-            var width = _image.Width;
-            var height = _image.Height;
-
-            double x0 = 0.0, y0 = 0.0;
-            double x1 = 0.0, y1 = 0.0;
+            void SplitSegment()
+            {
+                var progressAlongPlotMid = (progressAlongPlotStart + progressAlongPlotEnd) / 2;
+                PlotLineSegment(progressAlongPlotStart, progressAlongPlotMid, linePlotter, color, recursionLimit - 1);
+                PlotLineSegment(progressAlongPlotMid, progressAlongPlotEnd, linePlotter, color, recursionLimit - 1);
+            }
 
             // The bools tell us if the inverse mapping is even defined
-            var defined0 = linePlotter.GetXY(t0, ref x0, ref y0);
-            var defined1 = linePlotter.GetXY(t1, ref x1, ref y1);
+            (var startInBounds, var mappedStart) = linePlotter.GetXY(progressAlongPlotStart);
+            (var endInBounds, var mappedEnd) = linePlotter.GetXY(progressAlongPlotEnd);
+
 
             // This really ought to take note of the curvature.
-            if (defined0 && defined1 &&
-                Math.Abs(x0 - x1) + Math.Abs(y0 - y1) < 10)
-            {
-                var ix0 = (int) x0;
-                var iy0 = (int) y0;
-                var ix1 = (int) x1;
-                var iy1 = (int) y1;
-                DrawLine(ix0, iy0, ix1, iy1, color);
-            } else
-            {
-                var margin = 50;
-                // Consider whether to recurse
-                // If both points are off to one side or above or below the image,
-                // don't recurse, we assume that the line doesn't pass through.
-                long sidex0 = x0 > width + margin ? 1 : x0 < -margin ? -1 : 0;
-                long sidey0 = y0 > height + margin ? 1 : y0 < -margin ? -1 : 0;
-                long sidex1 = x1 > width + margin ? 1 : x1 < -margin ? -1 : 0;
-                long sidey1 = y1 > height + margin ? 1 : y1 < -margin ? 1 : 0;
 
-                if ((defined0 || defined1) &&
-                    sidex0 * sidex1 + sidey0 * sidey1 <= 0)
+            //right now if one of the points isn't defined, it sometimes just tries to place it anyway,
+            //relying on the pixel placement check to bail out if it's not legal, but that pixel placement
+            //check is whack. It's multiple branches right at the center of the hot loop, plus it's just
+            //shitty logic not to figure out where the real line should be.
+
+            if (startInBounds && endInBounds)
+            {
+                //todo: make parameter or vary by resolution
+                var tooLongThreshhold = 10;
+                //if the line is too long it'll make a big, ugly straight line where a curve should be
+                var isTooLong = Math.Abs(mappedStart.X - mappedEnd.X) + Math.Abs(mappedStart.Y - mappedEnd.Y) >= tooLongThreshhold;
+                if (isTooLong && recursionLimit > 0)
                 {
-                    var t2 = (t0 + t1) / 2;
-                    PlotLineAux(0, t2, linePlotter, color, depth - 1);
-                    PlotLineAux(t2, t1, linePlotter, color, depth - 1);
+                    SplitSegment();
+                } 
+                else //the length is fine, just draw the line
+                {
+                    DrawLine((int)mappedStart.X, (int)mappedStart.Y, (int)mappedEnd.X, (int)mappedEnd.Y, color);
                 }
+            } 
+            else // one or both points are outside the map
+            {
+                //we have one point in bounds, so we're going to keep trying to split this segment in half
+                //until we find a segment that's fully contained in the image
+
+                //I treat this recursion differently here because the recursion limit is about curvature detail,
+                //but this is a different issue. I still can't leave it unbound because there's a chance
+                //that no line will be legal, but 
+
+                var truncationLimit = 10;
+
+                if(startInBounds)
+                {
+                    if (recursionLimit > 0)
+                    {
+                        var progressAlongPlotMid = (progressAlongPlotStart + progressAlongPlotEnd) / 2;
+                        PlotLineSegment(progressAlongPlotStart, progressAlongPlotMid, linePlotter, color, truncationLimit);
+                    }
+                    //else we can't split any more, so give up
+                }
+                else if (endInBounds)
+                {
+                    if (recursionLimit > 0)
+                    {
+                        var progressAlongPlotMid = (progressAlongPlotStart + progressAlongPlotEnd) / 2;
+                        PlotLineSegment(progressAlongPlotMid, progressAlongPlotEnd, linePlotter, color, truncationLimit);
+                    }
+                    //else we can't split any more, so give up
+                } 
+                //else //neither point is in bounds
+                //{
+                //    //if we had defined out of bounds points we could try to figure
+                //    //out if any portion of the line overlaps with the image, and then 
+                //    //draw that line, but we don't have any defined points, so give up
+                //}
+
+                ////if only one point is outside
+                //if (startInBounds || endInBounds)
+                //{
+
+                //    //the following code is wrong
+                //    // whichever points are out of bounds have mapped points that are not defined
+                //    // this code acts like they are defined, but the definitions are beyond the bounds of the image
+
+                //    var width = _image.Width;
+                //    var height = _image.Height;
+
+                //    //todo: probably should make this scale with image size?
+                //    var margin = 50;
+
+                //    // Consider whether to recurse
+                //    // If both points are off to one side or above or below the image,
+                //    // don't recurse, we assume that the line doesn't pass through.
+                //    long sidex0 = mappedStart.X > width + margin
+                //        ? 1
+                //        : mappedStart.X < -margin
+                //            ? -1
+                //            : 0;
+                //    long sidey0 = mappedStart.Y > height + margin
+                //        ? 1
+                //        : mappedStart.Y < -margin
+                //            ? -1
+                //            : 0;
+                //    long sidex1 = mappedEnd.X > width + margin
+                //        ? 1
+                //        : mappedEnd.X < -margin
+                //            ? -1
+                //            : 0;
+                //    long sidey1 = mappedEnd.Y > height + margin
+                //        ? 1
+                //        : mappedEnd.Y < -margin
+                //            ? 1
+                //            : 0;
+
+                //    // one of the points is inside the image,
+                //    // and we have an educated guess that some of the line is visible 
+                //    if (sidex0 * sidex1 + sidey0 * sidey1 <= 0)
+                //    {
+                //        //if we're not at the recursion limit, then try to draw a better line
+                //        if (recursionLimit > 0)
+                //        {
+                //            SplitSegment();
+                //        }
+                //        else //otherwise draw the dumb line and let the out of bounds pixel writes fail
+                //        {
+                //            DrawLine((int)mappedStart.X, (int)mappedStart.Y, (int)mappedEnd.X, (int)mappedEnd.Y, color);
+                //        }
+                //    }
+                //} //else both points are outside
             }
         }
 
@@ -213,25 +312,5 @@ namespace MapProjectorLib
             }
         }
 
-        //public void Map(ImageMapper f, double xOffset, double yOffset)
-        //{
-        //    var height = _image.Height;
-        //    var width = _image.Width;
-
-        //    double hh = height / 2;
-        //    double hw = width / 2;
-        //    var scale = f.Scale(width, height);
-
-        //    for (var y = 0; y < height; y++)
-        //    {
-        //        var y0 = (hh - y) * scale + yOffset;
-        //        f.InitY(y0);
-        //        for (var x = 0; x < width; x++)
-        //        {
-        //            var x0 = (x - hw) * scale + xOffset;
-        //            SafeSetPixel(x, y, f.Map(x0, y0));
-        //        }
-        //    }
-        //}
     }
 }

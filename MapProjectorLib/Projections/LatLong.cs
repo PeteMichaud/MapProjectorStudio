@@ -2,8 +2,7 @@
 {
     internal class LatLong : CylindricalBase
     {
-        //private double k;
-
+        
         protected override double GetMaxHeight(TransformParams tParams)
         {
             return ProjMath.PiOverTwo;
@@ -19,12 +18,10 @@
             return x;
         }
 
-        protected override bool GetXY(
-            double phi, double lambda, ref double x, ref double y)
+        protected override (bool inBounds, PointD mappedPoint) GetXY(
+            double phi, double lambda)
         {
-            x = lambda;
-            y = phi;
-            return true;
+            return (true, new PointD(lambda,phi));
         }
     }
 }

@@ -2,6 +2,6 @@
 {
     public abstract class LinePlotter
     {
-        public abstract bool GetXY(double t, ref double x, ref double y);
+        public abstract (bool inBounds, PointD mappedPoint) GetXY(double progressAlongPlot);
     }
 }

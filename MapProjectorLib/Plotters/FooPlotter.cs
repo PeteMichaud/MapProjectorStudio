@@ -2,6 +2,7 @@
 
 namespace MapProjectorLib.Plotters
 {
+    //todo: what should this actually be called?
     internal class FooPlotter : TransformPlotter
     {
         public double Lambda;
@@ -17,11 +18,11 @@ namespace MapProjectorLib.Plotters
             Phi = 0;
         }
 
-        public override bool GetXY(double t, ref double x, ref double y)
+        public override (bool inBounds, PointD mappedPoint) GetXY(double progressAlongPlot)
         {
             // Angle up from the pole
-            var x0 = Math.Cos(t) * Math.Cos(Theta);
-            var y0 = Math.Sin(t) * Math.Cos(Theta);
+            var x0 = Math.Cos(progressAlongPlot) * Math.Cos(Theta);
+            var y0 = Math.Sin(progressAlongPlot) * Math.Cos(Theta);
             var z0 = Math.Sin(Theta);
 
             // Now rotate about y axis
@@ -31,11 +32,11 @@ namespace MapProjectorLib.Plotters
             var phi0 = Math.Asin(z1);
 
             if (phi0 < -ProjMath.Inclination || phi0 > ProjMath.Inclination)
-                return false;
+                return (false, PointD.None);
 
             var lambda0 = Math.Atan2(y1, x1);
             return _transform.MapXY(
-                _image, _tParams, phi0, lambda0 + Lambda, ref x, ref y);
+                _image, _tParams, phi0, lambda0 + Lambda);
         }
     }
 }

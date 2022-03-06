@@ -11,16 +11,16 @@
             Time = 0;
         }
 
-        public override bool GetXY(double t, ref double x, ref double y)
+        public override (bool inBounds, PointD mappedPoint) GetXY(double progressAlongPlot)
         {
             // AT = MT + EOT
             // lambda = -AT (measure longitude to the east)
-            var eot = ProjMath.TwoPi * ProjMath.EquationOfTime(t) /
-                      (24 * 60 * 60);
-            var delta = ProjMath.SunDec(t);
+            var eot = ProjMath.TwoPi * ProjMath.EquationOfTime(progressAlongPlot) 
+                        / ProjMath.SecondsPerDay;
+            var delta = ProjMath.SunDec(progressAlongPlot); 
 
             return _transform.MapXY(
-                _image, _tParams, delta, -(Time + eot), ref x, ref y);
+                _image, _tParams, delta, -(Time + eot));
         }
     }
 }

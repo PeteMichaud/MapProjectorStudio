@@ -12,8 +12,8 @@ namespace MapProjectorLib.Projections
         double _phi0;
 
         // Abstract
-        protected abstract bool GetXY(
-            double phi, double lambda, ref double x, ref double y);
+        protected abstract (bool inBounds, PointD mappedPoint) GetXY(
+            double phi, double lambda);
 
         protected abstract double GetLat(double y);
         protected abstract double GetLong(double x);
@@ -55,13 +55,12 @@ namespace MapProjectorLib.Projections
             return false;
         }
 
-        protected override bool ProjectInv(
+        protected override (bool inBounds, PointD mappedPoint) ProjectInv(
             TransformParams tParams,
-            double phi, double lambda,
-            ref double x, ref double y)
+            double phi, double lambda)
         {
             transformMatrixInv.ApplyLatLong(ref phi, ref lambda);
-            return GetXY(phi, lambda, ref x, ref y);
+            return GetXY(phi, lambda);
         }
 
         public override (int w, int h) AdjustSize(

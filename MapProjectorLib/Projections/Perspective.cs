@@ -164,9 +164,9 @@ namespace MapProjectorLib.Projections
 
         }
 
-        protected override bool ProjectInv(
+        protected override (bool inBounds, PointD mappedPoint) ProjectInv(
             TransformParams tParams,
-            double phi, double lambda, ref double x, ref double y)
+            double phi, double lambda)
         {
             // Find where phi, lambda project to on the ellipsoid
             double x0, y0, z0;
@@ -207,15 +207,15 @@ namespace MapProjectorLib.Projections
             {
                 // Project from (vx, vy, vz) through (x0,y0,z0) to (-1, y, z)
                 var t = (1 + x0) / (x0 - viewX);
-                x = t * viewY + (1 - t) * y0; // Note change of axes
-                y = t * viewZ + (1 - t) * z0;
+                var x = t * viewY + (1 - t) * y0; // Note change of axes
+                var y = t * viewZ + (1 - t) * z0;
                 x = (x - viewY) * invScaleFactor;
                 y = (y - viewZ) * invScaleFactor;
 
-                return true;
+                return (true, new PointD(x,y));
             }
 
-            return false;
+            return (false, PointD.None);
         }
 
         protected override Rgb24 AdjustOutputColor(

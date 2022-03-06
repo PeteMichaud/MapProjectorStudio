@@ -28,12 +28,13 @@ namespace MapProjectorLib.Projections
             return x;
         }
 
-        protected override bool GetXY(
-            double phi, double lambda, ref double x, ref double y)
+        protected override (bool inBounds, PointD mappedPoint) GetXY(
+            double phi, double lambda)
         {
-            x = lambda;
-            y = Math.Sin(phi) / _k;
-            return true;
+            return (true, new PointD(
+                lambda,
+                Math.Sin(phi) / _k
+                ));
         }
     }
 }

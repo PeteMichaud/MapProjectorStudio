@@ -65,10 +65,9 @@ namespace MapProjectorLib
             ref double x1, ref double y1, ref double z1,
             ref double phi, ref double lambda);
 
-        protected abstract bool ProjectInv(
+        protected abstract (bool inBounds, PointD mappedPoint) ProjectInv(
             TransformParams tParams,
-            double phi, double lambda,
-            ref double x, ref double y);
+            double phi, double lambda);
 
         // Virtual Methods
 
@@ -114,8 +113,8 @@ namespace MapProjectorLib
         {
             if (tParams.radius == 0) return true;
 
-            return Distance(phi, lambda, tParams.lat, tParams.lon) <=
-                   tParams.radius;
+            return Distance(phi, lambda, tParams.lat, tParams.lon) 
+                <= tParams.radius;
         }
 
         static (double x, double y) ApplyRotation(double r, double x, double y)
@@ -211,18 +210,23 @@ namespace MapProjectorLib
 
             // Now scan across the output image
             for (var oy = 0; oy < outHeight; oy++)
-            for (var ox = 0; ox < outWidth; ox++)
             {
-                // Compute lat and long
-                var phi = (yOrigin - oy - 0.5) * Math.PI / outHeight;
-                var lambda = (ox + 0.5 - xOrigin) * ProjMath.TwoPi / outWidth;
-
-                // Compute the scaled x,y coordinates for <phi,lambda>
-                double x = 0.0, y = 0.0;
-                if (!IsPointWithinRadius(tParams, phi, lambda) ||
-                    !ProjectInv(tParams, phi, lambda, ref x, ref y) ||
-                    !SetDataInv(inImage, outImage, tParams, ox, oy, x, y))
+                for (var ox = 0; ox < outWidth; ox++)
                 {
+                    // Compute lat and long
+                    var phi = (yOrigin - oy - 0.5) * Math.PI / outHeight;
+                    var lambda = (ox + 0.5 - xOrigin) * ProjMath.TwoPi / outWidth;
+
+                    if (!IsPointWithinRadius(tParams, phi, lambda)) continue;
+
+                    // Compute the scaled x,y coordinates for <phi,lambda>
+                    (var inverseProjectionInBounds, var projectedPoint) =
+                        ProjectInv(tParams, phi, lambda);
+
+                    if (inverseProjectionInBounds)
+                    {
+                        SetDataInv(inImage, outImage, tParams, ox, oy, projectedPoint.X, projectedPoint.Y);
+                    }
                 }
             }
         }
@@ -264,38 +268,41 @@ namespace MapProjectorLib
             return true;
         }
 
-        public bool MapXY(
+        //Map phi,lambda (lat,long) to x,y image coords
+        internal (bool inBounds, PointD mappedPoint) MapXY(
             Image outImage,
             TransformParams tParams,
-            double phi, double lambda,
-            ref double x, ref double y)
+            double phi, double lambda)
         {
-            // Set x and y to where phi and lambda are mapped to
-            // x, y are in image coordinates
-            // Get projection coordinates for x and y
-            if (IsPointWithinRadius(tParams, phi, lambda) &&
-                ProjectInv(tParams, phi, lambda, ref x, ref y))
+            
+            if (!IsPointWithinRadius(tParams, phi, lambda)) return (false, PointD.None);
+
+            // Get projection coordinates for x and y, if any exist
+            (var mappingWithinImageBounds, var mappedPoint) = ProjectInv(tParams, phi, lambda);
+
+            if (!mappingWithinImageBounds) return (false, PointD.None);
+
+            // Now x and y are in 2pi scale
+            var outImgWidth = outImage.Width;
+            var outImgHeight = outImage.Height;
+
+            var xCenter = 0.5 * outImgWidth;
+            var yCenter = 0.5 * outImgHeight;
+            var scaleFactor = BasicScale(outImgWidth, outImgHeight) /
+                                tParams.scale;
+
+            var x = mappedPoint.X;
+            var y = mappedPoint.Y;
+
+            if (tParams.rotate != 0)
             {
-                // Now x and y are in 2pi scale
-                var outImgWidth = outImage.Width;
-                var outImgHeight = outImage.Height;
-
-                var xOrigin = 0.5 * outImgWidth;
-                var yOrigin = 0.5 * outImgHeight;
-                var scaleFactor = BasicScale(outImgWidth, outImgHeight) /
-                                  tParams.scale;
-
-                if (tParams.rotate != 0)
-                {
-                       (x, y) = ApplyRotation(tParams.rotate, x, y);
-                }
-                x = xOrigin + (x - tParams.xOffset) / scaleFactor;
-                y = yOrigin + (y - tParams.yOffset) / -scaleFactor;
-
-                return true;
+                    (x, y) = ApplyRotation(tParams.rotate, x, y);
             }
 
-            return false;
+            x = xCenter + (x - tParams.xOffset) / scaleFactor;
+            y = yCenter + (y - tParams.yOffset) / -scaleFactor;
+
+            return (true, new PointD(x,y));
         }
 
         // Apply matrix to phi, lambda, and put the resulting

@@ -53,10 +53,9 @@ namespace MapProjectorLib.Projections
             return false;
         }
 
-        protected override bool ProjectInv(
+        protected override (bool inBounds, PointD mappedPoint) ProjectInv(
             TransformParams tParams,
-            double phi, double lambda,
-            ref double x, ref double y)
+            double phi, double lambda)
         {
             // Set x and y to where phi and lambda are mapped to
             // x, y are in image coordinates
@@ -66,13 +65,13 @@ namespace MapProjectorLib.Projections
             var r = 0.0;
             if (GetR(phi, ref r))
             {
-                x = (r + tParams.conicr) * Math.Sin(lambda / tParams.conic);
-                y = -(r + tParams.conicr) * Math.Cos(lambda / tParams.conic);
+                var x = (r + tParams.conicr) * Math.Sin(lambda / tParams.conic);
+                var y = -(r + tParams.conicr) * Math.Cos(lambda / tParams.conic);
 
-                return true;
+                return (true, new PointD(x,y));
             }
 
-            return false;
+            return (false, PointD.None);
         }
     }
 }

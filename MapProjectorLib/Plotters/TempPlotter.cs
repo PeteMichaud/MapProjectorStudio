@@ -18,15 +18,15 @@ namespace MapProjectorLib.Plotters
             Lambda = 0;
         }
 
-        // t is the solar declination
+        // delta is the solar declination
         // phi,lambda is origin
-        public override bool GetXY(double delta, ref double x, ref double y)
+        public override (bool inBounds, PointD mappedPoint) GetXY(double delta)
         {
             // time/angle between sunrise and noon and noon and sunset
             var tau = Math.Acos(-Math.Tan(Phi) * Math.Tan(delta));
             var h = tau * (Time - 12) / 6.0 + Lambda;
 
-            return _transform.MapXY(_image, _tParams, delta, h, ref x, ref y);
+            return _transform.MapXY(_image, _tParams, delta, h);
         }
     }
 }

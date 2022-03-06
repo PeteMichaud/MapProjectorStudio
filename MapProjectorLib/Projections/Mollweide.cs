@@ -57,8 +57,8 @@ namespace MapProjectorLib.Projections
             return _m * x;
         }
 
-        protected override bool GetXY(
-            double phi, double lambda, ref double x, ref double y)
+        protected override (bool inBounds, PointD mappedPoint) GetXY(
+            double phi, double lambda)
         {
             double ProjectionEquation(double tProjEq)
             {
@@ -70,12 +70,12 @@ namespace MapProjectorLib.Projections
             if (ProjMath.FindRoot(
                 -Math.PI / 2, Math.PI / 2, 1e-5, ref t, ProjectionEquation))
             {
-                y = Math.Sin(t) / _a;
-                x = lambda * Math.Cos(t);
-                return true;
+                var y = Math.Sin(t) / _a;
+                var x = lambda * Math.Cos(t);
+                return (true, new PointD(x,y));
             }
 
-            return false;
+            return (false, PointD.None);
         }
     }
 }

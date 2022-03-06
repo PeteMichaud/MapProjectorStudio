@@ -28,13 +28,14 @@ namespace MapProjectorLib.Projections
             return false;
         }
 
-        protected override bool ProjectInvSimple(
-            double phi, double lambda, ref double x, ref double y)
+        protected override (bool inBounds, PointD mappedPoint) ProjectInvSimple(
+            double phi, double lambda)
         {
             var z = Math.Sqrt(1 + Math.Cos(phi) * Math.Cos(lambda / 2));
-            x = Math.Cos(phi) * Math.Sin(lambda / 2) / z;
-            y = Math.Sin(phi) / (2 * z);
-            return true;
+            var x = Math.Cos(phi) * Math.Sin(lambda / 2) / z;
+            var y = Math.Sin(phi) / (2 * z);
+
+            return (true, new PointD(x,y));
         }
     }
 }

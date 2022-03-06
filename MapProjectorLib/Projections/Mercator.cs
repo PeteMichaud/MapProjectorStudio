@@ -9,6 +9,7 @@ namespace MapProjectorLib.Projections
             var k = Math.Exp(Math.Abs(y));
             var phi = Math.Acos(2 * k / (k * k + 1));
             if (y < 0) phi = -phi;
+
             return phi;
         }
 
@@ -17,14 +18,15 @@ namespace MapProjectorLib.Projections
             return x;
         }
 
-        protected override bool GetXY(
-            double phi, double lambda, ref double x, ref double y)
+        protected override (bool inBounds, PointD mappedPoint) GetXY(
+            double phi, double lambda)
         {
-            x = lambda;
-            y = Math.Log(
+            var x = lambda;
+            var y = Math.Log(
                 (1 + Math.Sin(Math.Abs(phi))) / Math.Cos(Math.Abs(phi)));
             if (phi < 0) y = -y;
-            return true;
+
+            return (true, new PointD(x,y));
         }
     }
 }

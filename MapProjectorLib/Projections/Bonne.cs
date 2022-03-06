@@ -47,9 +47,12 @@ namespace MapProjectorLib.Projections
             return false;
         }
 
-        protected override bool ProjectInvSimple(
-            double phi, double lambda, ref double x, ref double y)
+        protected override (bool inBounds, PointD mappedPoint) ProjectInvSimple(
+            double phi, double lambda)
         {
+            double x;
+            double y;
+
             if (_p == 0.0)
             {
                 x = lambda * Math.Cos(phi);
@@ -62,7 +65,7 @@ namespace MapProjectorLib.Projections
                 y = _cotp - rho * Math.Cos(e);
             }
 
-            return true;
+            return (true, new PointD(x,y));
         }
     }
 }

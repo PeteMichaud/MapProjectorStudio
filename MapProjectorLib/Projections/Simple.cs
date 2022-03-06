@@ -6,9 +6,8 @@
             double x, double y,
             ref double phi, ref double lambda);
 
-        protected abstract bool ProjectInvSimple(
-            double phi, double lambda,
-            ref double x, ref double y);
+        protected abstract (bool inBounds, PointD mappedPoint) ProjectInvSimple(
+            double phi, double lambda);
 
         public override bool Project(
             TransformParams tParams,
@@ -21,12 +20,12 @@
             return result;
         }
 
-        protected override bool ProjectInv(
+        protected override (bool inBounds, PointD mappedPoint) ProjectInv(
             TransformParams tParams,
-            double phi, double lambda, ref double x, ref double y)
+            double phi, double lambda)
         {
             transformMatrixInv.ApplyLatLong(ref phi, ref lambda);
-            return ProjectInvSimple(phi, lambda, ref x, ref y);
+            return ProjectInvSimple(phi, lambda);
         }
     }
 }

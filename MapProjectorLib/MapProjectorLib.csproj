@@ -74,6 +74,7 @@
     <Compile Include="Projections\Perspective.cs" />
     <Compile Include="Projections\Rectilinear.cs" />
     <Compile Include="Projections\Stereographic.cs" />
+    <Compile Include="Utils\Line.cs" />
     <Compile Include="Utils\Matrix3.cs" />
     <Compile Include="Plotters\AnalemmaPlotter.cs" />
     <Compile Include="Plotters\FooPlotter.cs" />
@@ -91,6 +92,8 @@
     <Compile Include="Projections\Simple.cs" />
     <Compile Include="Projections\Sinusoidal.cs" />
     <Compile Include="Projections\Sinusoidal2.cs" />
+    <Compile Include="Utils\PointD.cs" />
+    <Compile Include="Utils\Point.cs" />
     <Compile Include="Utils\ProjMath.cs" />
     <Compile Include="Projections\PolarBase.cs" />
     <Compile Include="Transform.cs" />
@@ -98,6 +101,7 @@
     <Compile Include="Enums\MapProjection.cs" />
     <Compile Include="Enums\RotationAxis.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\Rectangle.cs" />
     <Compile Include="WidgetRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
