@@ -97,7 +97,7 @@ namespace MapProjectorLib
         static void DrawAltitudes(
             Image image, TransformParams tParams, Transform transform)
         {
-            var fooPlotter = new AltitudesPlotter(image, tParams, transform)
+            var altitudesPlotter = new AltitudesPlotter(image, tParams, transform)
             {
                 Lambda = tParams.widgetLon,
                 Phi = tParams.widgetLat
@@ -105,9 +105,9 @@ namespace MapProjectorLib
 
             for (var i = 10; i <= 80; i += 10)
             {
-                fooPlotter.Theta = ProjMath.ToRadians(i);
+                altitudesPlotter.Theta = ProjMath.ToRadians(i);
                 image.PlotLine(
-                    0, ProjMath.TwoPi, fooPlotter, tParams.widgetColor, 16);
+                    0, ProjMath.TwoPi, altitudesPlotter, tParams.widgetColor, 16);
             }
         }
 
@@ -180,6 +180,23 @@ namespace MapProjectorLib
             (var inBounds, var mappedPoint) = transform.MapXY(image, tParams, phi, lambda);
             
             if(inBounds) image.PlotPoint(mappedPoint.X, mappedPoint.Y, 1, tParams.widgetColor);
+        }
+    }
+
+    static void Drawindicatrix(
+    Image image, TransformParams tParams, Transform transform)
+    {
+        var fooPlotter = new AltitudesPlotter(image, tParams, transform)
+        {
+            Lambda = tParams.widgetLon,
+            Phi = tParams.widgetLat
+        };
+
+        for (var i = 10; i <= 80; i += 10)
+        {
+            fooPlotter.Theta = ProjMath.ToRadians(i);
+            image.PlotLine(
+                0, ProjMath.TwoPi, fooPlotter, tParams.widgetColor, 16);
         }
     }
 }
