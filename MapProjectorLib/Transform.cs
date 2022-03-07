@@ -130,18 +130,15 @@ namespace MapProjectorLib
             TransformParams tParams)
         {
             // precomputed values for the hot loop
-            var imgWidth = inImage.Width;
-            var imgHeight = inImage.Height;
-            var outWidth = outImage.Width;
-            var outHeight = outImage.Height;
-            var xOrigin = 0.5 * outWidth;
-            var yOrigin = 0.5 * outHeight;
-            var halfWidth = imgWidth * 0.5;
-            var halfHeight = imgHeight * 0.5;
-            var scaledWidth = imgWidth * ProjMath.OneOverTwoPi;
-            var scaledHeight = imgHeight * ProjMath.OneOverPi;
+            var xOrigin = 0.5 * outImage.Width;
+            var yOrigin = 0.5 * outImage.Height;
+            var halfWidth = inImage.Width * 0.5;
+            var halfHeight = inImage.Height * 0.5;
+            var scaledWidth = inImage.Width * ProjMath.OneOverTwoPi;
+            var scaledHeight = inImage.Height * ProjMath.OneOverPi;
+
             // Scale so that half width is 1
-            var scaleFactor = BasicScale(outWidth, outHeight) / tParams.scale;
+            var scaleFactor = BasicScale(outImage.Width, outImage.Height) / tParams.scale;
             //
 
             outImage.ProcessPixelRows(outAccessor =>
@@ -181,12 +178,12 @@ namespace MapProjectorLib
                             // Use unsigned so we don't have to test for negative indices
                             var scaledX = (int)Math.Floor(halfWidth + lambda * scaledWidth);
                             // Clamp in case of rounding errors
-                            if (scaledX >= imgWidth) scaledX = 0;
+                            if (scaledX >= inImage.Width) scaledX = 0;
 
                             // Use unsigned so we don't have to test for negative indices
 
                             var scaledY = (int)Math.Floor(halfHeight - phi * scaledHeight);
-                            if (scaledY >= imgHeight) scaledY = imgHeight - 1;
+                            if (scaledY >= inImage.Height) scaledY = inImage.Height - 1;
 
                             var outColor = AdjustOutputColor(
                                 inImage[scaledX, scaledY], x0, y0, z0, tParams);
