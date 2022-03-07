@@ -329,8 +329,5 @@ namespace MapProjectorLib
             return d;
         }
 
-        // Widgets
-
-
     }
 }
