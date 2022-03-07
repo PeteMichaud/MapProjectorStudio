@@ -7,6 +7,7 @@ using CommandLine.Text;
 using SixLabors.ImageSharp.PixelFormats;
 using System.Reflection;
 using System.IO;
+using System.Diagnostics;
 namespace MapProjectorCLI
 {
     public class Program
@@ -14,15 +15,24 @@ namespace MapProjectorCLI
         static void Main(string[] args)
         {
             var parseErrors = new List<Error>();
-
+            Console.Write("Loading... ");
             var result = CLIParams.Parse(args).WithParsed(cliParams =>
             {
                 (var success, var pParams) = ProcessParams(cliParams);
                 if (success)
                 {
                     //Console.Write(pParams.ToString());
+
+                    Console.WriteLine("Loaded!");
+                    Console.WriteLine("Processing...");
+
+                    Stopwatch timer = new Stopwatch();
+                    timer.Start();
+
                     Projector.Project(pParams);
-                    Console.WriteLine($"Complete! Check {pParams.outImageFileName} for results.");
+
+                    timer.Stop();
+                    Console.WriteLine($"Completed in {timer.Elapsed}s!\nCheck {pParams.outImageFileName} for results.");
                 }
                 else
                 {
