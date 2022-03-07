@@ -4,7 +4,7 @@ using MapProjectorLib;
 
 namespace MapProjectorCLI
 {
-    internal class CLIParams
+    public class CLIParams
     {
         static Parser CliParser => new Parser(config =>
         {

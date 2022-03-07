@@ -1,506 +1,388 @@
 # Examples
 
-## InvertFromMercator
+## Basic Usage
+
+### Invert From Mercator
 
 If you start with a projection other than equirectangular, use the --invert flag to convert FROM the target projection. Notice that some projections don't include the necessary data to completely recreate an equirect map.
 
 `--projection mercator --invert -f ..\..\Tests\Input\earth_mercator.png -o ..\..\Tests\Output\InvertFromMercator.png`
 
-![InvertFromMercator](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/InvertFromMercator.png)
+![Invert From Mercator](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/InvertFromMercator.png)
 
-
-## ToLatLong
-
-
-
-`--projection LatLong -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\ToLatLong.png`
-
-![ToLatLong](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/ToLatLong.png)
-
-
-## ToEquirect
-
-
-
-`--projection Equirect -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\ToEquirect.png`
-
-![ToEquirect](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/ToEquirect.png)
-
-
-## ToEquirectangular
-
-
-
-`--projection Equirectangular -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\ToEquirectangular.png`
-
-![ToEquirectangular](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/ToEquirectangular.png)
-
-
-## ToEqualArea
-
-
-
-`--projection EqualArea -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\ToEqualArea.png`
-
-![ToEqualArea](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/ToEqualArea.png)
-
-
-## ToSinusoidal
-
-
-
-`--projection Sinusoidal -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\ToSinusoidal.png`
-
-![ToSinusoidal](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/ToSinusoidal.png)
-
-
-## ToSinusoidal2
-
-
-
-`--projection Sinusoidal2 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\ToSinusoidal2.png`
-
-![ToSinusoidal2](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/ToSinusoidal2.png)
-
-
-## ToMollweide
-
-
-
-`--projection Mollweide -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\ToMollweide.png`
-
-![ToMollweide](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/ToMollweide.png)
-
-
-## ToMercator
-
-
-
-`--projection Mercator -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\ToMercator.png`
-
-![ToMercator](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/ToMercator.png)
-
-
-## ToCylindrical
-
-
-
-`--projection Cylindrical -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\ToCylindrical.png`
-
-![ToCylindrical](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/ToCylindrical.png)
-
-
-## ToAzimuthal
-
-
+### To Azimuthal
 
 `--projection Azimuthal -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\ToAzimuthal.png`
 
-![ToAzimuthal](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/ToAzimuthal.png)
+![To Azimuthal](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/ToAzimuthal.png)
 
-
-## ToOrthographic
-
-
-
-`--projection Orthographic -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\ToOrthographic.png`
-
-![ToOrthographic](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/ToOrthographic.png)
-
-
-## ToRectilinear
-
-
-
-`--projection Rectilinear -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\ToRectilinear.png`
-
-![ToRectilinear](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/ToRectilinear.png)
-
-
-## ToStereographic
-
-
-
-`--projection Stereographic -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\ToStereographic.png`
-
-![ToStereographic](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/ToStereographic.png)
-
-
-## ToGnomonic
-
-
-
-`--projection Gnomonic -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\ToGnomonic.png`
-
-![ToGnomonic](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/ToGnomonic.png)
-
-
-## ToPerspective
-
-
-
-`--projection Perspective -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\ToPerspective.png`
-
-![ToPerspective](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/ToPerspective.png)
-
-
-## ToBonne
-
-
+### To Bonne
 
 `--projection Bonne -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\ToBonne.png`
 
-![ToBonne](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/ToBonne.png)
+![To Bonne](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/ToBonne.png)
 
+### To Cylindrical
 
-## ToHammer
+`--projection Cylindrical -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\ToCylindrical.png`
 
+![To Cylindrical](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/ToCylindrical.png)
 
+### To Equal Area
+
+`--projection EqualArea -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\ToEqualArea.png`
+
+![To Equal Area](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/ToEqualArea.png)
+
+### To Equirect
+
+`--projection Equirect -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\ToEquirect.png`
+
+![To Equirect](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/ToEquirect.png)
+
+### To Equirectangular
+
+`--projection Equirectangular -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\ToEquirectangular.png`
+
+![To Equirectangular](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/ToEquirectangular.png)
+
+### To Gnomonic
+
+`--projection Gnomonic -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\ToGnomonic.png`
+
+![To Gnomonic](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/ToGnomonic.png)
+
+### To Hammer
 
 `--projection Hammer -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\ToHammer.png`
 
-![ToHammer](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/ToHammer.png)
+![To Hammer](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/ToHammer.png)
 
+### To Lat Long
 
-## WidgetAltitudesBasic
+`--projection LatLong -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\ToLatLong.png`
 
+![To Lat Long](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/ToLatLong.png)
 
+### To Mercator
 
-`--widget altitudes -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\WidgetAltitudesBasic.png`
+`--projection Mercator -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\ToMercator.png`
 
-![WidgetAltitudesBasic](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/WidgetAltitudesBasic.png)
+![To Mercator](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/ToMercator.png)
 
+### To Mollweide
 
-## WidgetAltitudesColor
+`--projection Mollweide -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\ToMollweide.png`
 
+![To Mollweide](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/ToMollweide.png)
 
+### To Orthographic
 
-`--widget Altitudes --widgetcolor 128,255,128 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\WidgetAltitudesColor.png`
+`--projection Orthographic -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\ToOrthographic.png`
 
-![WidgetAltitudesColor](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/WidgetAltitudesColor.png)
+![To Orthographic](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/ToOrthographic.png)
 
+### To Perspective
 
-## WidgetAltitudesPosition
+`--projection Perspective -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\ToPerspective.png`
 
+![To Perspective](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/ToPerspective.png)
 
+### To Rectilinear
 
-`--widget Altitudes --wlat 45 --wlon 45 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\WidgetAltitudesPosition.png`
+`--projection Rectilinear -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\ToRectilinear.png`
 
-![WidgetAltitudesPosition](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/WidgetAltitudesPosition.png)
+![To Rectilinear](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/ToRectilinear.png)
 
+### To Sinusoidal
 
-## WidgetAltitudesWithProjection
+`--projection Sinusoidal -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\ToSinusoidal.png`
 
+![To Sinusoidal](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/ToSinusoidal.png)
 
+### To Sinusoidal 2
 
-`--widget temporaryhours --projection azimuthal -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\WidgetAltitudesWithProjection.png`
+`--projection Sinusoidal2 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\ToSinusoidal2.png`
 
-![WidgetAltitudesWithProjection](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/WidgetAltitudesWithProjection.png)
+![To Sinusoidal 2](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/ToSinusoidal2.png)
 
+### To Stereographic
 
-## WidgetAnalemmaBasic
+`--projection Stereographic -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\ToStereographic.png`
 
+![To Stereographic](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/ToStereographic.png)
 
-
-`--widget analemma -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\WidgetAnalemmaBasic.png`
-
-![WidgetAnalemmaBasic](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/WidgetAnalemmaBasic.png)
-
-
-## WidgetAnalemmaColor
-
-
-
-`--widget analemma --widgetcolor 0,255,255 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\WidgetAnalemmaColor.png`
-
-![WidgetAnalemmaColor](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/WidgetAnalemmaColor.png)
-
-
-## WidgetAnalemmaSpacing
-
-
-
-`--widget analemma --gridx 60 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\WidgetAnalemmaSpacing.png`
-
-![WidgetAnalemmaSpacing](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/WidgetAnalemmaSpacing.png)
-
-
-## WidgetAnalemmaWithProjection
-
-
-
-`--widget analemma --projection hammer -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\WidgetAnalemmaWithProjection.png`
-
-![WidgetAnalemmaWithProjection](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/WidgetAnalemmaWithProjection.png)
-
-
-## WidgetDatelineBasic
-
-
-
-`--widget Dateline -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\WidgetDatelineBasic.png`
-
-![WidgetDatelineBasic](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/WidgetDatelineBasic.png)
-
-
-## WidgetDatelineColor
-
-
-
-`--widget Dateline --widgetcolor 128,255,128 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\WidgetDatelineColor.png`
-
-![WidgetDatelineColor](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/WidgetDatelineColor.png)
-
-
-## WidgetDatelineDay
-
-
-
-`--widget Dateline --wday 180 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\WidgetDatelineDay.png`
-
-![WidgetDatelineDay](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/WidgetDatelineDay.png)
-
-
-## WidgetDatelineWithProjection
-
-
-
-`--widget Dateline --projection azimuthal -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\WidgetDatelineWithProjection.png`
-
-![WidgetDatelineWithProjection](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/WidgetDatelineWithProjection.png)
-
-
-## WidgetDatetimeBasic
-
-
-
-`--widget Datetime -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\WidgetDatetimeBasic.png`
-
-![WidgetDatetimeBasic](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/WidgetDatetimeBasic.png)
-
-
-## WidgetDatetimeColor
-
-
-
-`--widget Datetime --widgetcolor 128,255,128 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\WidgetDatetimeColor.png`
-
-![WidgetDatetimeColor](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/WidgetDatetimeColor.png)
-
-
-## WidgetDatetimeDay
-
-
-
-`--widget Datetime --wday 180 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\WidgetDatetimeDay.png`
-
-![WidgetDatetimeDay](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/WidgetDatetimeDay.png)
-
-
-## WidgetDatetimeWithProjection
-
-
-
-`--widget Datetime --projection azimuthal -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\WidgetDatetimeWithProjection.png`
-
-![WidgetDatetimeWithProjection](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/WidgetDatetimeWithProjection.png)
-
-
-## WidgetGridBasic
-
-
-
-`--widget grid -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\WidgetGridBasic.png`
-
-![WidgetGridBasic](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/WidgetGridBasic.png)
-
-
-## WidgetGridColor
-
-
-
-`--widget grid --gridcolor 0,255,0 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\WidgetGridColor.png`
-
-![WidgetGridColor](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/WidgetGridColor.png)
-
-
-## WidgetGridSizing
-
-
-
-`--widget grid --gridx 15 --gridy 60 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\WidgetGridSizing.png`
-
-![WidgetGridSizing](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/WidgetGridSizing.png)
-
-
-## WidgetGridWithProjection
-
-
-
-`--widget grid --projection hammer -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\WidgetGridWithProjection.png`
-
-![WidgetGridWithProjection](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/WidgetGridWithProjection.png)
-
-
-## WidgetIndicatrixBasic
-
-
-
-`--widget Indicatrix -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\WidgetIndicatrixBasic.png`
-
-![WidgetIndicatrixBasic](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/WidgetIndicatrixBasic.png)
-
-
-## WidgetIndicatrixColor
-
-
-
-`--widget Indicatrix --widgetcolor 128,255,128 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\WidgetIndicatrixColor.png`
-
-![WidgetIndicatrixColor](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/WidgetIndicatrixColor.png)
-
-
-## WidgetIndicatrixNaiveSpacing
-
-
-
-`--widget Indicatrix --wnaivespacing -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\WidgetIndicatrixNaiveSpacing.png`
-
-![WidgetIndicatrixNaiveSpacing](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/WidgetIndicatrixNaiveSpacing.png)
-
-
-## WidgetIndicatrixSpacing
-
-
-
-`--widget Indicatrix --gridx 60 --gridy 60 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\WidgetIndicatrixSpacing.png`
-
-![WidgetIndicatrixSpacing](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/WidgetIndicatrixSpacing.png)
-
-
-## WidgetIndicatrixWithProjection
-
-
-
-`--widget Indicatrix --projection azimuthal -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\WidgetIndicatrixWithProjection.png`
-
-![WidgetIndicatrixWithProjection](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/WidgetIndicatrixWithProjection.png)
-
-
-## WidgetLocalHoursBasic
-
-
-
-`--widget localhours -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\WidgetLocalHoursBasic.png`
-
-![WidgetLocalHoursBasic](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/WidgetLocalHoursBasic.png)
-
-
-## WidgetLocalHoursColor
-
-
-
-`--widget localhours --widgetcolor 128,128,255 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\WidgetLocalHoursColor.png`
-
-![WidgetLocalHoursColor](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/WidgetLocalHoursColor.png)
-
-
-## WidgetLocalHoursPosition
-
-
-
-`--widget localhours --wlon 60 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\WidgetLocalHoursPosition.png`
-
-![WidgetLocalHoursPosition](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/WidgetLocalHoursPosition.png)
-
-
-## WidgetLocalHoursWithProjection
-
-
-
-`--widget temporaryhours --projection orthographic -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\WidgetLocalHoursWithProjection.png`
-
-![WidgetLocalHoursWithProjection](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/WidgetLocalHoursWithProjection.png)
-
-
-## WidgetTemporaryHoursBasic
-
-
-
-`--widget temporaryhours -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\WidgetTemporaryHoursBasic.png`
-
-![WidgetTemporaryHoursBasic](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/WidgetTemporaryHoursBasic.png)
-
-
-## WidgetTemporaryHoursColor
-
-
-
-`--widget temporaryhours --widgetcolor 128,128,255 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\WidgetTemporaryHoursColor.png`
-
-![WidgetTemporaryHoursColor](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/WidgetTemporaryHoursColor.png)
-
-
-## WidgetTemporaryHoursPosition
-
-
-
-`--widget temporaryhours --wlat 60 --wlon 60 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\WidgetTemporaryHoursPosition.png`
-
-![WidgetTemporaryHoursPosition](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/WidgetTemporaryHoursPosition.png)
-
-
-## WidgetTemporaryHoursWithProjection
-
-
-
-`--widget temporaryhours --projection sinusoidal -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\WidgetTemporaryHoursWithProjection.png`
-
-![WidgetTemporaryHoursWithProjection](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/WidgetTemporaryHoursWithProjection.png)
-
-
-## WidgetTropicsBasic
-
-
-
-`--widget Tropics -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\WidgetTropicsBasic.png`
-
-![WidgetTropicsBasic](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/WidgetTropicsBasic.png)
-
-
-## WidgetTropicsColor
-
-
-
-`--widget Tropics --widgetcolor 128,255,128 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\WidgetTropicsColor.png`
-
-![WidgetTropicsColor](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/WidgetTropicsColor.png)
-
-
-## WidgetTropicsWithProjection
-
-
-
-`--widget tropics --projection gnomonic -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\WidgetTropicsWithProjection.png`
-
-![WidgetTropicsWithProjection](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/WidgetTropicsWithProjection.png)
-
-
-## WithBackgroundColor
+### With Background Color
 
 Many projections leave a blank area around the perimeter of the map. Fill that blank area with an optional background color
 
 `--bgcolor 255,0,0 --projection perspective -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\WithBackgroundColor.png`
 
-![WithBackgroundColor](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/WithBackgroundColor.png)
+![With Background Color](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/WithBackgroundColor.png)
 
-
-## WithBackgroundImage
+### With Background Image
 
 Many projections leave a blank area around the perimeter of the map. Fill that blank area with an optional background image
 
 `--bg ..\..\Tests\Input\background.png --projection hammer -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\WithBackgroundImage.png`
 
-![WithBackgroundImage](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/WithBackgroundImage.png)
+![With Background Image](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/WithBackgroundImage.png)
 
+
+
+## Widget Usage
+
+
+
+### Altitudes Usage
+
+#### Altitudes Basic
+
+`--widget altitudes -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\AltitudesBasic.png`
+
+![Altitudes Basic](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/AltitudesBasic.png)
+
+#### Altitudes Color
+
+`--widget Altitudes --widgetcolor 128,255,128 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\AltitudesColor.png`
+
+![Altitudes Color](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/AltitudesColor.png)
+
+#### Altitudes Position
+
+`--widget Altitudes --wlat 45 --wlon 45 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\AltitudesPosition.png`
+
+![Altitudes Position](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/AltitudesPosition.png)
+
+#### Altitudes With Projection
+
+`--widget temporaryhours --projection azimuthal -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\AltitudesWithProjection.png`
+
+![Altitudes With Projection](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/AltitudesWithProjection.png)
+
+
+
+### Analemma Usage
+
+#### Analemma Basic
+
+`--widget analemma -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\AnalemmaBasic.png`
+
+![Analemma Basic](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/AnalemmaBasic.png)
+
+#### Analemma Color
+
+`--widget analemma --widgetcolor 0,255,255 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\AnalemmaColor.png`
+
+![Analemma Color](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/AnalemmaColor.png)
+
+#### Analemma Spacing
+
+`--widget analemma --gridx 60 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\AnalemmaSpacing.png`
+
+![Analemma Spacing](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/AnalemmaSpacing.png)
+
+#### Analemma With Projection
+
+`--widget analemma --projection hammer -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\AnalemmaWithProjection.png`
+
+![Analemma With Projection](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/AnalemmaWithProjection.png)
+
+
+
+### Dateline Usage
+
+#### Basic Dateline
+
+`--widget Dateline -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\BasicDateline.png`
+
+![Basic Dateline](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/BasicDateline.png)
+
+#### Dateline Color
+
+`--widget Dateline --widgetcolor 128,255,128 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\DatelineColor.png`
+
+![Dateline Color](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/DatelineColor.png)
+
+#### Dateline Day
+
+`--widget Dateline --wday 180 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\DatelineDay.png`
+
+![Dateline Day](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/DatelineDay.png)
+
+#### Dateline With Projection
+
+`--widget Dateline --projection azimuthal -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\DatelineWithProjection.png`
+
+![Dateline With Projection](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/DatelineWithProjection.png)
+
+
+
+### Datetime Usage
+
+#### Basic Datetime
+
+`--widget Datetime -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\BasicDatetime.png`
+
+![Basic Datetime](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/BasicDatetime.png)
+
+#### Datetime Color
+
+`--widget Datetime --widgetcolor 128,255,128 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\DatetimeColor.png`
+
+![Datetime Color](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/DatetimeColor.png)
+
+#### Datetime Day
+
+`--widget Datetime --wday 180 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\DatetimeDay.png`
+
+![Datetime Day](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/DatetimeDay.png)
+
+#### Datetime With Projection
+
+`--widget Datetime --projection azimuthal -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\DatetimeWithProjection.png`
+
+![Datetime With Projection](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/DatetimeWithProjection.png)
+
+
+
+### Grid Usage
+
+#### Basic Grid
+
+`--widget grid -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\BasicGrid.png`
+
+![Basic Grid](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/BasicGrid.png)
+
+#### Grid Color
+
+`--widget grid --gridcolor 0,255,0 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\GridColor.png`
+
+![Grid Color](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/GridColor.png)
+
+#### Grid Sizing
+
+`--widget grid --gridx 15 --gridy 60 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\GridSizing.png`
+
+![Grid Sizing](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/GridSizing.png)
+
+#### Grid With Projection
+
+`--widget grid --projection hammer -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\GridWithProjection.png`
+
+![Grid With Projection](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/GridWithProjection.png)
+
+
+
+### Indicatrix Usage
+
+#### Basic Indicatrix
+
+`--widget Indicatrix -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\BasicIndicatrix.png`
+
+![Basic Indicatrix](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/BasicIndicatrix.png)
+
+#### Indicatrix Color
+
+`--widget Indicatrix --widgetcolor 128,255,128 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\IndicatrixColor.png`
+
+![Indicatrix Color](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/IndicatrixColor.png)
+
+#### Indicatrix Naive Spacing
+
+By default this widget tries to be smart about where it places the indicatrices by skipping some nearer the poles. Use this flag to disable the smartness.
+
+`--widget Indicatrix --wnaivespacing -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\IndicatrixNaiveSpacing.png`
+
+![Indicatrix Naive Spacing](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/IndicatrixNaiveSpacing.png)
+
+#### Indicatrix Spacing
+
+`--widget Indicatrix --gridx 60 --gridy 60 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\IndicatrixSpacing.png`
+
+![Indicatrix Spacing](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/IndicatrixSpacing.png)
+
+#### Indicatrix With Projection
+
+`--widget Indicatrix --projection azimuthal -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\IndicatrixWithProjection.png`
+
+![Indicatrix With Projection](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/IndicatrixWithProjection.png)
+
+
+
+### Local Hours Usage
+
+#### Basic Local Hours
+
+`--widget localhours -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\BasicLocalHours.png`
+
+![Basic Local Hours](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/BasicLocalHours.png)
+
+#### Local Hours Color
+
+`--widget localhours --widgetcolor 128,128,255 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\LocalHoursColor.png`
+
+![Local Hours Color](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/LocalHoursColor.png)
+
+#### Local Hours Position
+
+`--widget localhours --wlon 60 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\LocalHoursPosition.png`
+
+![Local Hours Position](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/LocalHoursPosition.png)
+
+#### Local Hours With Projection
+
+`--widget temporaryhours --projection orthographic -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\LocalHoursWithProjection.png`
+
+![Local Hours With Projection](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/LocalHoursWithProjection.png)
+
+
+
+### Temporary Hours Usage
+
+#### Basic Temporary Hours
+
+`--widget temporaryhours -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\BasicTemporaryHours.png`
+
+![Basic Temporary Hours](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/BasicTemporaryHours.png)
+
+#### Temporary Hours Color
+
+`--widget temporaryhours --widgetcolor 128,128,255 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\TemporaryHoursColor.png`
+
+![Temporary Hours Color](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/TemporaryHoursColor.png)
+
+#### Temporary Hours Position
+
+`--widget temporaryhours --wlat 60 --wlon 60 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\TemporaryHoursPosition.png`
+
+![Temporary Hours Position](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/TemporaryHoursPosition.png)
+
+#### Temporary Hours With Projection
+
+`--widget temporaryhours --projection sinusoidal -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\TemporaryHoursWithProjection.png`
+
+![Temporary Hours With Projection](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/TemporaryHoursWithProjection.png)
+
+
+
+### Tropics Usage
+
+#### Basic Tropics
+
+`--widget Tropics -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\BasicTropics.png`
+
+![Basic Tropics](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/BasicTropics.png)
+
+#### Tropics Color
+
+`--widget Tropics --widgetcolor 128,255,128 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\TropicsColor.png`
+
+![Tropics Color](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/TropicsColor.png)
+
+#### Tropics With Projection
+
+`--widget tropics --projection gnomonic -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\TropicsWithProjection.png`
+
+![Tropics With Projection](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/TropicsWithProjection.png)
 
