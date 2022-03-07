@@ -12,6 +12,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{FE7CD3B3-4763-4816-A058-563B86A77883}"
 	ProjectSection(SolutionItems) = preProject
 		examples.md = examples.md
+		LICENSE.md = LICENSE.md
 		readme.md = readme.md
 	EndProjectSection
 EndProject

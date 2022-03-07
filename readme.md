@@ -131,7 +131,7 @@ Then use `output_equirect_file.png` as your new file input for further processin
 
 ## History
 
-This is a port and spiritual successor of MMPS (https://github.com/matthewarcus/mmps) by Mattew Warcus. 
+This is a port and spiritual successor of MMPS (https://github.com/matthewarcus/mmps) by Matthew Arcus. 
 The code is similar in some respects to MMPS, although updated in a variety of ways. 
 
 This is not perfectly backward compatible, although it does support all the projection features that MMPS did 
@@ -139,5 +139,7 @@ This is not perfectly backward compatible, although it does support all the proj
 
 ## License
 
-Per the original MMPS codebase, this software is released under GPLv3, tldr; you can freely modify or distribute 
-this as long as you make the source available and keep the license intact.
+[MIT](LICENSE.md)
+
+Matthew and I [agreed](https://github.com/matthewarcus/mmps/issues/3#issuecomment-1060998915) that the new code 
+should be under MIT which wasn't as widespread when MMPS first released.
