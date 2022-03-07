@@ -41,7 +41,7 @@ namespace MapProjectorCLI
         double _timeIncr;
         double _turn;
         double _turnIncr;
-
+        double _radius;
         double _aw;
 
         double _widgetLat;
@@ -199,9 +199,12 @@ namespace MapProjectorCLI
         [Option(
             "radius", Default = 0.0,
             HelpText =
-                "Radius around center point that the output is rendered")]
-        public double radius { get; set; }
-
+                "Radius around center point that the output is rendered (Degrees)")]
+        public double radius 
+        {
+            get => _radius;
+            set => _radius = value * OneDegree;
+        }
         [Option("xoff", Default = 0.0, HelpText = "X Offset")]
         public double xOffset { get; set; }
 
@@ -364,5 +367,6 @@ namespace MapProjectorCLI
         {
             return deg * Math.PI / 180.0;
         }
+
     }
 }
