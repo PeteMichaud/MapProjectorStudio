@@ -19,31 +19,54 @@ namespace MapProjectorCLI.Tests
 
         const string repoPath = @"https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output";
 
-        protected void AddExample(string[] argStr, string notes = "", [CallerMemberName] string callerName = "")
+        protected void AddExample(string[] args, string notes = "", [CallerMemberName] string callerName = "")
         {
             var callerClass = this.GetType().FullName;
             var titleIdx = callerClass.IndexOf("+");
             var key = $"{callerClass.Substring(titleIdx + 1)}.{callerName}";
-            AddExample(key, callerName, argStr, notes);
+            AddExample(key, callerName, args, notes);
 
         }
 
-        protected void AddExample(string title, string[] argStr, string notes = "")
+        protected void AddExample(string title, string[] args, string notes = "")
         {
             var callerClass = this.GetType().FullName;
             var titleIdx = callerClass.IndexOf("+");
             var key = $"{callerClass.Substring(titleIdx + 1)}.{title}";
-            AddExample(key, title, argStr, notes);
+            AddExample(key, title, args, notes);
 
         }
-        protected void AddExample(string key, string title, string[] argStr, string notes = "")
+        protected void AddExample(string key, string title, string[] args, string notes = "")
         {
+
+            var images = new List<string>();
+            var loopCnt = LoopCount(args);
+
+            if(loopCnt == 0)
+            {
+                images.Add($"{repoPath}/{title}.png");
+            }
+            else
+            {
+                for(int i = 0; i < loopCnt; i++)
+                {
+                    var sequenceTitle = string.Format("{0}{1,4:0000}",title, i);
+                    images.Add($"{repoPath}/{sequenceTitle}.png");
+                }
+            }
+
             globalExamples.Add(
                 key,
-                new Example(title, argStr, $"{repoPath}/{title}.png", notes)
+                new Example(title, args, images, notes)
            );
         }
 
+        int LoopCount(string[] args)
+        {
+            var loopIdx = Array.FindIndex(args, arg => arg == "--loop");
+            if (loopIdx == -1) return 0;
+            return int.Parse(args[loopIdx + 1]);
+        }
 
         [OneTimeTearDown]
         public void OutputExampleFile()

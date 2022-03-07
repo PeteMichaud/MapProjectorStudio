@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using System.Collections.Generic;
 
 namespace MapProjectorCLI.Tests
 {
@@ -9,13 +10,13 @@ namespace MapProjectorCLI.Tests
         public string Title;
         public string[] Args;
         public string Notes;
-        public string ImageURL;
+        public List<string> ImageURLs;
 
-        public Example(string title, string[] args, string imageUrl, string notes)
+        public Example(string title, string[] args, List<string> imageUrls, string notes)
         {
             Title = title;
             Args = args;
-            ImageURL = imageUrl;
+            ImageURLs = imageUrls;
             Notes = notes;
         }
 
@@ -34,9 +35,15 @@ namespace MapProjectorCLI.Tests
 
             sb
                 .Append($"`{string.Join(" ", Args)}`")
-                .Append(skipLine)
-                .Append($"![{Title}]({ImageURL})")
                 .Append(skipLine);
+
+            for(var i = 0; i < ImageURLs.Count; i++)
+            {
+                var num = ImageURLs.Count > 1 ? $" {i + 1}" : "";
+                sb
+                    .Append($"![{Title}{num}]({ImageURLs[i]})")
+                    .Append(skipLine);
+            }
 
             return sb;
         }

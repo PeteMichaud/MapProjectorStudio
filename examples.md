@@ -130,6 +130,52 @@ Many projections leave a blank area around the perimeter of the map. Fill that b
 
 
 
+## Loop Usage
+
+### Loop Basic
+
+Generated a series of images that proceed according to the increment variables you specify. Without increment variables it just outputs the same image over and over.
+
+`--loop 3 --latinc 10 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\LoopBasic.png`
+
+![Loop Basic 1](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/LoopBasic0000.png)
+
+![Loop Basic 2](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/LoopBasic0001.png)
+
+![Loop Basic 3](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/LoopBasic0002.png)
+
+### Loop With Projection
+
+`--projection perspective --loop 6 --latinc 30 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\LoopWithProjection.png`
+
+![Loop With Projection 1](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/LoopWithProjection0000.png)
+
+![Loop With Projection 2](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/LoopWithProjection0001.png)
+
+![Loop With Projection 3](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/LoopWithProjection0002.png)
+
+![Loop With Projection 4](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/LoopWithProjection0003.png)
+
+![Loop With Projection 5](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/LoopWithProjection0004.png)
+
+![Loop With Projection 6](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/LoopWithProjection0005.png)
+
+### Loop With Projection And Params
+
+`--projection orthographic --lat 30 --loop 5 --longinc 60 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\LoopWithProjectionAndParams.png`
+
+![Loop With Projection And Params 1](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/LoopWithProjectionAndParams0000.png)
+
+![Loop With Projection And Params 2](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/LoopWithProjectionAndParams0001.png)
+
+![Loop With Projection And Params 3](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/LoopWithProjectionAndParams0002.png)
+
+![Loop With Projection And Params 4](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/LoopWithProjectionAndParams0003.png)
+
+![Loop With Projection And Params 5](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/LoopWithProjectionAndParams0004.png)
+
+
+
 ## Options Usage
 
 ### Offset Lat Lon
@@ -389,6 +435,12 @@ Like rotating the globe about its poles.
 `--widget grid --projection hammer -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\GridWithProjection.png`
 
 ![Grid With Projection](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/GridWithProjection.png)
+
+#### Grid With Projection 2
+
+`--widget grid --projection perspective --lat 60 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\GridWithProjection2.png`
+
+![Grid With Projection 2](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/GridWithProjection2.png)
 
 
 

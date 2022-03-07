@@ -342,8 +342,53 @@ namespace MapProjectorCLI.Tests
             }
         }
 
+        [TestFixture]
+        public class LoopUsage : ProjectionTests
+        {
+            [Test]
+            public void LoopBasic()
+            {
+                var args = ToArgs($"--loop 3 --latinc 10");
+                AddExample(args, "Generated a series of images that proceed according to the increment variables you specify. Without increment variables it just outputs the same image over and over.");
 
-            public class WidgetUsage : ProjectionTests
+                Parse(args, cliParams =>
+                {
+                    (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                    Projector.Project(projectionParams);
+                });
+
+            }
+
+            [Test]
+            public void LoopWithProjection()
+            {
+                var args = ToArgs($"--projection perspective --loop 6 --latinc 30");
+                AddExample(args);
+
+                Parse(args, cliParams =>
+                {
+                    (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                    Projector.Project(projectionParams);
+                });
+
+            }
+
+            [Test]
+            public void LoopWithProjectionAndParams()
+            {
+                var args = ToArgs($"--projection orthographic --lat 30 --loop 5 --longinc 60");
+                AddExample(args);
+
+                Parse(args, cliParams =>
+                {
+                    (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                    Projector.Project(projectionParams);
+                });
+
+            }
+        }
+
+        public class WidgetUsage : ProjectionTests
         {
             [TestFixture]
             public class GridUsage : WidgetUsage
@@ -394,6 +439,20 @@ namespace MapProjectorCLI.Tests
                 public void GridWithProjection()
                 {
                     var args = ToArgs($"--widget grid --projection hammer");
+                    AddExample(args);
+
+                    Parse(args, cliParams =>
+                    {
+                        (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                        Projector.Project(projectionParams);
+                    });
+
+                }
+
+                [Test]
+                public void GridWithProjection2()
+                {
+                    var args = ToArgs($"--widget grid --projection perspective --lat 60");
                     AddExample(args);
 
                     Parse(args, cliParams =>
