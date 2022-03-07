@@ -241,47 +241,48 @@ namespace MapProjectorCLI.Tests
                 });
 
             }
-            //[Test]
-            //public void OffsetX()
-            //{
-            //    var args = ToArgs($"--xoff 10");
-            //    AddExample(args);
 
-            //    Parse(args, cliParams =>
-            //    {
-            //        (var success, var projectionParams) = Program.ProcessParams(cliParams);
-            //        Projector.Project(projectionParams);
-            //    });
+            [Test]
+            public void OffsetX()
+            {
+                var args = ToArgs($"--xoff 2");
+                AddExample(args);
 
-            //}
+                Parse(args, cliParams =>
+                {
+                    (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                    Projector.Project(projectionParams);
+                });
 
-            //[Test]
-            //public void OffsetY()
-            //{
-            //    var args = ToArgs($"--yoff 10");
-            //    AddExample(args);
+            }
 
-            //    Parse(args, cliParams =>
-            //    {
-            //        (var success, var projectionParams) = Program.ProcessParams(cliParams);
-            //        Projector.Project(projectionParams);
-            //    });
+            [Test]
+            public void OffsetY()
+            {
+                var args = ToArgs($"--yoff 1");
+                AddExample(args);
 
-            //}
+                Parse(args, cliParams =>
+                {
+                    (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                    Projector.Project(projectionParams);
+                });
 
-            //[Test]
-            //public void OffsetXY()
-            //{
-            //    var args = ToArgs($"--xoff 60 --yoff 60");
-            //    AddExample(args);
+            }
 
-            //    Parse(args, cliParams =>
-            //    {
-            //        (var success, var projectionParams) = Program.ProcessParams(cliParams);
-            //        Projector.Project(projectionParams);
-            //    });
+            [Test]
+            public void OffsetXY()
+            {
+                var args = ToArgs($"--xoff 1 --yoff 1");
+                AddExample(args, "Applies an offset to the image itself, with units depending on the type of projection. Probably keep it between -2PI and +2PI. Probably not what you want. Included for backward compatibility.");
 
-            //}
+                Parse(args, cliParams =>
+                {
+                    (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                    Projector.Project(projectionParams);
+                });
+
+            }
 
             [Test]
             public void Radius()

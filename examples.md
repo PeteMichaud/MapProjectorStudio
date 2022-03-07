@@ -138,6 +138,26 @@ Many projections leave a blank area around the perimeter of the map. Fill that b
 
 ![Offset Lat Lon](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/OffsetLatLon.png)
 
+### Offset X
+
+`--xoff 2 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\OffsetX.png`
+
+![Offset X](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/OffsetX.png)
+
+### Offset XY
+
+Applies an offset to the image itself, with units depending on the type of projection. Probably keep it between -2PI and +2PI. Probably not what you want. Included for backward compatibility.
+
+`--xoff 1 --yoff 1 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\OffsetXY.png`
+
+![Offset XY](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/OffsetXY.png)
+
+### Offset Y
+
+`--yoff 1 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\OffsetY.png`
+
+![Offset Y](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/OffsetY.png)
+
 ### Radius
 
 `--radius 15 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\Radius.png`
