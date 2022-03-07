@@ -120,11 +120,14 @@ Then use `output_equirect_file.png` as your new file input for further processin
 * [x] The core is a library that can be included in any other project
 * [x] A separate CLI that has parity with the original MMPS software
 * [x] Improved visualization for the various widgets like the grid and analemma
-* [ ] GUI application allowing visual manipulation of maps and widgets, including 
-      eventually layers that can be independently moved
-* [ ] Parameterize the various hardcode planet data like Inclination
+* [ ] Parameterize the various hardcoded planet data like Inclination
 * [ ] Optionally render widgets independently so can be composited later in whatever image editor
 * [ ] Render widgets in vector format for resolution independence
+* [ ] Support transparency
+* [ ] Support 16-bit color
+* [ ] Support animated gif output (maybe)
+* [ ] GUI application allowing visual manipulation of maps and widgets, including 
+      eventually layers that can be independently moved
 
 ## History
 

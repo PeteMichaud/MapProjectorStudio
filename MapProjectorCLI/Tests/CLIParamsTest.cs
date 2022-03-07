@@ -497,7 +497,7 @@ namespace MapProjectorCLI.Tests
             var args = ToArgs($"--radius {val}");
             Parse(args, cliParams =>
             {
-                Assert.AreEqual(val, cliParams.radius);
+                Assert.AreEqual(val * OneDegree, cliParams.radius);
             });
 
             args = ToArgs($"");

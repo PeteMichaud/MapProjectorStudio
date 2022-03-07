@@ -130,6 +130,36 @@ Many projections leave a blank area around the perimeter of the map. Fill that b
 
 
 
+## Options Usage
+
+### Radius
+
+`--radius 15 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\Radius.png`
+
+![Radius](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/Radius.png)
+
+### Radius Larger
+
+Note the radius is relative to the projection, not the image, so the shape of the output depends on the projection.
+
+`--radius 75 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\RadiusLarger.png`
+
+![Radius Larger](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/RadiusLarger.png)
+
+### Scale Down
+
+`--scale .5 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\ScaleDown.png`
+
+![Scale Down](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/ScaleDown.png)
+
+### Scale Up
+
+`--scale 2 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\ScaleUp.png`
+
+![Scale Up](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/ScaleUp.png)
+
+
+
 ## Widget Usage
 
 

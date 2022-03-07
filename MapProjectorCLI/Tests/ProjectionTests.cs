@@ -109,7 +109,7 @@ namespace MapProjectorCLI.Tests
                 foreach (MapProjection proj in Enum.GetValues(typeof(MapProjection)))
                 {
                     var args = ToArgs($"--projection {proj} --invert",
-                         outFileName: $"z{MethodBase.GetCurrentMethod().Name}_{proj}");
+                         outFileName: $"_inverted_{MethodBase.GetCurrentMethod().Name}_{proj}");
 
                     Parse(args, cliParams =>
                     {
@@ -120,7 +120,122 @@ namespace MapProjectorCLI.Tests
             }
         }
 
-        public class WidgetUsage : ProjectionTests
+
+        /*
+         *      tilt = cliParams.tilt,
+                turn = cliParams.turn,
+                rotate = cliParams.rotate,
+                lat = cliParams.lat,
+                lon = cliParams.lon,
+                scale = cliParams.scale,
+                xOffset = cliParams.xOffset,
+                yOffset = cliParams.yOffset,
+         * */
+        [TestFixture]
+        public class OptionsUsage : ProjectionTests
+        {
+            //[Test]
+            //public void OffsetX()
+            //{
+            //    var args = ToArgs($"--xoff 10");
+            //    AddExample(args);
+
+            //    Parse(args, cliParams =>
+            //    {
+            //        (var success, var projectionParams) = Program.ProcessParams(cliParams);
+            //        Projector.Project(projectionParams);
+            //    });
+
+            //}
+
+            //[Test]
+            //public void OffsetY()
+            //{
+            //    var args = ToArgs($"--yoff 10");
+            //    AddExample(args);
+
+            //    Parse(args, cliParams =>
+            //    {
+            //        (var success, var projectionParams) = Program.ProcessParams(cliParams);
+            //        Projector.Project(projectionParams);
+            //    });
+
+            //}
+
+            //[Test]
+            //public void OffsetXY()
+            //{
+            //    var args = ToArgs($"--xoff 60 --yoff 60");
+            //    AddExample(args);
+
+            //    Parse(args, cliParams =>
+            //    {
+            //        (var success, var projectionParams) = Program.ProcessParams(cliParams);
+            //        Projector.Project(projectionParams);
+            //    });
+
+            //}
+
+            [Test]
+            public void Radius()
+            {
+                var args = ToArgs($"--radius 15");
+                AddExample(args);
+
+                Parse(args, cliParams =>
+                {
+                    (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                    Projector.Project(projectionParams);
+                });
+            
+            }
+
+            [Test]
+            public void RadiusLarger()
+            {
+                var args = ToArgs($"--radius 75");
+                AddExample(args, "Note the radius is relative to the projection, not the image, so the shape of the output depends on the projection.");
+
+                Parse(args, cliParams =>
+                {
+                    (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                    Projector.Project(projectionParams);
+                });
+
+            }
+
+
+            [Test]
+            public void ScaleUp()
+            {
+                var args = ToArgs($"--scale 2");
+                AddExample(args);
+
+                Parse(args, cliParams =>
+                {
+                    (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                    Projector.Project(projectionParams);
+                });
+
+            }
+
+            [Test]
+            public void ScaleDown()
+            {
+                var args = ToArgs($"--scale .5");
+                AddExample(args);
+
+                Parse(args, cliParams =>
+                {
+                    (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                    Projector.Project(projectionParams);
+                });
+
+            }
+        }
+
+
+            public class WidgetUsage : ProjectionTests
         {
             [TestFixture]
             public class GridUsage : WidgetUsage
