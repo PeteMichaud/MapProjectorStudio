@@ -349,7 +349,7 @@ namespace MapProjectorCLI.Tests
             public void LoopBasic()
             {
                 var args = ToArgs($"--loop 3 --latinc 10");
-                AddExample(args, "Generated a series of images that proceed according to the increment variables you specify. Without increment variables it just outputs the same image over and over.");
+                AddExample(args, "Generate a series of images that proceed according to the increment variables you specify. Without increment variables it just outputs the same image over and over.");
 
                 Parse(args, cliParams =>
                 {

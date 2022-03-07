@@ -134,7 +134,7 @@ Many projections leave a blank area around the perimeter of the map. Fill that b
 
 ### Loop Basic
 
-Generated a series of images that proceed according to the increment variables you specify. Without increment variables it just outputs the same image over and over.
+Generate a series of images that proceed according to the increment variables you specify. Without increment variables it just outputs the same image over and over.
 
 `--loop 3 --latinc 10 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\LoopBasic.png`
 
