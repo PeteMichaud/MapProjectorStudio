@@ -55,6 +55,7 @@ Then use `output_equirect_file.png` as your new file input for further processin
         * Hammer
 *  -f, --file       Required. Source File Path
 *  -o, --out        Required. Output File Path
+*  --quality        (Default: Fast) Color sampling quality that helps for some very distorted or resized projections, at the cost of speed (Fast, Good, Best)
 *  --adjust         (Default: false) Set source image to adjusted width and height options before processing
 *  -w, --width      (Default: input image width) Target Width
 * -h, --height      (Default: input image height) Target Height
