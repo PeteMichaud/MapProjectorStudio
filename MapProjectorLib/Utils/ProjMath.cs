@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 
 namespace MapProjectorLib
 {
@@ -43,16 +44,19 @@ namespace MapProjectorLib
             return 1.0 / Math.Tan(theta);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double ToRadians(double deg)
         {
             return deg * Math.PI / 180.0;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double HoursToRadians(double hours)
         {
             return hours * Math.PI / 12.0;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double ToDegrees(double rad)
         {
             return rad * 180.0 / Math.PI;
@@ -63,19 +67,16 @@ namespace MapProjectorLib
             return rad * 12.0 / Math.PI;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double Sqr(double x)
         {
             return x * x;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double Cube(double x)
         {
             return x * x * x;
-        }
-
-        public static double Frac(double x)
-        {
-            return x - Math.Floor(x);
         }
 
         public static bool FindRoot(
@@ -93,9 +94,7 @@ namespace MapProjectorLib
                 temp = p0;
                 p0 = p1;
                 p1 = temp;
-            }
-
-            ;
+            };
 
             if (p0 > 0 || p1 < 0)
                 throw new ArgumentException(
@@ -237,9 +236,16 @@ namespace MapProjectorLib
         }
 
         const double epsilon = 1E-6;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool AboutEqual(double d1, double d2)
         {
             return Math.Abs(d1 - d2) <= epsilon;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double Lerp(double start, double end, double t)
+        {
+            return start + (end - start) * t;
         }
 
     }

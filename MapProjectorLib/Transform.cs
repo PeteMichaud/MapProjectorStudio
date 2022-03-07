@@ -176,17 +176,14 @@ namespace MapProjectorLib
                         if (inProjectionBounds && IsPointWithinRadius(tParams, phi, lambda))
                         {
                             // Use unsigned so we don't have to test for negative indices
-                            var scaledX = (int)Math.Floor(halfWidth + lambda * scaledWidth);
-                            // Clamp in case of rounding errors
-                            if (scaledX >= inImage.Width) scaledX = 0;
-
+                            var scaledX = halfWidth + lambda * scaledWidth;
+                            
                             // Use unsigned so we don't have to test for negative indices
 
-                            var scaledY = (int)Math.Floor(halfHeight - phi * scaledHeight);
-                            if (scaledY >= inImage.Height) scaledY = inImage.Height - 1;
-
+                            var scaledY = halfHeight - phi * scaledHeight;
+                            
                             var outColor = AdjustOutputColor(
-                                inImage[scaledX, scaledY], x0, y0, z0, tParams);
+                                inImage.Sample(scaledX, scaledY), x0, y0, z0, tParams);
 
                             outPixel = outColor;
                         }
@@ -253,15 +250,13 @@ namespace MapProjectorLib
                 (x, y) = ApplyRotation(tParams.rotate, x, y);
             }
 
-            var ix = (int) Math.Floor(
-                xOrigin + (x - tParams.xOffset) / scaleFactor);
-            var iy = (int) Math.Floor(
-                yOrigin - (y - tParams.yOffset) / scaleFactor);
+            var inX = (xOrigin + (x - tParams.xOffset) / scaleFactor);
+            var inY = (yOrigin - (y - tParams.yOffset) / scaleFactor);
 
-            if (ix < 0 || ix >= imgWidth || iy < 0 || iy >= imgHeight)
+            if (inX < 0 || inX >= imgWidth || inY < 0 || inY >= imgHeight)
                 return false;
 
-            outImage[(int) outX, (int) outY] = inImage[ix, iy];
+            outImage[(int) outX, (int) outY] = inImage.Sample(inX, inY);
             return true;
         }
 
@@ -279,7 +274,6 @@ namespace MapProjectorLib
 
             if (!mappingWithinImageBounds) return (false, PointD.None);
 
-            // Now x and y are in 2pi scale
             var outImgWidth = outImage.Width;
             var outImgHeight = outImage.Height;
 
@@ -288,6 +282,7 @@ namespace MapProjectorLib
             var scaleFactor = BasicScale(outImgWidth, outImgHeight) /
                                 tParams.scale;
 
+            // Now x and y are in 2pi scale
             var x = mappedPoint.X;
             var y = mappedPoint.Y;
 

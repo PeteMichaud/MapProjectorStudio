@@ -188,6 +188,46 @@ Like rotating the globe about its poles.
 
 
 
+## Quality Settings
+
+### Quality Best
+
+`--quality Best --projection gnomonic -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\QualityBest.png`
+
+![Quality Best](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/QualityBest.png)
+
+### Quality Bicubic
+
+`--quality Bicubic --projection gnomonic -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\QualityBicubic.png`
+
+![Quality Bicubic](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/QualityBicubic.png)
+
+### Quality Bilinear
+
+`--quality Bilinear --projection gnomonic -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\QualityBilinear.png`
+
+![Quality Bilinear](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/QualityBilinear.png)
+
+### Quality Fast
+
+`--quality Fast --projection gnomonic -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\QualityFast.png`
+
+![Quality Fast](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/QualityFast.png)
+
+### Quality Good
+
+`--quality Good --projection gnomonic -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\QualityGood.png`
+
+![Quality Good](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/QualityGood.png)
+
+### Quality Nearest Neighbor
+
+`--quality NearestNeighbor --projection gnomonic -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\QualityNearestNeighbor.png`
+
+![Quality Nearest Neighbor](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/QualityNearestNeighbor.png)
+
+
+
 ## Widget Usage
 
 

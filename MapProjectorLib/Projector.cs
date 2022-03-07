@@ -86,9 +86,9 @@ namespace MapProjectorLib
             return new Rgb24(r, g, b);
         }
 
-        public static Image LoadImage(string fileName)
+        public static Image LoadImage(string fileName, ColorSampleMode mode = ColorSampleMode.Fast)
         {
-            return Image.Load(fileName);
+            return Image.Load(fileName, mode);
         }
     }
 }

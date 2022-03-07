@@ -65,7 +65,7 @@ namespace MapProjectorCLI
 
                 try
                 {
-                    srcImage = Projector.LoadImage(cliParams.srcImageFileName);
+                    srcImage = Projector.LoadImage(cliParams.srcImageFileName, cliParams.ColorSampleMode);
                 }
                 catch (IOException)
                 {

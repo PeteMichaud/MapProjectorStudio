@@ -60,6 +60,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ColorSamplers\BicubicSampler.cs" />
+    <Compile Include="ColorSamplers\ColorSampler.cs" />
+    <Compile Include="ColorSamplers\BilinearSampler.cs" />
+    <Compile Include="ColorSamplers\NearestNeighborSampler.cs" />
+    <Compile Include="Enums\ColorSampleMode.cs" />
     <Compile Include="Enums\MapWidget.cs" />
     <Compile Include="Extensions\Rgb24Extensions.cs" />
     <Compile Include="Image.cs" />

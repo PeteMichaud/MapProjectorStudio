@@ -3,6 +3,7 @@ using MapProjectorLib.Plotters;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using System.Collections.Generic;
+using MapProjectorLib.ColorSamplers;
 
 namespace MapProjectorLib
 {
@@ -10,21 +11,7 @@ namespace MapProjectorLib
     public class Image : IDisposable
     {
         readonly Image<Rgb24> _image;
-
-        Image(Image<Rgb24> image)
-        {
-            _image = image;
-        }
-
-        public Image(int width, int height)
-        {
-            _image = new Image<Rgb24>(width, height);
-        }
-
-        public Image(int width, int height, Rgb24 backgroundColor)
-        {
-            _image = new Image<Rgb24>(width, height, backgroundColor);
-        }
+        readonly ColorSampler _sampler;
 
         public int Width => _image.Width;
         public int Height => _image.Height;
@@ -35,9 +22,27 @@ namespace MapProjectorLib
             set => _image[x, y] = value;
         }
 
+        Image(Image<Rgb24> image, ColorSampleMode mode)
+        {
+            _image = image;
+            _sampler = GetColorSampler(mode);
+        }
+
+        public Image(int width, int height)
+        {
+            _image = new Image<Rgb24>(width, height);
+            _sampler = GetColorSampler();
+        }
+
+        public Image(int width, int height, Rgb24 backgroundColor)
+        {
+            _image = new Image<Rgb24>(width, height, backgroundColor);
+            _sampler = GetColorSampler();
+        }
+
         public Image Clone()
         {
-            return new Image(_image.Clone());
+            return new Image(_image.Clone(), _sampler.Mode);
         }
 
         public void Save(string fileName)
@@ -45,9 +50,9 @@ namespace MapProjectorLib
             _image.Save(fileName);
         }
 
-        public static Image Load(string fileName)
+        public static Image Load(string fileName, ColorSampleMode mode)
         {
-            return new Image(SixLabors.ImageSharp.Image.Load<Rgb24>(fileName));
+            return new Image(SixLabors.ImageSharp.Image.Load<Rgb24>(fileName), mode);
         }
 
         public void Dispose()
@@ -55,10 +60,42 @@ namespace MapProjectorLib
             _image.Dispose();
         }
 
+        //
+
+        public Rgb24 Sample(double x, double y)
+        {
+            return _sampler.Sample(x, y, this);
+        }
+
+        ColorSampler GetColorSampler(ColorSampleMode mode)
+        {
+            switch (mode)
+            {
+                case ColorSampleMode.Fast:
+                case ColorSampleMode.NearestNeighbor:
+                    return new NearestNeighborSampler(this);
+                case ColorSampleMode.Good:
+                case ColorSampleMode.Bilinear:
+                    return new BilinearSampler(this);
+                case ColorSampleMode.Best:
+                case ColorSampleMode.Bicubic:
+                    return new BicubicSampler(this);
+                default:
+                    throw new ArgumentException($"Color Sample Mode not supported: {mode}", nameof(mode));
+            }
+        }
+        ColorSampler GetColorSampler()
+        {
+            return GetColorSampler(ColorSampleMode.Fast);
+        }
+
+
         public void ProcessPixelRows(PixelAccessorAction<Rgb24> pixelAccessor)
         {
             _image.ProcessPixelRows(pixelAccessor);
         }
+
+        //
 
         public void PlotLine(
             double t0, double t1,
@@ -81,14 +118,6 @@ namespace MapProjectorLib
             for (var j = -r; j <= r; j++)
             for (var i = -r; i <= r; i++)
                 SafeSetPixel((int) (x + i), (int) (y + j), color);
-        }
-
-        void SafeSetPixel(int x, int y, Rgb24 color)
-        {
-            if (x < 0 || x >= _image.Width) return;
-            if (y < 0 || y >= _image.Height) return;
-
-            _image[x, y] = color;
         }
 
         void DrawLine(int xStart, int yStart, int xEnd, int yEnd, Rgb24 color)
@@ -218,6 +247,14 @@ namespace MapProjectorLib
                 } 
 
             }
+        }
+
+        void SafeSetPixel(int x, int y, Rgb24 color)
+        {
+            if (x < 0 || x >= _image.Width) return;
+            if (y < 0 || y >= _image.Height) return;
+
+            _image[x, y] = color;
         }
 
     }

@@ -55,6 +55,12 @@ namespace MapProjectorCLI
             HelpText =
                 "Target Projection (or Source Projection if Invert flag specified)")]
         public MapProjection TargetProjection { get; set; }
+        
+        [Option(
+            "quality", Required = false, Default = ColorSampleMode.Fast,
+            HelpText =
+                "Quality of sampling (Fast/Good/Best, aliases for NearestNeighbor/Bilinear/Bicubic")]
+        public ColorSampleMode ColorSampleMode { get; set; }
 
         [Option('f', "file", Required = true, HelpText = "Source File Name")]
         public string srcImageFileName { get; set; }

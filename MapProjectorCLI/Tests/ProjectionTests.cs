@@ -38,7 +38,29 @@ namespace MapProjectorCLI.Tests
                     }
                 });
         }
+        
+        [TestFixture]
+        public class QualitySettings : ProjectionTests
+        {
+            [Test]
+            public void AllQualities()
+            {
+                foreach (ColorSampleMode quality in Enum.GetValues(typeof(ColorSampleMode)))
+                {
+                    var title = $"Quality{quality}";
+                    var args = ToArgs($"--quality {quality} --projection gnomonic", outFileName: title);
+                    AddExample(title, args);
 
+                    Parse(args, cliParams =>
+                    {
+                        (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                        Projector.Project(projectionParams);
+                    });
+
+                }
+            }
+        
+        }
 
         [TestFixture]
         public class BasicUsage : ProjectionTests

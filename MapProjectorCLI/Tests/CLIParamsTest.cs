@@ -70,6 +70,25 @@ namespace MapProjectorCLI.Tests
         }
 
         [Test]
+        public void SetQualityTest()
+        {
+            var args = ToArgs("");
+            Parse(args, cliParams =>
+            {
+                Assert.AreEqual(ColorSampleMode.Fast, cliParams.ColorSampleMode);
+            });
+
+            foreach (ColorSampleMode proj in Enum.GetValues(typeof(ColorSampleMode)))
+            {
+                args = ToArgs($"--quality {proj}");
+                Parse(args, cliParams =>
+                {
+                    Assert.AreEqual(proj, cliParams.ColorSampleMode);
+                });
+            }
+        }
+
+        [Test]
         public void SetInputFile()
         {
             var val = "c:\\path\\to\\file.png";
