@@ -121,19 +121,104 @@ namespace MapProjectorCLI.Tests
         }
 
 
-        /*
-         *      tilt = cliParams.tilt,
-                turn = cliParams.turn,
-                rotate = cliParams.rotate,
-                lat = cliParams.lat,
-                lon = cliParams.lon,
-                scale = cliParams.scale,
-                xOffset = cliParams.xOffset,
-                yOffset = cliParams.yOffset,
-         * */
         [TestFixture]
         public class OptionsUsage : ProjectionTests
         {
+            [Test]
+            public void Turn()
+            {
+                var args = ToArgs($"--turn 45");
+                AddExample(args, "Like rotating the globe about its poles.");
+
+                Parse(args, cliParams =>
+                {
+                    (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                    Projector.Project(projectionParams);
+                });
+
+            }
+
+            [Test]
+            public void Tilt()
+            {
+                var args = ToArgs($"--tilt 45");
+                AddExample(args, "Like rotating the globe about the equator at 0 longitude.");
+
+                Parse(args, cliParams =>
+                {
+                    (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                    Projector.Project(projectionParams);
+                });
+
+            }
+
+            [Test]
+            public void RotateNegative()
+            {
+                var args = ToArgs($"--rotate -45");
+
+                Parse(args, cliParams =>
+                {
+                    (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                    Projector.Project(projectionParams);
+                });
+
+            }
+
+
+            [Test]
+            public void Rotate()
+            {
+                var args = ToArgs($"--rotate 45");
+                AddExample(args);
+
+                Parse(args, cliParams =>
+                {
+                    (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                    Projector.Project(projectionParams);
+                });
+
+            }
+
+            [Test]
+            public void OffsetLat()
+            {
+                var args = ToArgs($"--lat 45");
+
+                Parse(args, cliParams =>
+                {
+                    (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                    Projector.Project(projectionParams);
+                });
+
+            }
+
+            [Test]
+            public void OffsetLon()
+            {
+                var args = ToArgs($"--lon 45");
+
+                Parse(args, cliParams =>
+                {
+                    (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                    Projector.Project(projectionParams);
+                });
+
+            }
+
+            [Test]
+            public void OffsetLatLon()
+            {
+                var args = ToArgs($"--lat 45 --lon 45");
+                AddExample(args);
+
+                Parse(args, cliParams =>
+                {
+                    (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                    Projector.Project(projectionParams);
+                });
+
+            }
             //[Test]
             //public void OffsetX()
             //{

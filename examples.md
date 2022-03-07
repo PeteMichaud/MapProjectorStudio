@@ -132,6 +132,12 @@ Many projections leave a blank area around the perimeter of the map. Fill that b
 
 ## Options Usage
 
+### Offset Lat Lon
+
+`--lat 45 --lon 45 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\OffsetLatLon.png`
+
+![Offset Lat Lon](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/OffsetLatLon.png)
+
 ### Radius
 
 `--radius 15 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\Radius.png`
@@ -146,6 +152,12 @@ Note the radius is relative to the projection, not the image, so the shape of th
 
 ![Radius Larger](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/RadiusLarger.png)
 
+### Rotate
+
+`--rotate 45 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\Rotate.png`
+
+![Rotate](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/Rotate.png)
+
 ### Scale Down
 
 `--scale .5 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\ScaleDown.png`
@@ -157,6 +169,22 @@ Note the radius is relative to the projection, not the image, so the shape of th
 `--scale 2 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\ScaleUp.png`
 
 ![Scale Up](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/ScaleUp.png)
+
+### Tilt
+
+Like rotating the globe about the equator at 0 longitude.
+
+`--tilt 45 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\Tilt.png`
+
+![Tilt](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/Tilt.png)
+
+### Turn
+
+Like rotating the globe about its poles.
+
+`--turn 45 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\Turn.png`
+
+![Turn](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/Turn.png)
 
 
 
