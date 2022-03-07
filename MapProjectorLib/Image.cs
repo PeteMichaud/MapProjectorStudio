@@ -2,6 +2,7 @@
 using MapProjectorLib.Plotters;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
+using System.Collections.Generic;
 
 namespace MapProjectorLib
 {
@@ -24,7 +25,6 @@ namespace MapProjectorLib
         {
             _image = new Image<Rgb24>(width, height, backgroundColor);
         }
-
 
         public int Width => _image.Width;
         public int Height => _image.Height;
@@ -100,7 +100,7 @@ namespace MapProjectorLib
         }
 
         // Bresenham's Line Algorithm
-        internal static System.Collections.Generic.IEnumerable<Point> GetPointsOnLine(int x0, int y0, int x1, int y1)
+        internal static IEnumerable<Point> GetPointsOnLine(int x0, int y0, int x1, int y1)
         {
             bool steep = Math.Abs(y1 - y0) > Math.Abs(x1 - x0);
             if (steep)
@@ -169,17 +169,8 @@ namespace MapProjectorLib
                 PlotLineSegment(progressAlongPlotMid, progressAlongPlotEnd, linePlotter, color, recursionLimit - 1);
             }
 
-            // The bools tell us if the inverse mapping is even defined
             (var startInBounds, var mappedStart) = linePlotter.GetXY(progressAlongPlotStart);
             (var endInBounds, var mappedEnd) = linePlotter.GetXY(progressAlongPlotEnd);
-
-
-            // This really ought to take note of the curvature.
-
-            //right now if one of the points isn't defined, it sometimes just tries to place it anyway,
-            //relying on the pixel placement check to bail out if it's not legal, but that pixel placement
-            //check is whack. It's multiple branches right at the center of the hot loop, plus it's just
-            //shitty logic not to figure out where the real line should be.
 
             if (startInBounds && endInBounds)
             {
@@ -191,7 +182,7 @@ namespace MapProjectorLib
                 {
                     SplitSegment();
                 } 
-                else //the length is fine, just draw the line
+                else //the length is fine, or it's too long but we're at the recursion limit, so just draw the line
                 {
                     DrawLine((int)mappedStart.X, (int)mappedStart.Y, (int)mappedEnd.X, (int)mappedEnd.Y, color);
                 }
@@ -203,7 +194,7 @@ namespace MapProjectorLib
 
                 //I treat this recursion differently here because the recursion limit is about curvature detail,
                 //but this is a different issue. I still can't leave it unbound because there's a chance
-                //that no line will be legal, but 
+                //that no line will be legal
 
                 var truncationLimit = 10;
 
@@ -225,90 +216,7 @@ namespace MapProjectorLib
                     }
                     //else we can't split any more, so give up
                 } 
-                //else //neither point is in bounds
-                //{
-                //    //if we had defined out of bounds points we could try to figure
-                //    //out if any portion of the line overlaps with the image, and then 
-                //    //draw that line, but we don't have any defined points, so give up
-                //}
 
-                ////if only one point is outside
-                //if (startInBounds || endInBounds)
-                //{
-
-                //    //the following code is wrong
-                //    // whichever points are out of bounds have mapped points that are not defined
-                //    // this code acts like they are defined, but the definitions are beyond the bounds of the image
-
-                //    var width = _image.Width;
-                //    var height = _image.Height;
-
-                //    //todo: probably should make this scale with image size?
-                //    var margin = 50;
-
-                //    // Consider whether to recurse
-                //    // If both points are off to one side or above or below the image,
-                //    // don't recurse, we assume that the line doesn't pass through.
-                //    long sidex0 = mappedStart.X > width + margin
-                //        ? 1
-                //        : mappedStart.X < -margin
-                //            ? -1
-                //            : 0;
-                //    long sidey0 = mappedStart.Y > height + margin
-                //        ? 1
-                //        : mappedStart.Y < -margin
-                //            ? -1
-                //            : 0;
-                //    long sidex1 = mappedEnd.X > width + margin
-                //        ? 1
-                //        : mappedEnd.X < -margin
-                //            ? -1
-                //            : 0;
-                //    long sidey1 = mappedEnd.Y > height + margin
-                //        ? 1
-                //        : mappedEnd.Y < -margin
-                //            ? 1
-                //            : 0;
-
-                //    // one of the points is inside the image,
-                //    // and we have an educated guess that some of the line is visible 
-                //    if (sidex0 * sidex1 + sidey0 * sidey1 <= 0)
-                //    {
-                //        //if we're not at the recursion limit, then try to draw a better line
-                //        if (recursionLimit > 0)
-                //        {
-                //            SplitSegment();
-                //        }
-                //        else //otherwise draw the dumb line and let the out of bounds pixel writes fail
-                //        {
-                //            DrawLine((int)mappedStart.X, (int)mappedStart.Y, (int)mappedEnd.X, (int)mappedEnd.Y, color);
-                //        }
-                //    }
-                //} //else both points are outside
-            }
-        }
-
-
-        // Add a latitude, longitude grid to the image
-        public void AddGrid(double gridX, double gridY, Rgb24 color)
-        {
-            var height = _image.Height;
-            var width = _image.Width;
-
-            var yStep = gridY * height / 180.0;
-            var xStep = gridX * width / 360.0;
-            // Quicker this way around with big images
-            for (var y = 0; y < height; y++)
-            for (var xgrad = 0.0; (int) xgrad < width; xgrad += xStep)
-            {
-                var x = (int) xgrad;
-                SafeSetPixel(x, y, color);
-            }
-
-            for (var ygrad = 0.0; (int) ygrad < height; ygrad += yStep)
-            {
-                var y = (int) ygrad;
-                for (var x = 0; x < width; x++) SafeSetPixel(x, y, color);
             }
         }
 
