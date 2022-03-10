@@ -98,7 +98,7 @@ namespace MapProjectorLib
         static Image<RgbaVector> GetBackgroundCompositeImage(ProjectionParams pParams)
         {
             if (pParams.BackgroundImage != null) return pParams.BackgroundImage.ImageData;
-            return new Image<RgbaVector>(pParams.Width, pParams.Height, pParams.transformParams.backgroundColor);
+            return new Image<RgbaVector>(pParams.Width, pParams.Height, pParams.backgroundColor);
         }
 
         static void ApplyBackgroundAndSave(DestinationImage outImage, ProjectionParams pParams)

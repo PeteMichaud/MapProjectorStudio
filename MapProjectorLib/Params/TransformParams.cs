@@ -15,8 +15,6 @@ namespace MapProjectorLib
         public double xOffset = 0;
         public double yOffset = 0;
 
-        public RgbaVector backgroundColor = new RgbaVector(0, 0, 0, 1);
-
         //X dimension of Oblateness, measured in planet radii
         public double ox = 1.0; 
 

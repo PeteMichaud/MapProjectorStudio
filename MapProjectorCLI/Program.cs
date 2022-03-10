@@ -190,11 +190,6 @@ namespace MapProjectorCLI
                 widgetSmartSpacing = !cliParams.widgetNaiveSpacing,
             };
 
-            if (cliParams._backgroundColorValues != null)
-            {
-                tParams.backgroundColor = ToColor(cliParams._backgroundColorValues);
-            }
-
             if (cliParams._gridColorValues != null)
             {
                 tParams.gridColor = ToColor(cliParams._gridColorValues);
@@ -237,6 +232,11 @@ namespace MapProjectorCLI
                 DestinationImageFileName = cliParams.outImageFileName,
                 Invert = cliParams.Invert,
             };
+
+            if (cliParams._backgroundColorValues != null)
+            {
+                pParams.backgroundColor = ToColor(cliParams._backgroundColorValues);
+            }
 
             return (true, pParams);
         }

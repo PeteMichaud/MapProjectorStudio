@@ -1,4 +1,6 @@
-﻿namespace MapProjectorLib
+﻿using SixLabors.ImageSharp.PixelFormats;
+
+namespace MapProjectorLib
 {
     public class ProjectionParams
     {
@@ -18,6 +20,7 @@
 
         public string BackImageFileName;
         public Image BackgroundImage;
+        public RgbaVector backgroundColor = new RgbaVector(0, 0, 0, 1);
 
         public string srcImageFileName;
         public SamplableImage SourceImage;
@@ -37,7 +40,7 @@
             }
         }
         public bool HasBackgroundColor => BackgroundImage != null 
-            || transformParams.backgroundColor.A > 0f;
+            || backgroundColor.A > 0f;
         public bool ShouldCompositeBackground
         {
             get => HasBackgroundColor 
