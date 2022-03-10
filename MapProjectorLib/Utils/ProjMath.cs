@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace MapProjectorLib
 {
-    internal static class ProjMath
+    public static class ProjMath
     {
         public const double TwoPi = 2.0 * Math.PI;
         public const double OneOverPi = 1.0 / Math.PI;
@@ -285,6 +285,13 @@ namespace MapProjectorLib
         public static double Lerp(double start, double end, double t)
         {
             return start + (end - start) * t;
+        }
+
+        public static double Clamp(double n, double min, double max)
+        {
+            if (n < min) return min;
+            if (n > max) return max;
+            return n;
         }
 
     }
