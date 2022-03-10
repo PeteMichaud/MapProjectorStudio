@@ -5,7 +5,7 @@
         public double Phi;
 
         public LongPlotter(
-            Image image, TransformParams tParams, Transform transform)
+            DestinationImage image, TransformParams tParams, Transform transform)
             : base(image, tParams, transform)
         {
             Phi = 0;

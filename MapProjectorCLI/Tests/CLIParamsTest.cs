@@ -1,48 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NUnit.Framework;
-using CommandLine;
 using MapProjectorLib;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
+
 namespace MapProjectorCLI.Tests
 {
     [TestFixture]
-    public class CLIParamsTest
+    public class CLIParamsTest : TestsWithParser
     {
         const double OneDay = 2 * Math.PI / 365.25;
         const double OneDegree = 2 * Math.PI / 360.0;
         const double OneHour = 2 * Math.PI / 24.0;
 
-        const string defaultArgs = "-f ..\\..\\Tests\\Input\\earth_equirect.png -o out.png";
-        private string[] ToArgs(string rawArgs, bool withDefaults = true)
-        {
-            if(withDefaults)
-            {
-                rawArgs += $" {defaultArgs}";
-            }
-
-            return rawArgs.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-        }
-
-        static void Parse(string[] args, Action<CLIParams> success)
-        {
-            CLIParams.Parse(args)
-                .WithParsed(success)
-                .WithNotParsed(errs =>
-            {
-                foreach (var err in errs)
-                {
-                    throw new Exception(err.ToString());
-                }
-            });
-        }
         static double ToRadians(double deg)
         {
             return deg * Math.PI / 180.0;
         }
-
+                
         [Test]
         public void SanityTest()
         {
@@ -978,7 +953,7 @@ namespace MapProjectorCLI.Tests
                 {
                     (var success, var projectionParams) = Program.ProcessParams(cliParams);
                     Assert.True(success);
-                    Assert.True(projectionParams.srcImage != null);
+                    Assert.True(projectionParams.SourceImage != null);
                 });
 
             });

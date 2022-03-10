@@ -64,10 +64,15 @@
     <Compile Include="ColorSamplers\ColorSampler.cs" />
     <Compile Include="ColorSamplers\BilinearSampler.cs" />
     <Compile Include="ColorSamplers\NearestNeighborSampler.cs" />
+    <Compile Include="Enums\BitDepthPerChannel.cs" />
     <Compile Include="Enums\ColorSampleMode.cs" />
     <Compile Include="Enums\MapWidget.cs" />
+    <Compile Include="Extensions\RgbaVectorExtensions.cs" />
     <Compile Include="Extensions\Rgb24Extensions.cs" />
-    <Compile Include="Image.cs" />
+    <Compile Include="Images\Image.cs" />
+    <Compile Include="Images\SamplableImage.cs" />
+    <Compile Include="Images\DestinationImage.cs" />
+    <Compile Include="Images\ImageSaver.cs" />
     <Compile Include="Params\LoopParams.cs" />
     <Compile Include="Params\ProjectionParams.cs" />
     <Compile Include="Projector.cs" />
@@ -79,6 +84,7 @@
     <Compile Include="Projections\Perspective.cs" />
     <Compile Include="Projections\Rectilinear.cs" />
     <Compile Include="Projections\Stereographic.cs" />
+    <Compile Include="Transform\RowOperation.cs" />
     <Compile Include="Utils\Line.cs" />
     <Compile Include="Utils\Matrix3.cs" />
     <Compile Include="Plotters\AnalemmaPlotter.cs" />

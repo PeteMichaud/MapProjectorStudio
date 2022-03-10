@@ -79,6 +79,45 @@ namespace MapProjectorLib
             return x * x * x;
         }
 
+        public static (double x, double y) ApplyRotation(double r, double x, double y)
+        {
+            return (
+                x: x * Math.Cos(r) + y * Math.Sin(r),
+                y: -x * Math.Sin(r) + y * Math.Cos(r)
+            );
+        }
+
+        public static double GreatCircleDistance(
+            double phi0, double lambda0, double phi1, double lambda1)
+        {
+            var x0 = Math.Cos(lambda0) * Math.Cos(phi0);
+            var y0 = Math.Sin(lambda0) * Math.Cos(phi0);
+            var z0 = Math.Sin(phi0);
+            var x1 = Math.Cos(lambda1) * Math.Cos(phi1);
+            var y1 = Math.Sin(lambda1) * Math.Cos(phi1);
+            var z1 = Math.Sin(phi1);
+            var d = Math.Acos(x0 * x1 + y0 * y1 + z0 * z1);
+
+            return d;
+        }
+
+        public static bool IsPointWithinRadius(
+            double targetPhi, double targetlambda,
+            double originPhi, double originLambda,
+            double radius)
+        {
+            if (radius == 0) return true;
+
+            return GreatCircleDistance(targetPhi, targetlambda, originPhi, originLambda)
+                <= radius;
+        }
+
+        public static bool IsPointWithinRadius(
+            TransformParams tParams, double phi, double lambda)
+        {
+            return IsPointWithinRadius(phi, lambda, tParams.lat, tParams.lon, tParams.radius);
+        }
+
         public static bool FindRoot(
             double t0, double t1, double epsilon, ref double t,
             Func<double, double> projectionEquation)

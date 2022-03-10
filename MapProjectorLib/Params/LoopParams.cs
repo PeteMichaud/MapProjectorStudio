@@ -16,33 +16,5 @@
         public double yIncr = 0; //Pixels
         public double zIncr = 0; //Z (Zoom) Increment (Pixels)
 
-        public override string ToString()
-        {
-            return string.Format(
-                @"Loop Params:
-
-    Loop Count: {0}
-    Tilt Incr: {1}
-    Turn Incr: {2}
-    Lat Incr: {3}
-    Long Incr: {4}
-    X Incr: {5}
-    Y Incr: {6}
-    Z Incr: {7}
-    Date Incr: {8}
-    Time Incr: {9}
-",
-                LoopCount,
-                TiltIncr,
-                TurnIncr,
-                LatIncr,
-                LongIncr,
-                xIncr,
-                yIncr,
-                zIncr,
-                DateIncr,
-                TimeIncr
-            );
-        }
     }
 }

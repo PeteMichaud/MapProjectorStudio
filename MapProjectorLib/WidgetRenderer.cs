@@ -4,7 +4,7 @@ namespace MapProjectorLib
 {
     static public class WidgetRenderer
     {
-        static public void Render(Image image, TransformParams tParams, Transform transform)
+        static public void Render(DestinationImage image, TransformParams tParams, Transform transform)
         {
             if (tParams.Widgets.HasFlag(MapWidget.Grid))
                 DrawGrid(image, tParams, transform);
@@ -37,7 +37,7 @@ namespace MapProjectorLib
         }
 
         static void DrawLocalHours(
-            Image image, TransformParams tParams, Transform transform)
+            DestinationImage image, TransformParams tParams, Transform transform)
         {
             var latPlotter = new LatPlotter(image, tParams, transform);
             const int nx = 24;
@@ -54,7 +54,7 @@ namespace MapProjectorLib
         }
 
         static void DrawGrid(
-            Image image, TransformParams tParams, Transform transform)
+            DestinationImage image, TransformParams tParams, Transform transform)
         {
             var gridX = tParams.gridX;
             var gridY = tParams.gridY;
@@ -83,7 +83,7 @@ namespace MapProjectorLib
             }
         }
 
-        static void DrawAnalemma(Image image, TransformParams tParams, Transform transform)
+        static void DrawAnalemma(DestinationImage image, TransformParams tParams, Transform transform)
         {
             var gridx = tParams.gridX;
             var analemmaPlotter = new AnalemmaPlotter(image, tParams, transform);
@@ -99,7 +99,7 @@ namespace MapProjectorLib
         }
 
         static void DrawTemporaryHours(
-            Image image, TransformParams tParams, Transform transform)
+            DestinationImage image, TransformParams tParams, Transform transform)
         {
             var tempPlotter = new TempPlotter(image, tParams, transform)
             {
@@ -117,7 +117,7 @@ namespace MapProjectorLib
         }
 
         static void DrawTropics(
-            Image image, TransformParams tParams, Transform transform)
+            DestinationImage image, TransformParams tParams, Transform transform)
         {
             var longPlotter = new LongPlotter(image, tParams, transform);
 
@@ -131,7 +131,7 @@ namespace MapProjectorLib
         }
 
         static void DrawDateline(
-            Image image, TransformParams tParams, Transform transform)
+            DestinationImage image, TransformParams tParams, Transform transform)
         {
             var day = tParams.widgetDay;
             var longPlotter = new LongPlotter(image, tParams, transform);
@@ -149,7 +149,7 @@ namespace MapProjectorLib
         }
 
         static void DrawDatetime(
-            Image image, TransformParams tParams, Transform transform)
+            DestinationImage image, TransformParams tParams, Transform transform)
         {
             var day = tParams.widgetDay;
 
@@ -170,7 +170,7 @@ namespace MapProjectorLib
         }
 
         static void DrawAltitudes(
-            Image image, TransformParams tParams, Transform transform)
+            DestinationImage image, TransformParams tParams, Transform transform)
         {
             var altitudesPlotter = new AltitudesPlotter(image, tParams, transform)
             {
@@ -187,7 +187,7 @@ namespace MapProjectorLib
         }
 
         static void DrawIndicatrix(
-        Image image, TransformParams tParams, Transform transform)
+        DestinationImage image, TransformParams tParams, Transform transform)
         {
             var circlePlotter = new CirclePlotter(image, tParams, transform)
             {

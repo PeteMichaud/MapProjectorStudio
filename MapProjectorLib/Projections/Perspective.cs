@@ -7,7 +7,7 @@ namespace MapProjectorLib.Projections
     internal class Perspective : Transform
     {
         //todo: make param
-        const double nightDim = 0.5;
+        const float nightDim = 0.5f;
 
         // Cached oblateness factors
         double a;
@@ -218,8 +218,8 @@ namespace MapProjectorLib.Projections
             return (false, PointD.None);
         }
 
-        protected override Rgb24 AdjustOutputColor(
-            Rgb24 inputColor,
+        public override RgbaVector AdjustOutputColor(
+            RgbaVector inputColor,
             double xProjected, double yProjected, double zProjected,
             TransformParams tParams)
         {
@@ -234,7 +234,7 @@ namespace MapProjectorLib.Projections
 
             return sunAltitude < ProjMath.SunriseAngle
                 ? inputColor.Dim(nightDim)
-                : inputColor.Dim(0.8 + 0.2 * sunAltitude);
+                : inputColor.Dim((float)(0.8 + 0.2 * sunAltitude));
         }
     }
 }

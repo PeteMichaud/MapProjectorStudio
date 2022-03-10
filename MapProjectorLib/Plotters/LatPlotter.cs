@@ -5,7 +5,7 @@
         public double Lambda;
 
         public LatPlotter(
-            Image image, TransformParams tParams, Transform transform)
+            DestinationImage image, TransformParams tParams, Transform transform)
             : base(image, tParams, transform)
         {
             Lambda = 0;

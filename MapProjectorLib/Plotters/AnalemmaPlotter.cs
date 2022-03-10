@@ -5,7 +5,7 @@
         public double Time;
 
         public AnalemmaPlotter(
-            Image image, TransformParams tParams, Transform transform)
+            DestinationImage image, TransformParams tParams, Transform transform)
             : base(image, tParams, transform)
         {
             Time = 0;

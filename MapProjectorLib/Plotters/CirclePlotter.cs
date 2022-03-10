@@ -9,7 +9,7 @@ namespace MapProjectorLib.Plotters
         public double Theta;
 
         public CirclePlotter(
-            Image image, TransformParams tParams, Transform transform)
+            DestinationImage image, TransformParams tParams, Transform transform)
             : base(image, tParams, transform)
         {
             Theta = 0;

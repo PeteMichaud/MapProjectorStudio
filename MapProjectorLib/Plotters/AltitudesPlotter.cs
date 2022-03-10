@@ -10,7 +10,7 @@ namespace MapProjectorLib.Plotters
         public double Theta;
 
         public AltitudesPlotter(
-            Image image, TransformParams tParams, Transform transform)
+            DestinationImage image, TransformParams tParams, Transform transform)
             : base(image, tParams, transform)
         {
             Theta = 0;

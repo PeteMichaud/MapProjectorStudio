@@ -1,18 +1,17 @@
-﻿
-using SixLabors.ImageSharp.PixelFormats;
+﻿using SixLabors.ImageSharp.PixelFormats;
 
 namespace MapProjectorLib.ColorSamplers
 {
     public class NearestNeighborSampler : ColorSampler
     {
-        public NearestNeighborSampler(Image sourceImage) : base(sourceImage)
+        public NearestNeighborSampler(SamplableImage sourceImage) : base(sourceImage)
         {
             Mode = ColorSampleMode.NearestNeighbor;
         }
 
-        public override Rgb24 Sample(double x, double y, Image image)
+        public override RgbaVector Sample(double x, double y)
         {
-            return image[(int)x, (int)y];
+            return Image[(int)x, (int)y];
         }
     }
 }

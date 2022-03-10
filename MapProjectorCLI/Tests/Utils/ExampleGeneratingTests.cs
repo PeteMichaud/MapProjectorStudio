@@ -13,7 +13,7 @@ using System.Linq;
 namespace MapProjectorCLI.Tests
 {
     //This test harnass generates an example file from the tests
-    public class ExampleGeneratingTests
+    public class ExampleGeneratingTests : TestsWithParser
     {
         static SortedDictionary<string, Example> globalExamples = new SortedDictionary<string, Example>();
 

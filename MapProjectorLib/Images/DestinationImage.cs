@@ -1,98 +1,68 @@
 ﻿using System;
+using System.Collections.Generic;
+
 using MapProjectorLib.Plotters;
+
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
-using System.Collections.Generic;
-using MapProjectorLib.ColorSamplers;
 
 namespace MapProjectorLib
 {
-    //Just a wrapper class for ImageSharp so I can easily change it out later
-    public class Image : IDisposable
+    public class DestinationImage : IDisposable
     {
-        readonly Image<Rgb24> _image;
-        readonly ColorSampler _sampler;
+        public readonly Image<RgbaVector> ImageData;
+        public int Width => ImageData.Width;
+        public int Height => ImageData.Height;
 
-        public int Width => _image.Width;
-        public int Height => _image.Height;
-
-        public Rgb24 this[int x, int y]
+        public RgbaVector this[int x, int y]
         {
-            get => _image[x, y];
-            set => _image[x, y] = value;
+            get => ImageData[x, y];
+            set => ImageData[x, y] = value;
         }
 
-        Image(Image<Rgb24> image, ColorSampleMode mode)
+        public DestinationImage(Image<RgbaVector> image)
         {
-            _image = image;
-            _sampler = GetColorSampler(mode);
+            if(image == null)
+            {
+                throw new ArgumentNullException("Image cannot be null", nameof(image));
+            }
+
+            ImageData = image;
         }
 
-        public Image(int width, int height)
+
+        public DestinationImage(int width, int height)
         {
-            _image = new Image<Rgb24>(width, height);
-            _sampler = GetColorSampler();
+            ImageData = new Image<RgbaVector>(width, height);
         }
 
-        public Image(int width, int height, Rgb24 backgroundColor)
+        public DestinationImage(int width, int height, RgbaVector backgroundColor)
         {
-            _image = new Image<Rgb24>(width, height, backgroundColor);
-            _sampler = GetColorSampler();
+            ImageData = new Image<RgbaVector>(width, height, backgroundColor);
         }
 
-        public Image Clone()
+        public void Save(string fileName, int seriesNumber, BitDepthPerChannel targetBitDepth)
         {
-            return new Image(_image.Clone(), _sampler.Mode);
+            var saver = new ImageSaver(fileName, seriesNumber);
+            saver.Save(ImageData, targetBitDepth);
         }
 
-        public void Save(string fileName)
+        public void Save(string fileName, BitDepthPerChannel targetBitDepth)
         {
-            _image.Save(fileName);
-        }
-
-        public static Image Load(string fileName, ColorSampleMode mode)
-        {
-            return new Image(SixLabors.ImageSharp.Image.Load<Rgb24>(fileName), mode);
+            var saver = new ImageSaver(fileName);
+            saver.Save(ImageData, targetBitDepth);
         }
 
         public void Dispose()
         {
-            _image.Dispose();
+            ImageData.Dispose();
         }
 
         //
 
-        public Rgb24 Sample(double x, double y)
+        public void ProcessPixelRows(PixelAccessorAction<RgbaVector> pixelAccessor)
         {
-            return _sampler.Sample(x, y, this);
-        }
-
-        ColorSampler GetColorSampler(ColorSampleMode mode)
-        {
-            switch (mode)
-            {
-                case ColorSampleMode.Fast:
-                case ColorSampleMode.NearestNeighbor:
-                    return new NearestNeighborSampler(this);
-                case ColorSampleMode.Good:
-                case ColorSampleMode.Bilinear:
-                    return new BilinearSampler(this);
-                case ColorSampleMode.Best:
-                case ColorSampleMode.Bicubic:
-                    return new BicubicSampler(this);
-                default:
-                    throw new ArgumentException($"Color Sample Mode not supported: {mode}", nameof(mode));
-            }
-        }
-        ColorSampler GetColorSampler()
-        {
-            return GetColorSampler(ColorSampleMode.Fast);
-        }
-
-
-        public void ProcessPixelRows(PixelAccessorAction<Rgb24> pixelAccessor)
-        {
-            _image.ProcessPixelRows(pixelAccessor);
+            ImageData.ProcessPixelRows(pixelAccessor);
         }
 
         //
@@ -100,7 +70,7 @@ namespace MapProjectorLib
         public void PlotLine(
             double t0, double t1,
             LinePlotter linePlotter,
-            Rgb24 color,
+            RgbaVector color,
             int naiveLineResolution, 
             int maxRecursiveDetailPerSegment = 10)
         {
@@ -113,14 +83,14 @@ namespace MapProjectorLib
                     linePlotter, color, maxRecursiveDetailPerSegment);
         }
 
-        public void PlotPoint(double x, double y, int r, Rgb24 color)
+        public void PlotPoint(double x, double y, int r, RgbaVector color)
         {
             for (var j = -r; j <= r; j++)
             for (var i = -r; i <= r; i++)
                 SafeSetPixel((int) (x + i), (int) (y + j), color);
         }
 
-        void DrawLine(int xStart, int yStart, int xEnd, int yEnd, Rgb24 color)
+        void DrawLine(int xStart, int yStart, int xEnd, int yEnd, RgbaVector color)
         {
             foreach(var pt in GetPointsOnLine(xStart, yStart, xEnd, yEnd))
             {
@@ -186,7 +156,7 @@ namespace MapProjectorLib
         void PlotLineSegment(
             double progressAlongPlotStart, double progressAlongPlotEnd,
             LinePlotter linePlotter,
-            Rgb24 color,
+            RgbaVector color,
             int recursionLimit)
         {
             DebugCheckRecursionLimit(recursionLimit);
@@ -249,12 +219,12 @@ namespace MapProjectorLib
             }
         }
 
-        void SafeSetPixel(int x, int y, Rgb24 color)
+        void SafeSetPixel(int x, int y, RgbaVector color)
         {
-            if (x < 0 || x >= _image.Width) return;
-            if (y < 0 || y >= _image.Height) return;
+            if (x < 0 || x >= ImageData.Width) return;
+            if (y < 0 || y >= ImageData.Height) return;
 
-            _image[x, y] = color;
+            ImageData[x, y] = color;
         }
 
     }

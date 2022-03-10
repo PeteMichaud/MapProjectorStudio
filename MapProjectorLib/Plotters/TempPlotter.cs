@@ -10,7 +10,7 @@ namespace MapProjectorLib.Plotters
         public double Time;
 
         public TempPlotter(
-            Image image, TransformParams tParams, Transform transform)
+            DestinationImage image, TransformParams tParams, Transform transform)
             : base(image, tParams, transform)
         {
             Time = 0;

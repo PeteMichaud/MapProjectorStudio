@@ -361,3 +361,5 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/MapProjectorCLI/Tests/Output/Formats
+/MapProjectorCLI/Tests/Output/Inverted

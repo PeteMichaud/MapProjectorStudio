@@ -1,13 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using MapProjectorLib;
-using CommandLine;
-using CommandLine.Text;
-using SixLabors.ImageSharp.PixelFormats;
 using System.Reflection;
 using System.IO;
 using System.Diagnostics;
+
+using MapProjectorLib;
+
+using CommandLine;
+using CommandLine.Text;
+
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
+
 namespace MapProjectorCLI
 {
     public class Program
@@ -32,7 +37,7 @@ namespace MapProjectorCLI
                     Projector.Project(pParams);
 
                     timer.Stop();
-                    Console.WriteLine($"Completed in {timer.Elapsed}s!\nCheck {pParams.outImageFileName} for results.");
+                    Console.WriteLine($"Completed in {timer.Elapsed}s!\nCheck {pParams.DestinationImageFileName} for results.");
                 }
                 else
                 {
@@ -55,8 +60,8 @@ namespace MapProjectorCLI
 
         internal static (bool result, ProjectionParams pParams) ProcessParams(CLIParams cliParams)
         {
-            Image srcImage = null;
-            Image backImage = null;
+            SamplableImage srcImage = null;
+            MapProjectorLib.Image backgroundImage = null;
 
             //Qualify File Paths and Load Files
             {
@@ -75,12 +80,29 @@ namespace MapProjectorCLI
 
                 try
                 {
-                    srcImage = Projector.LoadImage(cliParams.srcImageFileName, cliParams.ColorSampleMode);
+                    srcImage = Projector.LoadImageForSampling(cliParams.srcImageFileName, cliParams.ColorSampleMode);
                 }
-                catch (IOException)
+                catch (FileNotFoundException)
                 {
-                    Console.WriteLine($"Could not open file {cliParams.srcImageFileName}");
+                    Console.WriteLine($"Source file not found: {cliParams.srcImageFileName}");
                     return (false, null);
+                }
+                catch (UnknownImageFormatException ex)
+                {
+                    Console.Write($"Could not open source file type: {cliParams.srcImageFileName}\n{ex.Message}");
+                    return (false, null);
+                }
+                catch(AggregateException ex) //ImageSharp throws this for some reason
+                {
+                    if (ex.InnerException is UnknownImageFormatException)
+                    {
+                        Console.Write($"Could not open source file type: {cliParams.srcImageFileName}\n{ex.InnerException.Message}");
+                        return (false, null);
+                    }
+                    else
+                    {
+                        throw;
+                    }
                 }
 
                 try
@@ -88,16 +110,34 @@ namespace MapProjectorCLI
                     if (!string.IsNullOrEmpty(cliParams.backImageFileName))
                     {
                         cliParams.backImageFileName = QualifiedPath(cliParams.backImageFileName);
-                        backImage = Projector.LoadImage(cliParams.backImageFileName);
+                        backgroundImage = Projector.LoadImageForCopying(cliParams.backImageFileName);
                     }
                 }
-                catch (IOException)
+                catch (FileNotFoundException)
                 {
-                    Console.WriteLine($"Could not open background file {cliParams.backImageFileName}");
+                    Console.WriteLine($"Background file not found: {cliParams.backImageFileName}");
                     return (false, null);
                 }
+                catch (UnknownImageFormatException ex)
+                {
+                    Console.Write($"Could not open background file type: {cliParams.srcImageFileName}\n{ex.Message}");
+                    return (false, null);
+                }
+                catch (AggregateException ex) //ImageSharp throws this for some reason
+                {
+                    if (ex.InnerException is UnknownImageFormatException)
+                    {
+                        Console.Write($"Could not open background file type: {cliParams.srcImageFileName}\n{ex.InnerException.Message}");
+                        return (false, null);
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+
             }
-            
+
             var tParams = new TransformParams()
             {
                 Widgets = cliParams.Widgets,
@@ -191,25 +231,43 @@ namespace MapProjectorCLI
                 Width = cliParams.Width > 0 ? cliParams.Width : srcImage.Width,
                 Height = cliParams.Height > 0 ? cliParams.Height : srcImage.Height,
                 srcImageFileName = cliParams.srcImageFileName,
-                srcImage = srcImage,
-                backImageFileName = cliParams.backImageFileName,
-                backImage = backImage,
-                outImageFileName = cliParams.outImageFileName,
+                SourceImage = srcImage,
+                BackImageFileName = cliParams.backImageFileName,
+                BackgroundImage = backgroundImage,
+                DestinationImageFileName = cliParams.outImageFileName,
                 Invert = cliParams.Invert,
             };
 
             return (true, pParams);
         }
 
-        static Rgb24 ToColor(string colStr)
+        static RgbaVector ToColor(string colStr)
         {
             var byteColors = colStr.Split(',', ':').Select<string, byte>(strV =>
             {
                 byte.TryParse(strV, out var byteVal);
                 return byteVal;
-            }).ToArray();
+            }).ToList();
 
-            return new Rgb24(byteColors[0], byteColors[1], byteColors[2]);
+            if(byteColors.Count == 4)
+            {
+                //all channels present, do nothing
+            }
+            else if(byteColors.Count == 3)
+            {
+                byteColors.Add(255); //add alpha channel 
+            }
+            else
+            {
+                throw new ArgumentException($"Bad Color Format \"{colStr}\". Provide either R,G,B or R,G,B,A (0-255)");
+            }
+
+            return new RgbaVector(
+                (float)byteColors[0] / 255,
+                (float)byteColors[1] / 255,
+                (float)byteColors[2] / 255,
+                (float)byteColors[3] / 255
+                );
         }
     }
 }

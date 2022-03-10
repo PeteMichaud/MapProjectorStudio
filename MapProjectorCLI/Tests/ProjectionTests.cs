@@ -1,14 +1,11 @@
 ﻿using System;
-using NUnit.Framework;
-using CommandLine;
-using MapProjectorLib;
 using System.Reflection;
-using System.Text;
-using System.IO;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using System.Runtime.CompilerServices;
-using System.Linq;
+
+using NUnit.Framework;
+
+using MapProjectorLib;
+
 
 namespace MapProjectorCLI.Tests
 {
@@ -24,19 +21,6 @@ namespace MapProjectorCLI.Tests
         {
             rawArgs += $" {string.Format(ioArgs, outFileName, inFileName)}";
             return rawArgs.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-        }
-
-        public static void Parse(string[] args, Action<CLIParams> success)
-        {
-            CLIParams.Parse(args)
-                .WithParsed(success)
-                .WithNotParsed(errs =>
-                {
-                    foreach (var err in errs)
-                    {
-                        throw new Exception(err.ToString());
-                    }
-                });
         }
         
         [TestFixture]
@@ -131,7 +115,7 @@ namespace MapProjectorCLI.Tests
                 foreach (MapProjection proj in Enum.GetValues(typeof(MapProjection)))
                 {
                     var args = ToArgs($"--projection {proj} --invert",
-                         outFileName: $"_inverted_{MethodBase.GetCurrentMethod().Name}_{proj}");
+                         outFileName: $"\\Inverted\\{MethodBase.GetCurrentMethod().Name}_{proj}");
 
                     Parse(args, cliParams =>
                     {
