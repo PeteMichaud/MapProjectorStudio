@@ -174,7 +174,7 @@ namespace MapProjectorCLI
 
                 //
 
-                p = cliParams.p,
+                p = ProjMath.Clamp(cliParams.p, 0, ProjMath.PiOverTwo),
 
                 conic = cliParams.conic,
                 conicr = cliParams.conicr,
