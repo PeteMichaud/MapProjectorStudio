@@ -131,6 +131,20 @@ namespace MapProjectorCLI.Tests
         public class OptionsUsage : ProjectionTests
         {
             [Test]
+            public void Adjust()
+            {
+                var args = ToArgs($"--adjust -w 400 -h 400 --projection mercator");
+                AddExample(args, "Adjusts the final output size in case your projection needs more room.");
+
+                Parse(args, cliParams =>
+                {
+                    (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                    Projector.Project(projectionParams);
+                });
+
+            }
+
+            [Test]
             public void Turn()
             {
                 var args = ToArgs($"--turn 45");
