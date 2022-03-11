@@ -60,7 +60,7 @@ namespace MapProjectorLib
 
         public void Invoke(int outY)
         {
-            Span<RgbaVector> destinationRowSpan = this._destinationBuffer.DangerousGetRowSpan(outY);
+            var destinationRowSpan = _destinationBuffer.DangerousGetRowSpan(outY);
 
             for (var outX = 0; outX < destinationRowSpan.Length; outX++)
             {
