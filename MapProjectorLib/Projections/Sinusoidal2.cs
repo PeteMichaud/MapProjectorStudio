@@ -4,7 +4,6 @@ namespace MapProjectorLib.Projections
 {
     internal class Sinusoidal2 : CylindricalBase
     {
-        double _m;
         double _a;
         double _b;
         double _k;
@@ -13,14 +12,14 @@ namespace MapProjectorLib.Projections
         // where  Math.Sin(t) + at = k(a+1)sin(phi)
         // and b + (a * pi)/2 = k*(a+1)
 
-        protected override double GetMaxHeight(TransformParams tParams)
+        public override void Init(TransformParams tParams)
         {
-            double k0 = 0.0, b0 = 0.0;
-            CalcParams(tParams.a, tParams.p, ref k0, ref b0);
-            return b0 * ProjMath.PiOverTwo;
+            base.Init(tParams);
+            _a = tParams.a;
+            (_k, _b) = CalcParams(tParams.a, tParams.p);
         }
 
-        static void CalcParams(double a, double phi, ref double k, ref double b)
+        static (double k, double b) CalcParams(double a, double phi)
         {
             // Find the t value for phi
             double t1 = 0;
@@ -42,29 +41,27 @@ namespace MapProjectorLib.Projections
                     t2 = t0;
             }
 
-            k = k0;
-            b = b0;
+            return (k0, b0);
         }
 
-        public override void Init(TransformParams tParams)
+        protected override double GetMaxHeight(TransformParams tParams)
         {
-            base.Init(tParams);
-            _a = tParams.a;
-            CalcParams(tParams.a, tParams.p, ref _k, ref _b);
+            (double _, double b0) = CalcParams(tParams.a, tParams.p);
+            return b0 * ProjMath.PiOverTwo;
         }
 
-        protected override double GetLat(double y)
+        protected override double GetLat(double x, double y)
         {
             var t = y / _b;
             var phi = Math.Asin(_b * (Math.Sin(t) + _a * t) / (_k * (_a + 1)));
-            _m = (_a + 1) / (Math.Cos(t) + _a);
-
             return phi;
         }
 
-        protected override double GetLong(double x)
+        protected override double GetLong(double x, double y)
         {
-            return _m * x;
+            var t = y / _b;
+            var m = (_a + 1) / (Math.Cos(t) + _a);
+            return m * x;
         }
 
         protected override (bool inBounds, PointD mappedPoint) GetXY(

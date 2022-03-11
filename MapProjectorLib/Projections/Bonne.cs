@@ -19,9 +19,9 @@ namespace MapProjectorLib.Projections
             return 2.0 * Math.PI / width;
         }
 
-        protected override bool ProjectSimple(
+        protected override (bool result, double phi, double lambda) ProjectSimple(
             double x, double y,
-            ref double phi, ref double lambda)
+            double phi, double lambda)
         {
             var rho = Math.Sqrt(ProjMath.Sqr(x) + ProjMath.Sqr(_cotp - y));
 
@@ -29,11 +29,13 @@ namespace MapProjectorLib.Projections
             {
                 phi = _cotp + _p - rho;
                 lambda = rho * Math.Atan2(x, _cotp - y) / Math.Cos(phi);
-            } else if (_p < 0)
+            } 
+            else if (_p < 0)
             {
                 phi = _cotp + _p + rho;
                 lambda = rho * Math.Atan2(x, y - _cotp) / Math.Cos(phi);
-            } else
+            } 
+            else
             {
                 // Degenerate case - the  Math.Sinusoidal projection
                 phi = y;
@@ -42,9 +44,9 @@ namespace MapProjectorLib.Projections
 
             if (phi >= -ProjMath.PiOverTwo && phi <= +ProjMath.PiOverTwo &&
                 lambda >= -Math.PI && lambda <= Math.PI)
-                return true;
+                return (true, phi, lambda);
 
-            return false;
+            return (false, phi, lambda);
         }
 
         protected override (bool inBounds, PointD mappedPoint) ProjectInvSimple(

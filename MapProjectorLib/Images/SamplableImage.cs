@@ -1,8 +1,5 @@
 ﻿using System;
 using System.IO;
-
-using MapProjectorLib.ColorSamplers;
-
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Formats;
@@ -16,30 +13,30 @@ namespace MapProjectorLib
 {
     public class SamplableImage : IDisposable
     {
-        public readonly Image<RgbaVector> _image;
-        readonly ColorSampler _sampler;
-        
+        public readonly Image<RgbaVector> ImageData;
+        public ColorSampleMode ColorSampleMode;
+
         public readonly IImageFormat OriginalFormat;
         public readonly BitDepthPerChannel BitDepth;
         public readonly bool SourceMayHaveTransparency;
 
-        public int Width => _image.Width;
-        public int Height => _image.Height;
+        public int Width => ImageData.Width;
+        public int Height => ImageData.Height;
 
         public RgbaVector this[int x, int y]
         {
-            get => _image[x, y];
-            set => _image[x, y] = value;
+            get => ImageData[x, y];
+            set => ImageData[x, y] = value;
         }
 
         SamplableImage(Image<RgbaVector> image, ColorSampleMode mode, 
             IImageFormat originalFormat, BitDepthPerChannel bitDepth, bool useTransparency)
         {
-            _image = image ?? throw new ArgumentException("Image must not be null", nameof(image));
-            _sampler = GetColorSampler(mode);
+            ImageData = image ?? throw new ArgumentException("Image must not be null", nameof(image));
             OriginalFormat = originalFormat;
             BitDepth = bitDepth;
             SourceMayHaveTransparency = useTransparency;
+            ColorSampleMode = mode;
         }
 
         public static SamplableImage Load(string imagePath, ColorSampleMode mode)
@@ -69,33 +66,9 @@ namespace MapProjectorLib
 
         public void Dispose()
         {
-            _image.Dispose();
+            ImageData.Dispose();
         }
 
-        //
-
-        public RgbaVector Sample(double x, double y)
-        {
-            return _sampler.Sample(x, y);
-        }
-
-        ColorSampler GetColorSampler(ColorSampleMode mode)
-        {
-            switch (mode)
-            {
-                case ColorSampleMode.Fast:
-                case ColorSampleMode.NearestNeighbor:
-                    return new NearestNeighborSampler(this);
-                case ColorSampleMode.Good:
-                case ColorSampleMode.Bilinear:
-                    return new BilinearSampler(this);
-                case ColorSampleMode.Best:
-                case ColorSampleMode.Bicubic:
-                    return new BicubicSampler(this);
-                default:
-                    throw new ArgumentException($"Color Sample Mode not supported: {mode}", nameof(mode));
-            }
-        }
 
         static (BitDepthPerChannel bitDepth, bool useTransparency) GetMetaInfo(string ext, SixLabors.ImageSharp.Image image)
         {

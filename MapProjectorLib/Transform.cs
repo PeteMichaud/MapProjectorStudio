@@ -1,6 +1,9 @@
 ﻿using System;
 using MapProjectorLib.Projections;
+
+using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp.Advanced;
 
 namespace MapProjectorLib
 {
@@ -58,13 +61,19 @@ namespace MapProjectorLib
 
         // Abstract Methods
 
-        public abstract bool Project(
+        public (bool inProjectionBounds, double x1, double y1, double z1, double phi, double lambda) 
+        Project(TransformParams tParams, double x, double y)
+        {
+            return Project(tParams, x, y, 0d, 0d, 0d, 0d, 0d);
+        }
+
+        public abstract (bool inProjectionBounds, double x1, double y1, double z1, double phi, double lambda) Project(
             TransformParams tParams,
             double x, double y,
-            ref double x1, ref double y1, ref double z1,
-            ref double phi, ref double lambda);
+            double x1, double y1, double z1,
+            double phi, double lambda);
 
-        protected abstract (bool inBounds, PointD mappedPoint) ProjectInv(
+        public abstract (bool inBounds, PointD mappedPoint) ProjectInv(
             TransformParams tParams,
             double phi, double lambda);
 
@@ -92,11 +101,6 @@ namespace MapProjectorLib
             return (w, h);
         }
 
-        public virtual void SetY(double y)
-        {
-            /* noop */
-        }
-
         public virtual RgbaVector AdjustOutputColor(
             RgbaVector inputColor, double x, double y, double z,
             TransformParams tParams)
@@ -112,134 +116,28 @@ namespace MapProjectorLib
             SamplableImage inImage, DestinationImage outImage,
             TransformParams tParams)
         {
-            // precomputed values for the hot loop
-            var xOrigin = 0.5 * outImage.Width;
-            var yOrigin = 0.5 * outImage.Height;
-            var halfWidth = inImage.Width * 0.5;
-            var halfHeight = inImage.Height * 0.5;
-            var scaledWidth = inImage.Width * ProjMath.OneOverTwoPi;
-            var scaledHeight = inImage.Height * ProjMath.OneOverPi;
+            var operation = new TransformRowOperation(
+                inImage.ImageData, outImage.ImageData,
+                tParams, this, inImage.ColorSampleMode);
 
-            // Scale so that half width is 1
-            var scaleFactor = BasicScale(outImage.Width, outImage.Height) / tParams.scale;
-
-            //var operation = new RowOperation<Rgb24>(
-            //    inImage._image.Frames[0].PixelBuffer,
-            //    outImage._image.Frames[0].PixelBuffer);
-            
-            //ParallelRowIterator.IterateRows<RowOperation<Rgb24>, Rgb24>(
-            //                operation.configuration,
-            //                outImage._image.Bounds(),
-            //                in operation);
-
-            //
-            for (var outY = 0; outY < outImage.Height; outY++)
-            //Parallel.For(0, outImage.Height, outY =>
-            {
-                var y = scaleFactor * (yOrigin - outY - 0.5) + tParams.yOffset;
-                if (tParams.rotate == 0) SetY(y);
-
-                //Parallel.For(0, outImage.Width, outX =>
-                for (int outX = 0; outX < outImage.Width; outX++)
-                {
-                    var x1 = scaleFactor * (outX + 0.5 - xOrigin) + tParams.xOffset;
-                    var y1 = y;
-
-                    if(tParams.rotate != 0)
-                    {
-                        (x1, y1) = ProjMath.ApplyRotation(-tParams.rotate, x1, y1);
-                        SetY(y1);
-                    }
-
-                    double x0 = 0.0, y0 = 0.0, z0 = 0.0;
-                    double phi = 0.0, lambda = 0.0;
-
-                    bool inProjectionBounds = Project(tParams, x1, y1,
-                        ref x0, ref y0, ref z0,
-                        ref phi, ref lambda
-                    );
-
-                    if (inProjectionBounds && ProjMath.IsPointWithinRadius(tParams, phi, lambda))
-                    {
-                        var scaledX = halfWidth + lambda * scaledWidth;
-                        var scaledY = halfHeight - phi * scaledHeight;
-
-                        var outColor = AdjustOutputColor(
-                            inImage.Sample(scaledX, scaledY), x0, y0, z0, tParams);
-
-                        outImage[outX, outY] = outColor;
-                    }
-                    else
-                    {
-                        tParams.SomeDestinationPixelsAreBlank = true;
-                    }
-                }
-                //);
-            }
-            //);
-
+            ParallelRowIterator.IterateRows(
+                operation.configuration,
+                outImage.ImageData.Bounds(),
+                in operation);
         }
 
         public void TransformImageInv(
             SamplableImage inImage, DestinationImage outImage,
             TransformParams tParams)
         {
-            var outWidth = outImage.Width;
-            var outHeight = outImage.Height;
-            var xOrigin = 0.5 * outWidth;
-            var yOrigin = 0.5 * outHeight;
+            var operation = new TransformRowInverseOperation(
+              inImage.ImageData, outImage.ImageData,
+              tParams, this, inImage.ColorSampleMode);
 
-            // Now scan across the output image
-            for (var oy = 0; oy < outHeight; oy++)
-            {
-                for (var ox = 0; ox < outWidth; ox++)
-                {
-                    // Compute lat and long
-                    var phi = (yOrigin - oy - 0.5) * Math.PI / outHeight;
-                    var lambda = (ox + 0.5 - xOrigin) * ProjMath.TwoPi / outWidth;
-
-                    if (!ProjMath.IsPointWithinRadius(tParams, phi, lambda)) continue;
-
-                    // Compute the scaled x,y coordinates for <phi,lambda>
-                    (var inverseProjectionInBounds, var projectedPoint) =
-                        ProjectInv(tParams, phi, lambda);
-
-                    if (inverseProjectionInBounds)
-                    {
-                        SetDataInv(inImage, outImage, tParams, ox, oy, projectedPoint.X, projectedPoint.Y);
-                    }
-                }
-            }
-        }
-
-        bool SetDataInv(
-            SamplableImage srcImage, DestinationImage outImage,
-            TransformParams tParams,
-            double outX, double outY, // Coordinates in output image
-            double x, double y // scaled coordinates in input image
-        )
-        {
-            var imgWidth = srcImage.Width;
-            var imgHeight = srcImage.Height;
-            var xOrigin = 0.5 * imgWidth;
-            var yOrigin = 0.5 * imgHeight;
-
-            // Scale so that half width is 1
-            var scaleFactor = BasicScale(imgWidth, imgHeight) / tParams.scale;
-
-            if (tParams.rotate != 0)
-            {
-                (x, y) = ProjMath.ApplyRotation(tParams.rotate, x, y);
-            }
-
-            var inX = (xOrigin + (x - tParams.xOffset) / scaleFactor);
-            var inY = (yOrigin - (y - tParams.yOffset) / scaleFactor);
-
-            if (inX < 0 || inX >= imgWidth || inY < 0 || inY >= imgHeight)
-                return false;
-
-            outImage[(int) outX, (int) outY] = srcImage.Sample(inX, inY);
-            return true;
+            ParallelRowIterator.IterateRows(
+                operation.configuration,
+                outImage.ImageData.Bounds(),
+                in operation);
         }
 
         //Map phi,lambda (lat,long) to x,y image coords
@@ -281,11 +179,11 @@ namespace MapProjectorLib
 
         // Apply matrix to phi, lambda, and put the resulting
         // cartesian coords in x,y,z.
-        protected static void ConvertLatLong(
-            ref double phi, ref double lambda,
+        protected static (double phi, double lambda) ConvertLatLong(
+            double phi, double lambda,
             Matrix3 m)
         {
-            if (m.isIdentity) return;
+            if (m.isIdentity) return (phi, lambda);
 
             var x = Math.Cos(lambda) * Math.Cos(phi);
             var y = Math.Sin(lambda) * Math.Cos(phi);
@@ -295,6 +193,7 @@ namespace MapProjectorLib
             
             phi = Math.Asin(z);
             lambda = Math.Atan2(y, x);
+            return (phi, lambda);
         }
 
     }

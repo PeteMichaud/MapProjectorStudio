@@ -51,7 +51,7 @@ namespace MapProjectorLib.Projections
         }
 
         static (double sunX, double sunY, double sunZ)
-            CalculateSunCoordinates(TransformParams tParams)
+        CalculateSunCoordinates(TransformParams tParams)
         {
             // Construct the sun parameters
             if (!tParams.sun) return (0.0, 0.0, 0.0);
@@ -110,11 +110,12 @@ namespace MapProjectorLib.Projections
             (sunX, sunY, sunZ) = CalculateSunCoordinates(tParams);
         }
 
-        public override bool Project(
+        public override (bool inProjectionBounds, double x1, double y1, double z1, double phi, double lambda) 
+        Project(
             TransformParams tParams,
             double x0, double y0,
-            ref double x, ref double y, ref double z,
-            ref double phi, ref double lambda)
+            double x, double y, double z,
+            double phi, double lambda)
         {
             // Apply our rotation to the point we are projecting to
             double x1 = -1;
@@ -133,7 +134,7 @@ namespace MapProjectorLib.Projections
                 c2 * ProjMath.Sqr(z1) - 1;
             var qm = qb * qb - 4 * qa * qc;
 
-            if (!(qm >= 0)) return false;
+            if (!(qm >= 0)) return (false, x, y, z, phi, lambda);
 
             // Since qa is always positive, the + solution is nearest to the point
             // of view, so we always use that one.
@@ -159,12 +160,12 @@ namespace MapProjectorLib.Projections
                 y = Math.Sin(lambda) * Math.Cos(phi);
                 z = Math.Sin(phi);
             }
-
-            return true;
+            
+            return (true, x, y, z, phi, lambda);
 
         }
 
-        protected override (bool inBounds, PointD mappedPoint) ProjectInv(
+        public override (bool inBounds, PointD mappedPoint) ProjectInv(
             TransformParams tParams,
             double phi, double lambda)
         {

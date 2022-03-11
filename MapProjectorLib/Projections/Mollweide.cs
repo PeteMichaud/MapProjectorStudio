@@ -4,25 +4,23 @@ namespace MapProjectorLib.Projections
 {
     internal class Mollweide : CylindricalBase
     {
-        double _m;
         double _a;
 
         public override void Init(TransformParams tParams)
         {
             base.Init(tParams);
             var phi = tParams.p;
-            CalcParams(phi, ref _a);
+            _a = CalcParams(phi);
         }
 
         // f(phi) = 1/a  Math.Sin t, g(phi) = Math.Cos t, where t + 0.5  Math.Sin(2t) = 0.5 pi  Math.Sin(phi)
         protected override double GetMaxHeight(TransformParams tParams)
         {
-            var a0 = 0.0;
-            CalcParams(tParams.p, ref a0);
+            var a0 = CalcParams(tParams.p);
             return 1.0 / a0;
         }
 
-        static void CalcParams(double phi, ref double a)
+        static double CalcParams(double phi)
         {
             // Now we need to find a suitable t
             // Good old binary search - note we cavalierly fail to check if there's
@@ -41,20 +39,21 @@ namespace MapProjectorLib.Projections
             }
 
             // t is our selected value
-            a = Math.PI / (4 * ProjMath.Sqr(Math.Cos(t) / Math.Cos(phi)));
+            return Math.PI / (4 * ProjMath.Sqr(Math.Cos(t) / Math.Cos(phi)));
         }
 
-        protected override double GetLat(double y)
+        protected override double GetLat(double x, double y)
         {
             // find t;
             var t = Math.Asin(y * _a);
-            _m = 1 / Math.Cos(t);
             return Math.Asin((t + 0.5 * Math.Sin(2 * t)) * ProjMath.TwoOverPi);
         }
 
-        protected override double GetLong(double x)
+        protected override double GetLong(double x, double y)
         {
-            return _m * x;
+            var t = Math.Asin(y * _a);
+            var m = 1 / Math.Cos(t);
+            return m * x;
         }
 
         protected override (bool inBounds, PointD mappedPoint) GetXY(

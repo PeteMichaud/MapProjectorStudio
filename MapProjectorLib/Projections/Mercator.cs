@@ -4,7 +4,7 @@ namespace MapProjectorLib.Projections
 {
     internal class Mercator : CylindricalBase
     {
-        protected override double GetLat(double y)
+        protected override double GetLat(double _, double y)
         {
             var k = Math.Exp(Math.Abs(y));
             var phi = Math.Acos(2 * k / (k * k + 1));
@@ -13,7 +13,7 @@ namespace MapProjectorLib.Projections
             return phi;
         }
 
-        protected override double GetLong(double x)
+        protected override double GetLong(double x, double _)
         {
             return x;
         }

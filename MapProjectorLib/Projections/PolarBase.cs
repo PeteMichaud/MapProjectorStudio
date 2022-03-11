@@ -6,8 +6,8 @@ namespace MapProjectorLib.Projections
     {
         protected double k;
 
-        protected abstract void GetPhi(double r, ref double phi);
-        protected abstract bool GetR(double phi, ref double r);
+        protected abstract double GetPhi(double r);
+        protected abstract (bool useR, double r) GetR(double phi);
 
         public override double BasicScale(int width, int height)
         {
@@ -28,42 +28,43 @@ namespace MapProjectorLib.Projections
             k = tParams.conic;
         }
 
-        public override bool Project(
+        public override (bool inProjectionBounds, double x1, double y1, double z1, double phi, double lambda) 
+        Project(
             TransformParams tParams,
-            double x0, double y0,
-            ref double x, ref double y, ref double z,
-            ref double phi, ref double lambda)
+            double x, double y,
+            double x0, double y0, double z0,
+            double phi, double lambda)
         {
-            var r = Math.Sqrt(ProjMath.Sqr(x0) + ProjMath.Sqr(y0)) -
-                    tParams.conicr;
-            lambda = tParams.conic * Math.Atan2(x0, -y0);
+            var r = Math.Sqrt(x * x + y * y) - tParams.conicr;
+            lambda = tParams.conic * Math.Atan2(x, -y);
 
             if (r > 0.0 && lambda >= -Math.PI && lambda <= Math.PI)
             {
-                GetPhi(r, ref phi);
+                phi = GetPhi(r);
                 if (phi >= -ProjMath.PiOverTwo && phi <= ProjMath.PiOverTwo)
                 {
-                    ConvertLatLong(
-                        ref phi, ref lambda, transformMatrix);
+                    (phi, lambda) = ConvertLatLong(
+                        phi, lambda, transformMatrix);
 
-                    return true;
+                    return (true, x0, y0, z0, phi, lambda);
                 }
             }
 
-            return false;
+            return (false, x0, y0, z0, phi, lambda);
         }
 
-        protected override (bool inBounds, PointD mappedPoint) ProjectInv(
+        public override (bool inBounds, PointD mappedPoint) ProjectInv(
             TransformParams tParams,
             double phi, double lambda)
         {
             // Set x and y to where phi and lambda are mapped to
             // x, y are in image coordinates
             // Get projection coordinates for x and y
-            ConvertLatLong(ref phi, ref lambda, transformMatrixInv);
+            (phi, lambda) = ConvertLatLong(phi, lambda, transformMatrixInv);
 
-            var r = 0.0;
-            if (GetR(phi, ref r))
+            //var r = 0.0;
+            (var useR, var r) = GetR(phi);
+            if (useR)
             {
                 var x = (r + tParams.conicr) * Math.Sin(lambda / tParams.conic);
                 var y = -(r + tParams.conicr) * Math.Cos(lambda / tParams.conic);

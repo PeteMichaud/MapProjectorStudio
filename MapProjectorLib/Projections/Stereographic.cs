@@ -4,17 +4,17 @@ namespace MapProjectorLib.Projections
 {
     internal class Stereographic : PolarBase
     {
-        protected override void GetPhi(double r, ref double phi)
+        protected override double GetPhi(double r)
         {
             var sr = Math.Pow(r, k);
-            phi = Math.Asin((1 - ProjMath.Sqr(sr)) / (1 + ProjMath.Sqr(sr)));
+            return Math.Asin((1 - ProjMath.Sqr(sr)) / (1 + ProjMath.Sqr(sr)));
         }
 
-        protected override bool GetR(double phi, ref double r)
+        protected override (bool useR, double r) GetR(double phi)
         {
-            r = Math.Cos(phi) / (1 + Math.Sin(phi));
+            var r = Math.Cos(phi) / (1 + Math.Sin(phi));
             r = Math.Pow(r, 1 / k);
-            return true;
+            return (true, r);
         }
     }
 }

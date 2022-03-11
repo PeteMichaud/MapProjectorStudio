@@ -2,25 +2,27 @@
 {
     internal abstract class Simple : Transform
     {
-        protected abstract bool ProjectSimple(
+        protected abstract (bool result, double phi, double lambda) ProjectSimple(
             double x, double y,
-            ref double phi, ref double lambda);
+            double phi, double lambda);
 
         protected abstract (bool inBounds, PointD mappedPoint) ProjectInvSimple(
             double phi, double lambda);
 
-        public override bool Project(
+        public override (bool inProjectionBounds, double x1, double y1, double z1, double phi, double lambda) Project(
             TransformParams tParams,
             double x, double y,
-            ref double x1, ref double y1, ref double z1,
-            ref double phi, ref double lambda)
+            double x0, double y0, double z0,
+            double phi, double lambda)
         {
-            var result = ProjectSimple(x, y, ref phi, ref lambda);
-            ConvertLatLong(ref phi, ref lambda, transformMatrix);
-            return result;
+            bool result = false;
+            (result, phi, lambda) = ProjectSimple(x, y, phi, lambda);
+            (phi, lambda) = ConvertLatLong(phi, lambda, transformMatrix);
+
+            return (result, x0, y0, z0, phi, lambda);
         }
 
-        protected override (bool inBounds, PointD mappedPoint) ProjectInv(
+        public override (bool inBounds, PointD mappedPoint) ProjectInv(
             TransformParams tParams,
             double phi, double lambda)
         {

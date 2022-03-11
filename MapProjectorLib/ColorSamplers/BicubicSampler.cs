@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp.Memory;
 
 namespace MapProjectorLib.ColorSamplers
 {
     public class BicubicSampler : ColorSampler
     {
      
-        public BicubicSampler(SamplableImage sourceImage) : base(sourceImage)
+        public BicubicSampler(Buffer2D<RgbaVector> sourceBuffer) 
+            : base(sourceBuffer)
         {
             Mode = ColorSampleMode.Bicubic;
         }
@@ -45,7 +47,7 @@ namespace MapProjectorLib.ColorSamplers
                     if (sampleX < 0) sampleX = 0;
                     if (sampleX > MaxWidth) sampleX = MaxWidth;
 
-                    sampleColor = Image[sampleX, sampleY];
+                    sampleColor = SourceBuffer[sampleX, sampleY];
 
                     r += kernelX * sampleColor.R;
                     g += kernelX * sampleColor.G;
@@ -57,13 +59,6 @@ namespace MapProjectorLib.ColorSamplers
             return new RgbaVector((float)r, (float)g, (float)b, (float)a);
         }
 
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static byte ToByte(double n)
-        //{
-        //    if (n < 0d) return 0;
-        //    if (n > 255d) return 255;
-        //    return (byte)n;
-        //}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         static double BicubicKernel(double x)

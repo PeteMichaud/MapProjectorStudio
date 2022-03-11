@@ -84,7 +84,8 @@
     <Compile Include="Projections\Perspective.cs" />
     <Compile Include="Projections\Rectilinear.cs" />
     <Compile Include="Projections\Stereographic.cs" />
-    <Compile Include="Transform\RowOperation.cs" />
+    <Compile Include="Transform\TransformRowInverseOperation.cs" />
+    <Compile Include="Transform\TransformRowOperation.cs" />
     <Compile Include="Utils\Line.cs" />
     <Compile Include="Utils\Matrix3.cs" />
     <Compile Include="Plotters\AnalemmaPlotter.cs" />

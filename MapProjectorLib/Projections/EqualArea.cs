@@ -18,12 +18,12 @@ namespace MapProjectorLib.Projections
             _k = Math.Cos(tParams.p) * Math.Cos(tParams.p);
         }
 
-        protected override double GetLat(double y)
+        protected override double GetLat(double _, double y)
         {
             return Math.Asin(y * _k);
         }
 
-        protected override double GetLong(double x)
+        protected override double GetLong(double x, double _)
         {
             return x;
         }

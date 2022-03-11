@@ -9,20 +9,12 @@ namespace MapProjectorLib.Projections
         // The drawing area is 2pi units across. The scale factor therefore
         // is w/2pi. The north pole is at w/2pi * f(pi/2)
 
-        double _phi0;
-
         // Abstract
         protected abstract (bool inBounds, PointD mappedPoint) GetXY(
             double phi, double lambda);
 
-        protected abstract double GetLat(double y);
-        protected abstract double GetLong(double x);
-
-        // Virtual
-        public override void SetY(double y)
-        {
-            _phi0 = GetLat(y);
-        }
+        protected abstract double GetLat(double x, double y);
+        protected abstract double GetLong(double x, double y);
 
         protected virtual double GetMaxHeight(TransformParams tParams)
         {
@@ -34,28 +26,29 @@ namespace MapProjectorLib.Projections
             return 2.0 * Math.PI / width;
         }
 
-        public override bool Project(
-            TransformParams tParams,
-            double x0, double y0,
-            ref double x, ref double y, ref double z,
-            ref double phi, ref double lambda)
+        public override (bool inProjectionBounds, double x1, double y1, double z1, double phi, double lambda) 
+        Project(
+           TransformParams tParams,
+           double x, double y,
+           double x1, double y1, double z1,
+           double phi, double lambda)
         {
-            phi = _phi0;
-            lambda = GetLong(x0);
+            phi = GetLat(x, y);
+            lambda = GetLong(x, y);
 
             if (lambda >= -Math.PI && lambda <= Math.PI &&
                 phi >= -ProjMath.PiOverTwo && phi <= ProjMath.PiOverTwo)
             {
                 // Transform to new lat and long.
                 // cartesian coords from latlong
-                ConvertLatLong(ref phi, ref lambda, transformMatrix);
-                return true;
+                (phi, lambda) = ConvertLatLong(phi, lambda, transformMatrix);
+                return (true, x1, y1, z1, phi, lambda);
             }
 
-            return false;
+            return (false, x1, y1, z1, phi, lambda);
         }
 
-        protected override (bool inBounds, PointD mappedPoint) ProjectInv(
+        public override (bool inBounds, PointD mappedPoint) ProjectInv(
             TransformParams tParams,
             double phi, double lambda)
         {

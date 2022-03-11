@@ -12,15 +12,14 @@ namespace MapProjectorLib.Projections
             return (w, h);
         }
 
-        protected override void GetPhi(double r, ref double phi)
+        protected override double GetPhi(double r)
         {
-            phi = Math.PI * (0.5 - r);
+            return Math.PI * (0.5 - r);
         }
 
-        protected override bool GetR(double phi, ref double r)
+        protected override (bool useR, double r) GetR(double phi)
         {
-            r = 0.5 - phi / Math.PI;
-            return true;
+            return (true, 0.5 - phi / Math.PI);
         }
     }
 }

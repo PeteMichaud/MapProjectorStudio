@@ -4,17 +4,15 @@ namespace MapProjectorLib.Projections
 {
     internal class Rectilinear : PolarBase
     {
-        protected override void GetPhi(double r, ref double phi)
+        protected override double GetPhi(double r)
         {
-            phi = Math.Acos(r);
+            return Math.Acos(r);
         }
 
-        protected override bool GetR(double phi, ref double r)
+        protected override (bool useR, double r) GetR(double phi)
         {
-            if (!(phi >= 0.0)) return false;
-
-            r = Math.Cos(phi);
-            return true;
+            if (!(phi >= 0.0)) return (false, 0d);
+            return (true, Math.Cos(phi));
         }
     }
 }

@@ -8,12 +8,12 @@
             return ProjMath.PiOverTwo;
         }
 
-        protected override double GetLat(double y)
+        protected override double GetLat(double _, double y)
         {
             return y;
         }
 
-        protected override double GetLong(double x)
+        protected override double GetLong(double x, double _)
         {
             return x;
         }

@@ -9,11 +9,10 @@ namespace MapProjectorLib.Projections
             return 2.0 / width;
         }
 
-        protected override bool ProjectSimple(
+        protected override (bool result, double phi, double lambda) ProjectSimple(
             double x, double y,
-            ref double phi, ref double lambda)
+            double phi, double lambda)
         {
-
             var z2 = 2 - ProjMath.Sqr(x) - ProjMath.Sqr(2 * y);
             var z = Math.Sqrt(z2);
             var t1 = 2 * y * z;
@@ -22,10 +21,10 @@ namespace MapProjectorLib.Projections
                 phi = Math.Asin(t1);
                 lambda = 2 * Math.Atan2(x * z, z2 - 1);
                 if (lambda >= -Math.PI && lambda <= Math.PI) 
-                    return true;
+                    return (true, phi, lambda);
             }
 
-            return false;
+            return (false, phi, lambda);
         }
 
         protected override (bool inBounds, PointD mappedPoint) ProjectInvSimple(

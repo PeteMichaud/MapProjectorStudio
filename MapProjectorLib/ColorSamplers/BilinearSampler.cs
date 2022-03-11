@@ -1,17 +1,19 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp.Memory;
 
 namespace MapProjectorLib.ColorSamplers
 {
     class BilinearSampler : ColorSampler
     {
 
-        public BilinearSampler(SamplableImage sourceImage) : base(sourceImage)
+        public BilinearSampler(Buffer2D<RgbaVector> sourceBuffer) 
+            : base(sourceBuffer)
         {
             Mode = ColorSampleMode.Bilinear;
-            MaxWidth = Image.Width - 2;
-            MaxHeight = Image.Height - 2;
+            MaxWidth = SourceBuffer.Width - 2;
+            MaxHeight = SourceBuffer.Height - 2;
         }
 
         public override RgbaVector Sample(double fractionalPixelX, double fractionalPixelY)
@@ -23,10 +25,10 @@ namespace MapProjectorLib.ColorSamplers
             double dX = fractionalPixelX - intPixelX;
             double dY = fractionalPixelY - intPixelY;
 
-            RgbaVector c00 = Image[intPixelX, intPixelY];
-            RgbaVector c10 = Image[intPixelX + 1, intPixelY];
-            RgbaVector c01 = Image[intPixelX, intPixelY + 1];
-            RgbaVector c11 = Image[intPixelX + 1, intPixelY + 1];
+            RgbaVector c00 = SourceBuffer[intPixelX, intPixelY];
+            RgbaVector c10 = SourceBuffer[intPixelX + 1, intPixelY];
+            RgbaVector c01 = SourceBuffer[intPixelX, intPixelY + 1];
+            RgbaVector c11 = SourceBuffer[intPixelX + 1, intPixelY + 1];
             
             return new RgbaVector(
                 BilinearLerp(c00.R, c10.R, c01.R, c11.R, dX, dY),

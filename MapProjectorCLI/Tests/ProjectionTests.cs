@@ -22,7 +22,7 @@ namespace MapProjectorCLI.Tests
             rawArgs += $" {string.Format(ioArgs, outFileName, inFileName)}";
             return rawArgs.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
         }
-        
+
         [TestFixture]
         public class QualitySettings : ProjectionTests
         {
@@ -185,6 +185,47 @@ namespace MapProjectorCLI.Tests
                 });
 
             }
+
+            [Test]
+            public void RotateHammer()
+            {
+                var args = ToArgs($"--rotate 45 --projection hammer");
+
+                Parse(args, cliParams =>
+                {
+                    (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                    Projector.Project(projectionParams);
+                });
+
+            }
+
+            [Test]
+            public void RotateAzimuthal()
+            {
+                var args = ToArgs($"--rotate 45 --projection azimuthal");
+
+                Parse(args, cliParams =>
+                {
+                    (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                    Projector.Project(projectionParams);
+                });
+
+            }
+
+            [Test]
+            public void RotateSinusoidal()
+            {
+                var args = ToArgs($"--rotate 45 --projection Sinusoidal");
+
+                Parse(args, cliParams =>
+                {
+                    (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                    Projector.Project(projectionParams);
+                });
+
+            }
+
+            //todo: test every possible rotation on every possible rotation
 
             [Test]
             public void OffsetLat()

@@ -4,12 +4,12 @@ namespace MapProjectorLib.Projections
 {
     internal class Cylindrical : CylindricalBase
     {
-        protected override double GetLat(double y)
+        protected override double GetLat(double _, double y)
         {
             return Math.Atan(y);
         }
 
-        protected override double GetLong(double x)
+        protected override double GetLong(double x, double _)
         {
             return x;
         }

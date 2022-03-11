@@ -4,20 +4,19 @@ namespace MapProjectorLib.Projections
 {
     internal class Gnomonic : PolarBase
     {
-        protected override void GetPhi(double r, ref double phi)
+        protected override double GetPhi(double r)
         {
-            phi = Math.Atan(1 / (2 * r));
+            return Math.Atan(1 / (2 * r));
         }
 
-        protected override bool GetR(double phi, ref double r)
+        protected override (bool useR, double r) GetR(double phi)
         {
             if (!ProjMath.AboutEqual(phi,0) && phi > 0)
             {
-                r = 1 / (2 * Math.Tan(phi));
-                return true;
+                return (true, 1 / (2 * Math.Tan(phi)));
             }
 
-            return false;
+            return (false, 0d);
         }
     }
 }
