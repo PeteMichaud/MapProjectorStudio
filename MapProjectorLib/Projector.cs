@@ -36,9 +36,13 @@ namespace MapProjectorLib
                     WidgetRenderer.Render(outImage, tParams, transform);
                 }
 
+                MaybeApplyBackground(outImage, pParams);
+
                 if (pParams.loopParams.LoopCount > 1)
                 {
-                    ApplyBackgroundAndSave(outImage, i, pParams);
+                    outImage.Save(pParams.DestinationImageFileName, 
+                        seriesNumber: i, 
+                        pParams.SourceImage.BitDepth);
 
                     tParams.turn += pParams.loopParams.TurnIncr;
                     tParams.tilt += pParams.loopParams.TiltIncr;
@@ -52,7 +56,8 @@ namespace MapProjectorLib
                 } 
                 else
                 {
-                    ApplyBackgroundAndSave(outImage, pParams);
+                    outImage.Save(pParams.DestinationImageFileName, 
+                        pParams.SourceImage.BitDepth);
                 }
             }
 
@@ -63,11 +68,19 @@ namespace MapProjectorLib
 
         }
 
-        static void MaybeApplyBackground(DestinationImage outImage, ProjectionParams pParams)
+        static void MaybeApplyBackground(DestinationImage destImage, ProjectionParams pParams)
         {
+            // This can be kind of an expensive operation, so I try to avoid it if possible.
+            // The basic logic is that if any of the following applies, then use a background:
+            // 1. There is a background color with alpha > 0 or background image at all, and
+            // 2. any destination pixels didn't get written to, or
+            // 3. the source image might have transparent pixels (eg. a png with an alpha channel)
+
             if(pParams.ShouldCompositeBackground)
             {
-                var background = GetBackgroundCompositeImage(pParams);
+                var background = (pParams.BackgroundImage != null) 
+                    ? pParams.BackgroundImage.ImageData
+                    : new Image<RgbaVector>(pParams.Width, pParams.Height, pParams.backgroundColor);
 
                 var processorCreator = new DrawImageProcessor(
                     background,
@@ -79,13 +92,14 @@ namespace MapProjectorLib
 
                 var pxProcessor = processorCreator.CreatePixelSpecificProcessor(
                     Configuration.Default,
-                    outImage.ImageData,
-                    outImage.ImageData.Bounds()
+                    destImage.ImageData,
+                    destImage.ImageData.Bounds()
                 );
 
                 pxProcessor.Execute();
 
-                //if this wasn't a real background image, but instead a throwaway solid color background image
+                // if this wasn't a real background image, but 
+                // instead a throwaway solid color background image
                 if(background != pParams.BackgroundImage?.ImageData)
                 {
                     // I should maybe keep this around if we're in a looping scenario.
@@ -93,24 +107,6 @@ namespace MapProjectorLib
                     background.Dispose();
                 }
             }
-        }
-
-        static Image<RgbaVector> GetBackgroundCompositeImage(ProjectionParams pParams)
-        {
-            if (pParams.BackgroundImage != null) return pParams.BackgroundImage.ImageData;
-            return new Image<RgbaVector>(pParams.Width, pParams.Height, pParams.backgroundColor);
-        }
-
-        static void ApplyBackgroundAndSave(DestinationImage outImage, ProjectionParams pParams)
-        {
-            MaybeApplyBackground(outImage, pParams);
-            outImage.Save(pParams.DestinationImageFileName, pParams.SourceImage.BitDepth);
-        }
-
-        static void ApplyBackgroundAndSave(DestinationImage outImage, int seriesNumber, ProjectionParams pParams)
-        {
-            MaybeApplyBackground(outImage, pParams);
-            outImage.Save(pParams.DestinationImageFileName, seriesNumber, pParams.SourceImage.BitDepth);
         }
 
         public static SamplableImage LoadImageForSampling(string imagePath, ColorSampleMode mode = ColorSampleMode.Fast)
