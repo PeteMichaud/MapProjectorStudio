@@ -59,10 +59,10 @@ namespace MapProjectorLib.Projections
         public override (int w, int h) AdjustSize(
             int w, int h, TransformParams tParams)
         {
-            if (tParams.scale < 1.0)
+            if (tParams.Scale < 1.0)
             {
-                w = (int) (w * tParams.scale);
-                tParams.scale = 1.0;
+                w = (int) (w * tParams.Scale);
+                tParams.Scale = 1.0;
             }
 
             // If a parallel has been given, check it's valid
@@ -74,7 +74,7 @@ namespace MapProjectorLib.Projections
             if (h0 > 0.0)
             {
                 // Return <= 0 for don't adjust
-                var newh = (int) (h0 * w * tParams.scale / Math.PI);
+                var newh = (int) (h0 * w * tParams.Scale / Math.PI);
                 if (newh < h) h = newh;
             }
 

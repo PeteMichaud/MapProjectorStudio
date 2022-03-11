@@ -115,7 +115,7 @@ namespace MapProjectorLib
         public static bool IsPointWithinRadius(
             TransformParams tParams, double phi, double lambda)
         {
-            return IsPointWithinRadius(phi, lambda, tParams.lat, tParams.lon, tParams.radius);
+            return IsPointWithinRadius(phi, lambda, tParams.Lat, tParams.Lon, tParams.Radius);
         }
 
         public static bool FindRoot(

@@ -138,17 +138,35 @@ namespace MapProjectorCLI
 
             }
 
+            var loopParams = new LoopParams()
+            {
+                LoopCount = cliParams.LoopCount,
+
+                TiltIncr = cliParams.TiltIncr,
+                TurnIncr = cliParams.TurnIncr,
+                LatIncr = cliParams.LatIncr,
+                LongIncr = cliParams.LongIncr,
+
+                xIncr = cliParams.xIncr,
+                yIncr = cliParams.yIncr,
+                zIncr = cliParams.zIncr,
+
+                DateIncr = cliParams.DateIncr,
+                TimeIncr = cliParams.TimeIncr,
+            };
+
             var tParams = new TransformParams()
             {
+                loopParams = loopParams,
                 Widgets = cliParams.Widgets,
 
-                tilt = cliParams.tilt,
-                turn = cliParams.turn,
-                rotate = cliParams.rotate,
-                lat = cliParams.lat,
-                lon = cliParams.lon,
-                scale = cliParams.scale,
-                radius = cliParams.radius,
+                Tilt = cliParams.tilt,
+                Turn = cliParams.turn,
+                Rotate = cliParams.rotate,
+                Lat = cliParams.lat,
+                Lon = cliParams.lon,
+                Scale = cliParams.scale,
+                Radius = cliParams.radius,
                 xOffset = cliParams.xOffset,
                 yOffset = cliParams.yOffset,
 
@@ -160,17 +178,17 @@ namespace MapProjectorCLI
 
                 aw = cliParams.aw,
 
-                x = cliParams.x,
-                y = cliParams.y,
-                z = cliParams.z,
+                X = cliParams.x,
+                Y = cliParams.y,
+                Z = cliParams.z,
 
                 ox = cliParams.ox,
                 oy = cliParams.oy,
                 oz = cliParams.oz,
 
                 sun = cliParams.sun,
-                time = cliParams.time,
-                date = cliParams.date,
+                Time = cliParams.time,
+                Date = cliParams.date,
 
                 //
 
@@ -200,27 +218,10 @@ namespace MapProjectorCLI
                 tParams.widgetColor = ToColor(cliParams._widgetColorValues);
             }
 
-            var loopParams = new LoopParams()
-            {
-                LoopCount = cliParams.LoopCount,
-
-                TiltIncr = cliParams.TiltIncr,
-                TurnIncr = cliParams.TurnIncr,
-                LatIncr = cliParams.LatIncr,
-                LongIncr = cliParams.LongIncr,
-
-                xIncr = cliParams.xIncr,
-                yIncr = cliParams.yIncr,
-                zIncr = cliParams.zIncr,
-
-                DateIncr = cliParams.DateIncr,
-                TimeIncr = cliParams.TimeIncr,
-            };
-
             var pParams = new ProjectionParams()
             {
                 transformParams = tParams,
-                loopParams = loopParams,
+                
                 TargetProjection = cliParams.TargetProjection,
                 Adjust = cliParams.Adjust,
                 Width = cliParams.Width > 0 ? cliParams.Width : srcImage.Width,

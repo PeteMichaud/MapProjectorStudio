@@ -59,7 +59,7 @@ namespace MapProjectorLib.Projections
             // We will use the astronomical day, starting at midnight (at Greenwich)
             // And start the year at the spring equinox
             // Need the vector to the sun.
-            var date = tParams.date - 80;
+            var date = tParams.Date - 80;
             while (date < 0) date += 365;
             while (date >= 365) date -= 365;
             date = 2 * Math.PI * date / 365;
@@ -70,7 +70,7 @@ namespace MapProjectorLib.Projections
             var eot = ProjMath.EquationOfTime(date) * 2.0 * Math.PI /
                       (60.0 * 60.0 * 24.0);
             // AT = MT + EOT
-            var apparentTime = tParams.time + eot;
+            var apparentTime = tParams.Time + eot;
             var sunX = -Math.Cos(apparentTime) * q;
             var sunY = Math.Sin(apparentTime) * q;
             var sunZ = sunHeight;
@@ -82,9 +82,9 @@ namespace MapProjectorLib.Projections
         {
             base.Init(tParams);
 
-            viewX = tParams.x;
-            viewY = tParams.y;
-            viewZ = tParams.z;
+            viewX = tParams.X;
+            viewY = tParams.Y;
+            viewZ = tParams.Z;
 
             rotatedViewX = viewX;
             rotatedViewY = viewY;

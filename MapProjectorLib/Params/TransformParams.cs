@@ -4,16 +4,71 @@ namespace MapProjectorLib
 {
     public class TransformParams
     {
-        public double radius = 0;
-        public double tilt = 0.0;
-        public double turn = 0.0;
-        public double rotate = 0.0;
-        public double scale = 1.0;
-        public double lat = 0.0;
-        public double lon = 0.0;
+        public LoopParams loopParams;
 
+        public int CurrentLoopIndex
+        {
+            get { return loopParams.CurrentLoopIndex; }
+            set { loopParams.CurrentLoopIndex = value; }
+        }
+
+        double _tilt = 0;
+        public double Tilt 
+        { 
+            get 
+            { 
+                return _tilt + loopParams.TiltIncr * loopParams.CurrentLoopIndex; 
+            }
+            set 
+            { 
+                _tilt = value; 
+            }
+        }
+
+        double _turn = 0;
+        public double Turn
+        {
+            get
+            {
+                return _turn + loopParams.TurnIncr * loopParams.CurrentLoopIndex;
+            }
+            set
+            {
+                _turn = value;
+            }
+        }
+
+        double _lat = 0;
+        public double Lat
+        {
+            get
+            {
+                return _lat + loopParams.LatIncr * loopParams.CurrentLoopIndex;
+            }
+            set
+            {
+                _lat = value;
+            }
+        }
+
+        double _lon = 0;
+        public double Lon
+        {
+            get
+            {
+                return _lon + loopParams.LongIncr * loopParams.CurrentLoopIndex;
+            }
+            set
+            {
+                _lon = value;
+            }
+        }
+
+        public double Scale = 1.0;
         public double xOffset = 0;
         public double yOffset = 0;
+        public double Radius = 0;
+        public double Rotate = 0.0;
 
         //X dimension of Oblateness, measured in planet radii
         public double ox = 1.0; 
@@ -41,18 +96,71 @@ namespace MapProjectorLib
         // Simulate the sun on the perspective view (date and time are relevant)
         public bool sun; 
         //Day number in year. Relevant for the -sun option
-        public double date = 0.0; 
+        double _date = 0.0;
+        public double Date
+        {
+            get
+            {
+                return _date + loopParams.DateIncr * loopParams.CurrentLoopIndex;
+            }
+            set
+            {
+                _date = value;
+            }
+        }
         //Hours from midnight, UTC, in decimal hours (so 4.5 is half past four in the morning). Relevant for the --sun option
-        public double time = 0.0; 
+        double _time = 0.0;
+        public double Time
+        {
+            get
+            {
+                return _time + loopParams.TimeIncr * loopParams.CurrentLoopIndex;
+            }
+            set
+            {
+                _time = value;
+            }
+        }
         //X dimension of viewing position, measured in planet radii
-        public double x = 8.0; 
-        
+        double _x = 8.0;
+        public double X
+        {
+            get
+            {
+                return _x + loopParams.xIncr * loopParams.CurrentLoopIndex;
+            }
+            set
+            {
+                _x = value;
+            }
+        }
+
         //Y dimension of viewing position, measured in planet radii
-        public double y = 0.0; 
-
+        double _y = 0.0;
+        public double Y
+        {
+            get
+            {
+                return _y + loopParams.yIncr * loopParams.CurrentLoopIndex;
+            }
+            set
+            {
+                _y = value;
+            }
+        }
         //Z dimension of viewing position, measured in planet radii
-        public double z = 0.0; 
-
+        double _z = 0.0;
+        public double Z
+        {
+            get
+            {
+                return _z + loopParams.zIncr * loopParams.CurrentLoopIndex;
+            }
+            set
+            {
+                _z = value;
+            }
+        }
         public bool SomeDestinationPixelsAreBlank = false;
 
         //Widgets

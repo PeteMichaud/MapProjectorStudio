@@ -53,7 +53,7 @@ namespace MapProjectorLib
             _scaledSourceHeight = srcImage.Height * ProjMath.OneOverPi;
 
             // Scale so that half width is 1
-            _scaleFactor = _transform.BasicScale(outImage.Width, outImage.Height) / tParams.scale;
+            _scaleFactor = _transform.BasicScale(outImage.Width, outImage.Height) / tParams.Scale;
 
         }
 
@@ -68,9 +68,9 @@ namespace MapProjectorLib
                 var x1 = _scaleFactor * (outX + 0.5d - _xDestOrigin) + _tParams.xOffset;
                 var y1 = y;
                
-                if (_tParams.rotate != 0)
+                if (_tParams.Rotate != 0)
                 {
-                    (x1, y1) = ProjMath.ApplyRotation(-_tParams.rotate, x1, y1);
+                    (x1, y1) = ProjMath.ApplyRotation(-_tParams.Rotate, x1, y1);
                 }
 
                 (bool inProjectionBounds, double x0, double y0, double z0, double phi, double lambda) = 

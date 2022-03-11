@@ -5,7 +5,6 @@ namespace MapProjectorLib
     public class ProjectionParams
     {
         public TransformParams transformParams;
-        public LoopParams loopParams;
 
         //Set Source image to adjusted width and height options before processing
         public bool Adjust = false;

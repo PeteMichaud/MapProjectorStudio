@@ -82,17 +82,17 @@ namespace MapProjectorLib
         public virtual void Init(TransformParams tParams)
         {
             transformMatrix.Identity();
-            transformMatrix *= new Matrix3(RotationAxis.Z, tParams.turn);
-            transformMatrix *= new Matrix3(RotationAxis.X, tParams.tilt);
-            transformMatrix *= new Matrix3(RotationAxis.Y, tParams.lat);
-            transformMatrix *= new Matrix3(RotationAxis.Z, tParams.lon);
+            transformMatrix *= new Matrix3(RotationAxis.Z, tParams.Turn);
+            transformMatrix *= new Matrix3(RotationAxis.X, tParams.Tilt);
+            transformMatrix *= new Matrix3(RotationAxis.Y, tParams.Lat);
+            transformMatrix *= new Matrix3(RotationAxis.Z, tParams.Lon);
 
             // Construct the inverse matrix
             transformMatrixInv.Identity();
-            transformMatrixInv *= new Matrix3(RotationAxis.Z, -tParams.lon);
-            transformMatrixInv *= new Matrix3(RotationAxis.Y, -tParams.lat);
-            transformMatrixInv *= new Matrix3(RotationAxis.X, -tParams.tilt);
-            transformMatrixInv *= new Matrix3(RotationAxis.Z, -tParams.turn);
+            transformMatrixInv *= new Matrix3(RotationAxis.Z, -tParams.Lon);
+            transformMatrixInv *= new Matrix3(RotationAxis.Y, -tParams.Lat);
+            transformMatrixInv *= new Matrix3(RotationAxis.X, -tParams.Tilt);
+            transformMatrixInv *= new Matrix3(RotationAxis.Z, -tParams.Turn);
         }
 
         public virtual (int w, int h) AdjustSize(
@@ -160,15 +160,15 @@ namespace MapProjectorLib
             var xCenter = 0.5 * outImgWidth;
             var yCenter = 0.5 * outImgHeight;
             var scaleFactor = BasicScale(outImgWidth, outImgHeight) /
-                                tParams.scale;
+                                tParams.Scale;
 
             // Now x and y are in 2pi scale
             var x = mappedPoint.X;
             var y = mappedPoint.Y;
 
-            if (tParams.rotate != 0)
+            if (tParams.Rotate != 0)
             {
-                (x, y) = ProjMath.ApplyRotation(tParams.rotate, x, y);
+                (x, y) = ProjMath.ApplyRotation(tParams.Rotate, x, y);
             }
 
             x = xCenter + (x - tParams.xOffset) / scaleFactor;

@@ -7,7 +7,7 @@ namespace MapProjectorLib.Projections
         public override (int w, int h) AdjustSize(
             int w, int h, TransformParams tParams)
         {
-            var w1 = (int) (tParams.scale * h);
+            var w1 = (int) (tParams.Scale * h);
             if (w1 < w) w = w1;
             return (w, h);
         }

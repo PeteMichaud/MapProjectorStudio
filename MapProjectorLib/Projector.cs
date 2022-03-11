@@ -19,7 +19,7 @@ namespace MapProjectorLib
                         pParams.Width, pParams.Height, tParams);
             }
 
-            if (pParams.loopParams.LoopCount == 1)
+            if (tParams.loopParams.LoopCount == 1)
             {
                 ApplyTransform(transform, outImage, pParams);
 
@@ -28,57 +28,43 @@ namespace MapProjectorLib
             } 
             else //loop
             {
-                for (var i = 0; i < pParams.loopParams.LoopCount; i++)
+                for (var i = 0; i < tParams.loopParams.LoopCount; i++)
                 {
+                    tParams.CurrentLoopIndex = i;
                     ApplyTransform(transform, outImage, pParams);
                
                     outImage.Save(pParams.DestinationImageFileName,
                         seriesNumber: i,
                         pParams.SourceImage.BitDepth);
-
-                    // this is fine and works, but since we're
-                    // mutating the transform params, it means this
-                    // operation isn't idempotent / can't be rerun
-                    // with the same parameter object a second time
-                    tParams.turn += pParams.loopParams.TurnIncr;
-                    tParams.tilt += pParams.loopParams.TiltIncr;
-                    tParams.lat += pParams.loopParams.LatIncr;
-                    tParams.lon += pParams.loopParams.LongIncr;
-                    tParams.x += pParams.loopParams.xIncr;
-                    tParams.y += pParams.loopParams.yIncr;
-                    tParams.z += pParams.loopParams.zIncr;
-                    tParams.time += pParams.loopParams.TimeIncr;
-                    tParams.date += pParams.loopParams.DateIncr;
                 }
             } //end else loop
 
             outImage.Dispose();
-            //it's fine to dispose these here when this program runs only once, but
-            //it means I'll lose the background on subsequent runs
-            pParams.SourceImage.Dispose();
-            if (pParams.BackgroundImage != null) pParams.BackgroundImage.Dispose();
+            
+            // if I dispose these I can't call the same projection twice 
+            // in the same session, so I'm not doing that anymore
+            //pParams.SourceImage.Dispose();
+            //if (pParams.BackgroundImage != null) pParams.BackgroundImage.Dispose();
         }
 
-        static void ApplyTransform(Transform transform, DestinationImage outImage, ProjectionParams pParams)
+        static void ApplyTransform(Transform transform, DestinationImage destImage, ProjectionParams pParams)
         {
-            var tParams = pParams.transformParams;
-
-            transform.Init(tParams);
+            transform.Init(pParams.transformParams);
 
             if (pParams.Invert)
             {
                 transform.TransformImageInv(
-                    pParams.SourceImage, outImage, tParams);
+                    pParams.SourceImage, destImage, pParams.transformParams);
                 // No widgets for inverse transformation yet
             }
             else
             {
                 transform.TransformImage(
-                    pParams.SourceImage, outImage, tParams);
-                WidgetRenderer.Render(outImage, tParams, transform);
+                    pParams.SourceImage, destImage, pParams.transformParams);
+                WidgetRenderer.Render(destImage, pParams.transformParams, transform);
             }
 
-            MaybeApplyBackground(outImage, pParams);
+            MaybeApplyBackground(destImage, pParams);
         }
 
         static void MaybeApplyBackground(DestinationImage destImage, ProjectionParams pParams)
@@ -122,14 +108,15 @@ namespace MapProjectorLib
             }
         }
 
-        public static SamplableImage LoadImageForSampling(string imagePath, ColorSampleMode mode = ColorSampleMode.Fast)
+        public static SamplableImage LoadImageForSampling(string imagePath, 
+            ColorSampleMode mode = ColorSampleMode.Fast)
         {
             return SamplableImage.Load(imagePath, mode);
         }
 
-        public static Image LoadImageForCopying(string fileName)
+        public static Image LoadImageForCopying(string imagePath)
         {
-            return Image.Load(fileName);
+            return Image.Load(imagePath);
         }
     }
 }

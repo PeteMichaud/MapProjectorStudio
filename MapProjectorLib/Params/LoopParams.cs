@@ -2,6 +2,8 @@
 {
     public class LoopParams
     {
+        public int CurrentLoopIndex = 0;
+
         public double DateIncr = 0; //Days
         public double LatIncr = 0; //(Degrees)
         public double LongIncr = 0; //(Degrees)

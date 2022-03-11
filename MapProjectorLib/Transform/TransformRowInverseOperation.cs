@@ -88,11 +88,11 @@ namespace MapProjectorLib
         )
         {
             // Scale so that half width is 1
-            var scaleFactor = _transform.BasicScale(_sourceWidth, _sourceHeight) / _tParams.scale;
+            var scaleFactor = _transform.BasicScale(_sourceWidth, _sourceHeight) / _tParams.Scale;
 
-            if (_tParams.rotate != 0)
+            if (_tParams.Rotate != 0)
             {
-                (x, y) = ProjMath.ApplyRotation(_tParams.rotate, x, y);
+                (x, y) = ProjMath.ApplyRotation(_tParams.Rotate, x, y);
             }
 
             var sourceX = (_sourceXOrigin + (x - _tParams.xOffset) / scaleFactor);
