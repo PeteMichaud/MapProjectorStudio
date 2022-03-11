@@ -78,18 +78,20 @@ namespace MapProjectorLib
             } else if (m2.isIdentity)
             {
                 Copy(m1);
-            } else
+            } 
+            else
             {
                 for (var i = 0; i < 3; i++)
-                for (var j = 0; j < 3; j++)
                 {
-                    var x = 0.0;
-                    x += m1[i, 0] * m2[0, j];
-                    x += m1[i, 1] * m2[1, j];
-                    x += m1[i, 2] * m2[2, j];
-                    this[i, j] = x;
+                    for (var j = 0; j < 3; j++)
+                    {
+                        var x = 0.0;
+                        x += m1[i, 0] * m2[0, j];
+                        x += m1[i, 1] * m2[1, j];
+                        x += m1[i, 2] * m2[2, j];
+                        this[i, j] = x;
+                    }
                 }
-
                 isIdentity = false; // We could check the indices at this point
             }
         }
@@ -100,7 +102,8 @@ namespace MapProjectorLib
             if (theta == 0.0)
             {
                 Identity();
-            } else
+            } 
+            else
             {
                 this[0] = 1.0;
                 this[1] = 0.0;
@@ -121,7 +124,8 @@ namespace MapProjectorLib
             if (theta == 0.0)
             {
                 Identity();
-            } else
+            } 
+            else
             {
                 this[0] = Math.Cos(theta);
                 this[1] = 0.0;
@@ -142,7 +146,8 @@ namespace MapProjectorLib
             if (theta == 0.0)
             {
                 Identity();
-            } else
+            } 
+            else
             {
                 this[0] = Math.Cos(theta);
                 this[1] = -Math.Sin(theta);
@@ -157,28 +162,31 @@ namespace MapProjectorLib
             }
         }
 
-        public void Apply(ref double x, ref double y, ref double z)
+        public (double x, double y, double z) Apply(double x, double y, double z)
         {
-            if (isIdentity) return;
-
-            var x1 = this[0] * x + this[1] * y + this[2] * z;
-            var y1 = this[3] * x + this[4] * y + this[5] * z;
-            var z1 = this[6] * x + this[7] * y + this[8] * z;
-            x = x1;
-            y = y1;
-            z = z1;
+            if (isIdentity) return (x, y, z);
+            
+            return (
+                x: this[0] * x + this[1] * y + this[2] * z,
+                y: this[3] * x + this[4] * y + this[5] * z,
+                z: this[6] * x + this[7] * y + this[8] * z
+            );
         }
 
-        public void ApplyLatLong(ref double phi, ref double lambda)
+        public (double phi, double lambda) ApplyLatLong(double phi, double lambda)
         {
-            if (isIdentity) return;
+            if (isIdentity) return (phi, lambda);
 
             var x = Math.Cos(lambda) * Math.Cos(phi);
             var y = Math.Sin(lambda) * Math.Cos(phi);
             var z = Math.Sin(phi);
-            Apply(ref x, ref y, ref z);
-            phi = Math.Asin(z);
-            lambda = Math.Atan2(y, x);
+            
+            (x, y, z) = Apply(x, y, z);
+
+            return (
+                phi: Math.Asin(z),
+                lambda: Math.Atan2(y, x)
+            );
         }
     }
 }

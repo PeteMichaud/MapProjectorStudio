@@ -180,8 +180,7 @@ namespace MapProjectorLib
         // Apply matrix to phi, lambda, and put the resulting
         // cartesian coords in x,y,z.
         protected static (double phi, double lambda) ConvertLatLong(
-            double phi, double lambda,
-            Matrix3 m)
+            double phi, double lambda, Matrix3 m)
         {
             if (m.isIdentity) return (phi, lambda);
 
@@ -189,11 +188,12 @@ namespace MapProjectorLib
             var y = Math.Sin(lambda) * Math.Cos(phi);
             var z = Math.Sin(phi);
 
-            m.Apply(ref x, ref y, ref z);
+            (x, y, z) = m.Apply(x, y, z);
             
-            phi = Math.Asin(z);
-            lambda = Math.Atan2(y, x);
-            return (phi, lambda);
+            return (
+                phi: Math.Asin(z), 
+                lambda: Math.Atan2(y, x)
+            );
         }
 
     }

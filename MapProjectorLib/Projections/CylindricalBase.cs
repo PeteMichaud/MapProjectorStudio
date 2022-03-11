@@ -52,13 +52,12 @@ namespace MapProjectorLib.Projections
             TransformParams tParams,
             double phi, double lambda)
         {
-            transformMatrixInv.ApplyLatLong(ref phi, ref lambda);
+            (phi, lambda) = transformMatrixInv.ApplyLatLong(phi, lambda);
             return GetXY(phi, lambda);
         }
 
         public override (int w, int h) AdjustSize(
-            int w, int h,
-            TransformParams tParams)
+            int w, int h, TransformParams tParams)
         {
             if (tParams.scale < 1.0)
             {

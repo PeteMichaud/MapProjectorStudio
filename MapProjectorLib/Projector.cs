@@ -19,31 +19,27 @@ namespace MapProjectorLib
                         pParams.Width, pParams.Height, tParams);
             }
 
-            for (var i = 0; i < pParams.loopParams.LoopCount; i++)
+            if (pParams.loopParams.LoopCount == 1)
             {
-                transform.Init(tParams);
+                ApplyTransform(transform, outImage, pParams);
 
-                if (pParams.Invert)
+                outImage.Save(pParams.DestinationImageFileName,
+                       pParams.SourceImage.BitDepth);
+            } 
+            else //loop
+            {
+                for (var i = 0; i < pParams.loopParams.LoopCount; i++)
                 {
-                    transform.TransformImageInv(
-                        pParams.SourceImage, outImage, tParams);
-                    // No widgets for inverse transformation yet
-                } 
-                else
-                {
-                    transform.TransformImage(
-                        pParams.SourceImage, outImage, tParams);
-                    WidgetRenderer.Render(outImage, tParams, transform);
-                }
-
-                MaybeApplyBackground(outImage, pParams);
-
-                if (pParams.loopParams.LoopCount > 1)
-                {
-                    outImage.Save(pParams.DestinationImageFileName, 
-                        seriesNumber: i, 
+                    ApplyTransform(transform, outImage, pParams);
+               
+                    outImage.Save(pParams.DestinationImageFileName,
+                        seriesNumber: i,
                         pParams.SourceImage.BitDepth);
 
+                    // this is fine and works, but since we're
+                    // mutating the transform params, it means this
+                    // operation isn't idempotent / can't be rerun
+                    // with the same parameter object a second time
                     tParams.turn += pParams.loopParams.TurnIncr;
                     tParams.tilt += pParams.loopParams.TiltIncr;
                     tParams.lat += pParams.loopParams.LatIncr;
@@ -53,19 +49,36 @@ namespace MapProjectorLib
                     tParams.z += pParams.loopParams.zIncr;
                     tParams.time += pParams.loopParams.TimeIncr;
                     tParams.date += pParams.loopParams.DateIncr;
-                } 
-                else
-                {
-                    outImage.Save(pParams.DestinationImageFileName, 
-                        pParams.SourceImage.BitDepth);
                 }
-            }
+            } //end else loop
 
             outImage.Dispose();
+            //it's fine to dispose these here when this program runs only once, but
+            //it means I'll lose the background on subsequent runs
             pParams.SourceImage.Dispose();
             if (pParams.BackgroundImage != null) pParams.BackgroundImage.Dispose();
-            if (pParams.BackgroundImage != null) pParams.BackgroundImage.Dispose();
+        }
 
+        static void ApplyTransform(Transform transform, DestinationImage outImage, ProjectionParams pParams)
+        {
+            var tParams = pParams.transformParams;
+
+            transform.Init(tParams);
+
+            if (pParams.Invert)
+            {
+                transform.TransformImageInv(
+                    pParams.SourceImage, outImage, tParams);
+                // No widgets for inverse transformation yet
+            }
+            else
+            {
+                transform.TransformImage(
+                    pParams.SourceImage, outImage, tParams);
+                WidgetRenderer.Render(outImage, tParams, transform);
+            }
+
+            MaybeApplyBackground(outImage, pParams);
         }
 
         static void MaybeApplyBackground(DestinationImage destImage, ProjectionParams pParams)

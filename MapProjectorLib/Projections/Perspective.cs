@@ -90,7 +90,8 @@ namespace MapProjectorLib.Projections
             rotatedViewY = viewY;
             rotatedViewZ = viewZ;
 
-            transformMatrix.Apply(ref rotatedViewX, ref rotatedViewY, ref rotatedViewZ);
+            (rotatedViewX, rotatedViewY, rotatedViewZ) = 
+                transformMatrix.Apply(rotatedViewX, rotatedViewY, rotatedViewZ);
 
             scaleFactor = (viewX + 1) * Math.Tan(tParams.aw / 2);
             invScaleFactor = 1 / scaleFactor;
@@ -117,12 +118,12 @@ namespace MapProjectorLib.Projections
             double x, double y, double z,
             double phi, double lambda)
         {
-            // Apply our rotation to the point we are projecting to
+
             double x1 = -1;
             var y1 = scaleFactor * x0 + viewY;
             var z1 = scaleFactor * y0 + viewZ;
 
-            transformMatrix.Apply(ref x1, ref y1, ref z1);
+            (x1, y1, z1) = transformMatrix.Apply(x1, y1, z1);
 
             // Projecting from (rx, ry, rz) to point (x1, y1, z1)
             // Solve a quadratic obtained from equating line equation with r = 1
@@ -171,39 +172,40 @@ namespace MapProjectorLib.Projections
         {
             // Find where phi, lambda project to on the ellipsoid
             double x0, y0, z0;
-            double nx, ny, nz;
+            double normalX, normalY, normalZ;
             if (a == 1.0 && b == 1.0 && c == 1.0)
             {
                 // Just a sphere
                 x0 = Math.Cos(lambda) * Math.Cos(phi);
                 y0 = Math.Sin(lambda) * Math.Cos(phi);
                 z0 = Math.Sin(phi);
-                transformMatrixInv.Apply(ref x0, ref y0, ref z0);
-                nx = x0;
-                ny = y0;
-                nz = z0;
-            } else
+                (x0, y0, z0) = transformMatrixInv.Apply(x0, y0, z0);
+                normalX = x0;
+                normalY = y0;
+                normalZ = z0;
+            } 
+            else
             {
                 // The normal vector
-                nx = Math.Cos(lambda);
-                ny = Math.Sin(lambda);
-                nz = Math.Tan(phi);
+                normalX = Math.Cos(lambda);
+                normalY = Math.Sin(lambda);
+                normalZ = Math.Tan(phi);
 
                 // The actual vector
                 var r = Math.Sqrt(
-                    1 / (ia2 * ProjMath.Sqr(nx) + ib2 * ProjMath.Sqr(ny) +
-                         ic2 * ProjMath.Sqr(nz)));
-                x0 = nx * r * ia2;
-                y0 = ny * r * ib2;
-                z0 = nz * r * ic2;
+                    1 / (ia2 * ProjMath.Sqr(normalX) + ib2 * ProjMath.Sqr(normalY) +
+                         ic2 * ProjMath.Sqr(normalZ)));
+                x0 = normalX * r * ia2;
+                y0 = normalY * r * ib2;
+                z0 = normalZ * r * ic2;
                 // And apply rotations
-                transformMatrixInv.Apply(ref x0, ref y0, ref z0);
-                transformMatrixInv.Apply(ref nx, ref ny, ref nz);
+                (x0, y0, z0) = transformMatrixInv.Apply(x0, y0, z0);
+                (normalX, normalY, normalZ) = transformMatrixInv.Apply(normalX, normalY, normalZ);
             }
 
             // Test for visibility - dot product of nx,ny,nz and the line
             // towards to viewpoint must be positive
-            var p = (viewX - x0) * nx + (viewY - y0) * ny + (viewZ - z0) * nz;
+            var p = (viewX - x0) * normalX + (viewY - y0) * normalY + (viewZ - z0) * normalZ;
             if (p >= 0)
             {
                 // Project from (vx, vy, vz) through (x0,y0,z0) to (-1, y, z)
@@ -216,6 +218,7 @@ namespace MapProjectorLib.Projections
                 return (true, new PointD(x,y));
             }
 
+            //point faces away from the viewpoint, so is invisible
             return (false, PointD.None);
         }
 

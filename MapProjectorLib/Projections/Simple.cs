@@ -26,7 +26,7 @@
             TransformParams tParams,
             double phi, double lambda)
         {
-            transformMatrixInv.ApplyLatLong(ref phi, ref lambda);
+            (phi, lambda) = transformMatrixInv.ApplyLatLong(phi, lambda);
             return ProjectInvSimple(phi, lambda);
         }
     }
