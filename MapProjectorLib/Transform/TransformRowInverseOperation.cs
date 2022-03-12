@@ -94,9 +94,11 @@ namespace MapProjectorLib
             {
                 (x, y) = ProjMath.ApplyRotation(_tParams.Rotate, x, y);
             }
-
-            var sourceX = (_sourceXOrigin + (x - _tParams.xOffset) / scaleFactor);
-            var sourceY = (_sourceXOrigin - (y - _tParams.yOffset) / scaleFactor);
+            
+            var sourceX = Math.Floor(
+                _sourceXOrigin + (x - _tParams.xOffset) / scaleFactor);
+            var sourceY = Math.Floor(
+                _sourceYOrigin - (y - _tParams.yOffset) / scaleFactor);
 
             if (sourceX < 0 || sourceX >= _sourceWidth || sourceY < 0 || sourceY >= _sourceHeight)
             {
@@ -107,6 +109,5 @@ namespace MapProjectorLib
             destinationRowSpan[outX] = _sourceSampler.Sample(sourceX, sourceY);
             return true;
         }
-
     }
 }
