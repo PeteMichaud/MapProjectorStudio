@@ -67,6 +67,7 @@
     <Compile Include="Enums\BitDepthPerChannel.cs" />
     <Compile Include="Enums\ColorSampleMode.cs" />
     <Compile Include="Enums\MapWidget.cs" />
+    <Compile Include="Enums\WidgetRenderMode.cs" />
     <Compile Include="Extensions\RgbaVectorExtensions.cs" />
     <Compile Include="Extensions\Rgb24Extensions.cs" />
     <Compile Include="Images\Image.cs" />

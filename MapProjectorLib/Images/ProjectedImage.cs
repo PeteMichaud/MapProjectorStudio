@@ -22,7 +22,34 @@ namespace MapProjectorLib
             set => ImageData[x, y] = value;
         }
 
-        public ProjectedImage(DestinationImage destImage, SamplableImage sourceImage, string saveAsFilename)
+        //public ProjectedImage(
+        //    DestinationImage destImage, SamplableImage sourceImage, 
+        //    string saveAsFilename)
+        //{
+        //    Initialize(destImage, sourceImage, saveAsFilename);
+        //}
+
+        public ProjectedImage(
+            DestinationImage destImage, SamplableImage sourceImage, string saveAsFilename, 
+            int seriesTotal, int seriesNumber)
+        {
+            if(seriesTotal > 1)
+            {
+                Initialize(destImage, sourceImage, saveAsFilename, seriesNumber);
+            }
+            else
+            {
+                Initialize(destImage, sourceImage, saveAsFilename);
+            }
+        }
+
+        //public ProjectedImage(DestinationImage destImage, SamplableImage sourceImage, string saveAsFilename, int seriesNumber)
+        //    : this(destImage, sourceImage, saveAsFilename)
+        //{
+        //    Initialize(destImage, sourceImage, saveAsFilename, seriesNumber);
+        //}
+
+        void Initialize(DestinationImage destImage, SamplableImage sourceImage, string saveAsFilename)
         {
             if (destImage == null)
             {
@@ -34,9 +61,9 @@ namespace MapProjectorLib
             FilePath = saveAsFilename;
         }
 
-        public ProjectedImage(DestinationImage destImage, SamplableImage sourceImage, string saveAsFilename, int seriesNumber)
-            : this(destImage, sourceImage, saveAsFilename)
+        void Initialize(DestinationImage destImage, SamplableImage sourceImage, string saveAsFilename, int seriesNumber)
         {
+            Initialize(destImage, sourceImage, saveAsFilename);
             SeriesNumber = seriesNumber;
         }
 

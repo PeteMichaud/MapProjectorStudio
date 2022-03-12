@@ -24,8 +24,8 @@ namespace MapProjectorLib
         public string srcImageFileName;
         public SamplableImage SourceImage;
         
-        public string outImageExt;
-        public string outImageName;
+        public string destImageExt;
+        public string destImageName;
         string _destinationImageFileName;
         public string DestinationImageFileName
         {
@@ -34,10 +34,16 @@ namespace MapProjectorLib
             {
                 _destinationImageFileName = value;
                 var etxInx = _destinationImageFileName.LastIndexOf('.');
-                outImageName = _destinationImageFileName.Substring(0, etxInx);
-                outImageExt = _destinationImageFileName.Substring(etxInx + 1);
+                destImageName = _destinationImageFileName.Substring(0, etxInx);
+                destImageExt = _destinationImageFileName.Substring(etxInx + 1);
             }
         }
+
+        public string WidgetOnlyFileName
+        {
+            get => $"{destImageName}_Widgets.{destImageExt}";
+        }
+
         public bool HasBackgroundColor => BackgroundImage != null 
             || backgroundColor.A > 0f;
         public bool ShouldCompositeBackground

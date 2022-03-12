@@ -18,36 +18,11 @@ namespace MapProjectorLib
             var tParams = pParams.transformParams;
             var transform = Transform.GetTransform(pParams.TargetProjection);
 
-            if (tParams.loopParams.LoopCount == 1)
+            for (var i = 0; i < tParams.loopParams.LoopCount; i++)
             {
-                var outImage = GetFreshDestinationImage(pParams, transform);
-                ApplyTransform(transform, outImage, pParams);
-
-                processProjectedImage(new ProjectedImage(
-                    outImage, 
-                    pParams.SourceImage, 
-                    pParams.DestinationImageFileName));
-
-                outImage.Dispose();
+                tParams.CurrentLoopIndex = i;
+                TransformThenProcess(transform, pParams, processProjectedImage);
             }
-            else //loop
-            {
-                for (var i = 0; i < tParams.loopParams.LoopCount; i++)
-                {
-                    var outImage = GetFreshDestinationImage(pParams, transform);
-                    tParams.CurrentLoopIndex = i;
-                    ApplyTransform(transform, outImage, pParams);
-
-                    processProjectedImage(new ProjectedImage(
-                        outImage,
-                        pParams.SourceImage,
-                        pParams.DestinationImageFileName,
-                        i));
-
-                    outImage.Dispose();
-                }
-            } //end else loop
-
             
             // if I dispose these I can't call the same projection twice 
             // in the same session, so I'm not doing that anymore
@@ -69,8 +44,12 @@ namespace MapProjectorLib
             return outImage;
         }
 
-        static void ApplyTransform(Transform transform, DestinationImage destImage, ProjectionParams pParams)
+        static void TransformThenProcess(
+            Transform transform, ProjectionParams pParams, 
+            Action<ProjectedImage> processProjectedImage)
         {
+            var destImage = GetFreshDestinationImage(pParams, transform);
+
             transform.Init(pParams.transformParams);
 
             if (pParams.Invert)
@@ -78,15 +57,49 @@ namespace MapProjectorLib
                 transform.TransformImageInv(
                     pParams.SourceImage, destImage, pParams.transformParams);
                 // No widgets for inverse transformation yet
+                MaybeApplyBackground(destImage, pParams);
+                ProcessThenDispose(destImage);
             }
             else
             {
-                transform.TransformImage(
-                    pParams.SourceImage, destImage, pParams.transformParams);
-                WidgetRenderer.Render(destImage, pParams.transformParams, transform);
+                var widgetRenderMode = WidgetRenderMode.Combined;
+                if (widgetRenderMode == WidgetRenderMode.Combined)
+                {
+                    transform.TransformImage(
+                        pParams.SourceImage, destImage, pParams.transformParams);
+                    WidgetRenderer.Render(destImage, pParams.transformParams, transform);
+                    MaybeApplyBackground(destImage, pParams);
+                    ProcessThenDispose(destImage);
+                } 
+                else if (widgetRenderMode == WidgetRenderMode.WidgetOnly)
+                {
+                    WidgetRenderer.Render(destImage, pParams.transformParams, transform);
+                    ProcessThenDispose(destImage, widgetOnly: true);
+                }
+                else if(widgetRenderMode == WidgetRenderMode.Separate)
+                {
+                    transform.TransformImage(
+                        pParams.SourceImage, destImage, pParams.transformParams);
+                    MaybeApplyBackground(destImage, pParams);
+                    ProcessThenDispose(destImage);
+
+                    destImage = GetFreshDestinationImage(pParams, transform);
+                    WidgetRenderer.Render(destImage, pParams.transformParams, transform);
+                    ProcessThenDispose(destImage, widgetOnly: true);
+                }
             }
 
-            MaybeApplyBackground(destImage, pParams);
+            void ProcessThenDispose(DestinationImage toProcess, bool widgetOnly = false)
+            {
+                processProjectedImage(new ProjectedImage(
+                    toProcess,
+                    pParams.SourceImage,
+                    widgetOnly ? pParams.WidgetOnlyFileName : pParams.DestinationImageFileName,
+                    pParams.transformParams.loopParams.LoopCount,
+                    pParams.transformParams.loopParams.CurrentLoopIndex
+                ));
+                toProcess.Dispose();
+            }
         }
 
         static void MaybeApplyBackground(DestinationImage destImage, ProjectionParams pParams)
