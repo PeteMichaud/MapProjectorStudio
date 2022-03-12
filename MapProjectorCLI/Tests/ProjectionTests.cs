@@ -265,7 +265,7 @@ namespace MapProjectorCLI.Tests
             }
 
             [Test]
-            //[Ignore("takes a long to run and has previously passed")]
+            [Ignore("takes a long to run and has previously passed")]
             public void RotateAll()
             {
                 //Console.WriteLine(ProjMath.AboutEqual(3.14159265358979d, Math.PI));
