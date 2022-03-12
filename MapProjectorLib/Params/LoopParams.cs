@@ -13,6 +13,7 @@
         public double TiltIncr = 0; //(Degrees)
         public double TimeIncr = 0; //Hours
         public double TurnIncr = 0; //(Degrees)
+        public double RotateIncr = 0; //(Degrees)
 
         public double xIncr = 0; //Pixels
         public double yIncr = 0; //Pixels

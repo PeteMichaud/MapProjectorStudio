@@ -41,18 +41,6 @@ namespace MapProjectorLib
             ImageData = new Image<RgbaVector>(width, height, backgroundColor);
         }
 
-        public void Save(string fileName, int seriesNumber, BitDepthPerChannel targetBitDepth)
-        {
-            var saver = new ImageSaver(fileName, seriesNumber);
-            saver.Save(ImageData, targetBitDepth);
-        }
-
-        public void Save(string fileName, BitDepthPerChannel targetBitDepth)
-        {
-            var saver = new ImageSaver(fileName);
-            saver.Save(ImageData, targetBitDepth);
-        }
-
         public void Dispose()
         {
             ImageData.Dispose();

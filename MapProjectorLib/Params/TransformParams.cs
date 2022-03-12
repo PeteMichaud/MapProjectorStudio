@@ -64,11 +64,23 @@ namespace MapProjectorLib
             }
         }
 
+        double _rotate = 0;
+        public double Rotate
+        {
+            get
+            {
+                return _rotate + loopParams.RotateIncr * loopParams.CurrentLoopIndex;
+            }
+            set
+            {
+                _rotate = value;
+            }
+        }
+
         public double Scale = 1.0;
         public double xOffset = 0;
         public double yOffset = 0;
         public double Radius = 0;
-        public double Rotate = 0.0;
 
         //X dimension of Oblateness, measured in planet radii
         public double ox = 1.0; 

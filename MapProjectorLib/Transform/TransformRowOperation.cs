@@ -83,7 +83,6 @@ namespace MapProjectorLib
                     
                     var outColor = _transform.AdjustOutputColor(
                         _sourceSampler.Sample(scaledX, scaledY), x0, y0, z0, _tParams);
-
                     destinationRowSpan[outX] = outColor;
                 }
                 else

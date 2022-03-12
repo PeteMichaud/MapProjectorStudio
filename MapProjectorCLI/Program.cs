@@ -34,7 +34,10 @@ namespace MapProjectorCLI
                     Stopwatch timer = new Stopwatch();
                     timer.Start();
 
-                    Projector.Project(pParams);
+                    Projector.Project(pParams, projectedImage =>
+                    {
+                        projectedImage.Save();
+                    });
 
                     timer.Stop();
                     Console.WriteLine($"Completed in {timer.Elapsed}s!\nCheck {pParams.DestinationImageFileName} for results.");
@@ -146,6 +149,7 @@ namespace MapProjectorCLI
                 TurnIncr = cliParams.TurnIncr,
                 LatIncr = cliParams.LatIncr,
                 LongIncr = cliParams.LongIncr,
+                RotateIncr = cliParams.RotateIncr,
 
                 xIncr = cliParams.xIncr,
                 yIncr = cliParams.yIncr,

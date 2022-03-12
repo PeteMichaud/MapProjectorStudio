@@ -1,4 +1,5 @@
-﻿using SixLabors.ImageSharp;
+﻿using System;
+using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing.Processors.Drawing;
 
@@ -6,45 +7,66 @@ namespace MapProjectorLib
 {
     public static class Projector
     {
-        public static void Project(ProjectionParams pParams)
+        public static void Project(ProjectionParams pParams, Action<ProjectedImage> processProjectedImage = null)
         {
+            //Default action after projection is to save the file
+            if (processProjectedImage == null)
+            {
+                processProjectedImage = projectedImage => projectedImage.Save();
+            }
+
             var tParams = pParams.transformParams;
             var transform = Transform.GetTransform(pParams.TargetProjection);
+
+            if (tParams.loopParams.LoopCount == 1)
+            {
+                var outImage = GetFreshDestinationImage(pParams, transform);
+                ApplyTransform(transform, outImage, pParams);
+
+                processProjectedImage(new ProjectedImage(
+                    outImage, 
+                    pParams.SourceImage, 
+                    pParams.DestinationImageFileName));
+
+                outImage.Dispose();
+            }
+            else //loop
+            {
+                for (var i = 0; i < tParams.loopParams.LoopCount; i++)
+                {
+                    var outImage = GetFreshDestinationImage(pParams, transform);
+                    tParams.CurrentLoopIndex = i;
+                    ApplyTransform(transform, outImage, pParams);
+
+                    processProjectedImage(new ProjectedImage(
+                        outImage,
+                        pParams.SourceImage,
+                        pParams.DestinationImageFileName,
+                        i));
+
+                    outImage.Dispose();
+                }
+            } //end else loop
+
+            
+            // if I dispose these I can't call the same projection twice 
+            // in the same session, so I'm not doing that anymore
+            //pParams.SourceImage.Dispose();
+            //if (pParams.BackgroundImage != null) pParams.BackgroundImage.Dispose();
+        }
+
+        static DestinationImage GetFreshDestinationImage(ProjectionParams pParams, Transform transform)
+        {
             var outImage = new DestinationImage(pParams.Width, pParams.Height);
 
             if (pParams.Adjust)
             {
                 (pParams.Width, pParams.Height) =
                     transform.AdjustSize(
-                        pParams.Width, pParams.Height, tParams);
+                        pParams.Width, pParams.Height, pParams.transformParams);
             }
 
-            if (tParams.loopParams.LoopCount == 1)
-            {
-                ApplyTransform(transform, outImage, pParams);
-
-                outImage.Save(pParams.DestinationImageFileName,
-                       pParams.SourceImage.BitDepth);
-            } 
-            else //loop
-            {
-                for (var i = 0; i < tParams.loopParams.LoopCount; i++)
-                {
-                    tParams.CurrentLoopIndex = i;
-                    ApplyTransform(transform, outImage, pParams);
-               
-                    outImage.Save(pParams.DestinationImageFileName,
-                        seriesNumber: i,
-                        pParams.SourceImage.BitDepth);
-                }
-            } //end else loop
-
-            outImage.Dispose();
-            
-            // if I dispose these I can't call the same projection twice 
-            // in the same session, so I'm not doing that anymore
-            //pParams.SourceImage.Dispose();
-            //if (pParams.BackgroundImage != null) pParams.BackgroundImage.Dispose();
+            return outImage;
         }
 
         static void ApplyTransform(Transform transform, DestinationImage destImage, ProjectionParams pParams)

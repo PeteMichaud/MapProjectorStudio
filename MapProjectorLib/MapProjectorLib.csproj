@@ -70,6 +70,7 @@
     <Compile Include="Extensions\RgbaVectorExtensions.cs" />
     <Compile Include="Extensions\Rgb24Extensions.cs" />
     <Compile Include="Images\Image.cs" />
+    <Compile Include="Images\ProjectedImage.cs" />
     <Compile Include="Images\SamplableImage.cs" />
     <Compile Include="Images\DestinationImage.cs" />
     <Compile Include="Images\ImageSaver.cs" />

@@ -23,6 +23,8 @@ namespace MapProjectorCLI.Tests
             return rawArgs.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
         }
 
+        Action<ProjectedImage> disposeProjection = image => image.Dispose();
+
         [TestFixture]
         public class QualitySettings : ProjectionTests
         {
@@ -44,6 +46,29 @@ namespace MapProjectorCLI.Tests
                 }
             }
         
+        }
+
+        [TestFixture]
+        public class MemoryTests : ProjectionTests
+        {
+            [Test]
+            public void MultipleDispose()
+            {
+                foreach (ColorSampleMode quality in Enum.GetValues(typeof(ColorSampleMode)))
+                {
+                    var args = ToArgs($"");
+
+                    Parse(args, cliParams =>
+                    {
+                        (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                        Projector.Project(projectionParams, disposeProjection);
+                        //right after disposeProjection runs, the internal code will also call
+                        //dispose on the same memory. This should not throw 
+                    });
+
+                }
+            }
+
         }
 
         [TestFixture]
@@ -239,7 +264,24 @@ namespace MapProjectorCLI.Tests
 
             }
 
-            //todo: test every possible rotation on every possible rotation
+            [Test]
+            //[Ignore("takes a long to run and has previously passed")]
+            public void RotateAll()
+            {
+                //Console.WriteLine(ProjMath.AboutEqual(3.14159265358979d, Math.PI));
+                foreach (MapProjection proj in Enum.GetValues(typeof(MapProjection)))
+                {
+                    var args = ToArgs($"--projection {proj} --loop 180 --rotate -90 --rotateincr 1",
+                         outFileName: $"\\Rotated\\{MethodBase.GetCurrentMethod().Name}_{proj}");
+
+                    Parse(args, cliParams =>
+                    {
+                        (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                        //don't save, just verify that no rotation throws for any projection
+                        Projector.Project(projectionParams, disposeProjection);
+                    });
+                }
+            }
 
             [Test]
             public void OffsetLat()

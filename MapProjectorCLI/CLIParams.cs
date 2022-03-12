@@ -30,6 +30,7 @@ namespace MapProjectorCLI
         double _longIncr;
 
         double _rotate;
+        double _rotateIncr;
 
         int _loopCount;
 
@@ -181,6 +182,14 @@ namespace MapProjectorCLI
         {
             get => _rotate;
             set => _rotate = value * OneDegree;
+        }
+
+        [Option(
+           "rotateincr", Default = 0, HelpText = "Rotate in 2D plane (Degrees)")]
+        public double RotateIncr
+        {
+            get => _rotateIncr;
+            set => _rotateIncr = value * OneDegree;
         }
 
         [Option("lat", Default = 0, HelpText = "Latitude of Center (Degrees)")]
