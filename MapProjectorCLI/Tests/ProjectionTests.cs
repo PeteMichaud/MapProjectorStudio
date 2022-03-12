@@ -149,6 +149,22 @@ namespace MapProjectorCLI.Tests
                     });
                 }
             }
+
+            [Test]
+            public void InvertWithRotate()
+            {
+                foreach (MapProjection proj in Enum.GetValues(typeof(MapProjection)))
+                {
+                    var args = ToArgs($"--projection hammer --invert --rotate 45",
+                         outFileName: $"\\Inverted\\{MethodBase.GetCurrentMethod().Name}");
+
+                    Parse(args, cliParams =>
+                    {
+                        (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                        Projector.Project(projectionParams);
+                    });
+                }
+            }
         }
 
 
