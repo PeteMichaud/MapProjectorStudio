@@ -226,6 +226,7 @@ namespace MapProjectorCLI
             {
                 transformParams = tParams,
                 
+                WidgetRenderMode = cliParams.WidgetRenderMode,
                 TargetProjection = cliParams.TargetProjection,
                 Adjust = cliParams.Adjust,
                 Width = cliParams.Width > 0 ? cliParams.Width : srcImage.Width,

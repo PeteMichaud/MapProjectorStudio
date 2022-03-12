@@ -6,7 +6,7 @@
 
 If you start with a projection other than equirectangular, use the --invert flag to convert FROM the target projection. Notice that some projections don't include the necessary data to completely recreate an equirect map.
 
-`--projection mercator --invert -f ..\..\Tests\Input\earth_mercator.png -o ..\..\Tests\Output\InvertFromMercator.png`
+`--projection mercator --invert -w 400 -h 200 -f ..\..\Tests\Input\earth_mercator.png -o ..\..\Tests\Output\InvertFromMercator.png`
 
 ![Invert From Mercator](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/InvertFromMercator.png)
 
@@ -563,4 +563,34 @@ By default this widget tries to be smart about where it places the indicatrices 
 `--widget tropics --projection gnomonic -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\TropicsWithProjection.png`
 
 ![Tropics With Projection](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/TropicsWithProjection.png)
+
+
+
+### Widget Render Modes
+
+#### Widget Combined Mode
+
+This is the default mode, it returns one image with widgets rendered directly over the map.
+
+`--projection hammer --widget grid --widgetmode combined -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\WidgetCombinedMode.png`
+
+![Widget Combined Mode](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/WidgetCombinedMode.png)
+
+#### Widget Only Mode
+
+Does not return the projected map at all, only the projected widgets alone.
+
+`--projection hammer --widget grid --widgetmode widgetonly -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\WidgetOnlyMode.png`
+
+![Widget Only Mode](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/WidgetOnlyMode_Widgets.png)
+
+#### Widget Separate Mode
+
+Returns two separate, projected images, one of the map, one of the matching widgets
+
+`--projection hammer --widget grid --widgetmode separate -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\WidgetSeparateMode.png`
+
+![Widget Separate Mode 1](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/WidgetSeparateMode.png)
+
+![Widget Separate Mode 2](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output/WidgetSeparateMode_Widgets.png)
 

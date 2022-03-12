@@ -12,8 +12,10 @@ namespace MapProjectorLib
         public bool Invert = false; 
         
         //Target Projection (or Source Projection if Invert flag specified)
-        public MapProjection TargetProjection; 
-        
+        public MapProjection TargetProjection;
+
+        public WidgetRenderMode WidgetRenderMode;
+
         public int Width; //Target Width
         public int Height; //Target Height
 

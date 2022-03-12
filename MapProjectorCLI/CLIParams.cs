@@ -325,6 +325,11 @@ namespace MapProjectorCLI
         //Widgets
 
         [Option(
+            "widgetmode", Required = false,
+            HelpText = "Render map widgets Combined, Separate, or WidgetOnly")]
+        public WidgetRenderMode WidgetRenderMode { get; set; }
+
+        [Option(
             "widget", Required = false,
             HelpText =
                 "Comma separated list of map widgets: Grid, Analemma, TemporaryHours, LocalHours, Altitudes, Tropics, Dateline, Datetime")]

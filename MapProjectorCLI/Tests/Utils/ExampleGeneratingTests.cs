@@ -15,9 +15,9 @@ namespace MapProjectorCLI.Tests
     //This test harnass generates an example file from the tests
     public class ExampleGeneratingTests : TestsWithParser
     {
-        static SortedDictionary<string, Example> globalExamples = new SortedDictionary<string, Example>();
+        protected static SortedDictionary<string, Example> globalExamples = new SortedDictionary<string, Example>();
 
-        const string repoPath = @"https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output";
+        protected const string repoPath = @"https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output";
 
         protected void AddExample(string[] args, string notes = "", [CallerMemberName] string callerName = "")
         {
@@ -42,15 +42,15 @@ namespace MapProjectorCLI.Tests
             var images = new List<string>();
             var loopCnt = LoopCount(args);
 
-            if(loopCnt == 0)
+            if (loopCnt == 0)
             {
                 images.Add($"{repoPath}/{title}.png");
             }
             else
             {
-                for(int i = 0; i < loopCnt; i++)
+                for (int i = 0; i < loopCnt; i++)
                 {
-                    var sequenceTitle = string.Format("{0}{1,4:0000}",title, i);
+                    var sequenceTitle = string.Format("{0}{1,4:0000}", title, i);
                     images.Add($"{repoPath}/{sequenceTitle}.png");
                 }
             }

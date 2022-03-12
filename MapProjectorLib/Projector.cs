@@ -62,30 +62,29 @@ namespace MapProjectorLib
             }
             else
             {
-                var widgetRenderMode = WidgetRenderMode.Combined;
-                if (widgetRenderMode == WidgetRenderMode.Combined)
+                switch (pParams.WidgetRenderMode)
                 {
-                    transform.TransformImage(
+                    case WidgetRenderMode.Combined:
+                        transform.TransformImage(
                         pParams.SourceImage, destImage, pParams.transformParams);
-                    WidgetRenderer.Render(destImage, pParams.transformParams, transform);
-                    MaybeApplyBackground(destImage, pParams);
-                    ProcessThenDispose(destImage);
-                } 
-                else if (widgetRenderMode == WidgetRenderMode.WidgetOnly)
-                {
-                    WidgetRenderer.Render(destImage, pParams.transformParams, transform);
-                    ProcessThenDispose(destImage, widgetOnly: true);
-                }
-                else if(widgetRenderMode == WidgetRenderMode.Separate)
-                {
-                    transform.TransformImage(
+                        WidgetRenderer.Render(destImage, pParams.transformParams, transform);
+                        MaybeApplyBackground(destImage, pParams);
+                        ProcessThenDispose(destImage);
+                        break;
+                    case WidgetRenderMode.WidgetOnly:
+                        WidgetRenderer.Render(destImage, pParams.transformParams, transform);
+                        ProcessThenDispose(destImage, widgetOnly: true);
+                        break;
+                    case WidgetRenderMode.Separate:
+                        transform.TransformImage(
                         pParams.SourceImage, destImage, pParams.transformParams);
-                    MaybeApplyBackground(destImage, pParams);
-                    ProcessThenDispose(destImage);
+                        MaybeApplyBackground(destImage, pParams);
+                        ProcessThenDispose(destImage);
 
-                    destImage = GetFreshDestinationImage(pParams, transform);
-                    WidgetRenderer.Render(destImage, pParams.transformParams, transform);
-                    ProcessThenDispose(destImage, widgetOnly: true);
+                        destImage = GetFreshDestinationImage(pParams, transform);
+                        WidgetRenderer.Render(destImage, pParams.transformParams, transform);
+                        ProcessThenDispose(destImage, widgetOnly: true);
+                        break;
                 }
             }
 

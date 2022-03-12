@@ -111,7 +111,8 @@ Then use `output_equirect_file.png` as your new file input for further processin
 * --wlon           (Default: 0) Widget Origin Longitude (Radians)
 * --wday           (Default: 0) Widget Day (for Dateline and Datetime widgets)
 * --wnaivespacing  (Default: False) Indicatrix defaults to smart spacing, which skips some at the poles to avoid overlap. Using this flag will prevent smart spacing
-
+* --widgetmode     (Default: Combined) Render map widgets Combined, Separate, or WidgetOnly
+* --help           See All Options
 ## Goals
 
 * [x] Cross platform, including Windows

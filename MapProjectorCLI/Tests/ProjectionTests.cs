@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
@@ -121,7 +122,7 @@ namespace MapProjectorCLI.Tests
             [Test]
             public void InvertFromMercator()
             {
-                var args = ToArgs($"--projection mercator --invert", inFileName: "earth_mercator");
+                var args = ToArgs($"--projection mercator --invert -w 400 -h 200", inFileName: "earth_mercator");
                 AddExample(args,
                     "If you start with a projection other than equirectangular, use the --invert flag to convert FROM the target projection. Notice that some projections don't include the necessary data to completely recreate an equirect map."
                 );
@@ -487,6 +488,90 @@ namespace MapProjectorCLI.Tests
 
         public class WidgetUsage : ProjectionTests
         {
+            [TestFixture]
+            public class WidgetRenderModes : WidgetUsage
+            {
+                [Test]
+                public void WidgetCombinedMode()
+                {
+                    var args = ToArgs($"--projection hammer --widget grid --widgetmode combined");
+                    AddExample(args, "This is the default mode, it returns one image with widgets rendered directly over the map.");
+
+                    Parse(args, cliParams =>
+                    {
+                        (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                        Projector.Project(projectionParams);
+                    });
+
+                }
+
+                [Test]
+                public void WidgetOnlyMode()
+                {
+                    var args = ToArgs($"--projection hammer --widget grid --widgetmode widgetonly");
+                    AddExampleWidgetOnlyMode(args, 
+                        "Does not return the projected map at all, only the projected widgets alone.", 
+                        MethodBase.GetCurrentMethod().Name);
+
+                    Parse(args, cliParams =>
+                    {
+                        (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                        Projector.Project(projectionParams);
+                    });
+
+                    void AddExampleWidgetOnlyMode(string[] _args, string notes, string title)
+                    {
+                        var callerClass = this.GetType().FullName;
+                        var titleIdx = callerClass.IndexOf("+");
+                        var key = $"{callerClass.Substring(titleIdx + 1)}.{title}";
+                        var images = new List<string>
+                        {
+                            $"{repoPath}/{title}_Widgets.png"
+                        };
+
+                        globalExamples.Add(
+                            key,
+                            new Example(title, _args, images, notes)
+                       );
+                    }
+
+                }
+
+                [Test]
+                public void WidgetSeparateMode()
+                {
+                    var args = ToArgs($"--projection hammer --widget grid --widgetmode separate");
+                    AddExampleSeparateMode(
+                        args, 
+                        "Returns two separate, projected images, one of the map, one of the matching widgets", 
+                        MethodBase.GetCurrentMethod().Name);
+                    
+                    Parse(args, cliParams =>
+                    {
+                        (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                        Projector.Project(projectionParams);
+                    });
+
+                    void AddExampleSeparateMode(string[] _args, string notes, string title)
+                    {
+                        var callerClass = this.GetType().FullName;
+                        var titleIdx = callerClass.IndexOf("+");
+                        var key = $"{callerClass.Substring(titleIdx + 1)}.{title}";
+                        var images = new List<string>
+                        {
+                            $"{repoPath}/{title}.png",
+                            $"{repoPath}/{title}_Widgets.png"
+                        };
+
+                        globalExamples.Add(
+                            key,
+                            new Example(title, _args, images, notes)
+                       );
+                    }
+
+                }
+            }
+
             [TestFixture]
             public class GridUsage : WidgetUsage
             {
