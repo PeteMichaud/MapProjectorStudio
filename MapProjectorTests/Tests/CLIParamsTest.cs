@@ -1,8 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
 using MapProjectorLib;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.PixelFormats;
 
 namespace MapProjectorCLI.Tests
 {

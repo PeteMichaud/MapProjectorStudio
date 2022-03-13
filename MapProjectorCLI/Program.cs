@@ -61,7 +61,7 @@ namespace MapProjectorCLI
         }
 
 
-        internal static (bool result, ProjectionParams pParams) ProcessParams(CLIParams cliParams)
+        public static (bool result, ProjectionParams pParams) ProcessParams(CLIParams cliParams)
         {
             SamplableImage srcImage = null;
             MapProjectorLib.Image backgroundImage = null;
