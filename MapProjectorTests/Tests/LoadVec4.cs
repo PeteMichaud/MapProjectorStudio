@@ -18,27 +18,27 @@ namespace MapProjectorCLI.Tests
     [TestFixture]
     public class LoadVec4
     {
-        [Test]
-        public void VectorWidgetTests()
-        {
+        //[Test]
+        //public void VectorWidgetTests()
+        //{
    
-            Document document = new Document();
-            Page page = new Page(1000, 1000);
-            document.Pages.Add(page);
+        //    Document document = new Document();
+        //    Page page = new Page(1000, 1000);
+        //    document.Pages.Add(page);
 
-            //page.Graphics.FillRectangle(100, 100, 800, 50, Colour.FromRgb(128, 128, 128), tag: "linkToGitHub");
-            //page.Graphics.FillRectangle(100, 300, 800, 50, Colour.FromRgb(255, 0, 0), tag: "linkToBlueRectangle");
-            //page.Graphics.FillRectangle(100, 850, 800, 50, Colour.FromRgb(0, 0, 255), tag: "blueRectangle");
+        //    //page.Graphics.FillRectangle(100, 100, 800, 50, Colour.FromRgb(128, 128, 128), tag: "linkToGitHub");
+        //    //page.Graphics.FillRectangle(100, 300, 800, 50, Colour.FromRgb(255, 0, 0), tag: "linkToBlueRectangle");
+        //    //page.Graphics.FillRectangle(100, 850, 800, 50, Colour.FromRgb(0, 0, 255), tag: "blueRectangle");
 
-            var path = new GraphicsPath().MoveTo(0, 0);
-            for(int i = 1; i < 11; i++)
-            {
-                path.LineTo(i*i, i*i*i);
-            }
-            path.AddSmoothSpline();
-            page.Graphics.StrokePath(path, Colours.Red, 4);
-            page.SaveAsSVG("D:\\Sync\\LandfallMap\\MapProjectorStudio\\MapProjectorTests\\Tests\\Output\\Vector\\out.svg");
-        }
+        //    var path = new GraphicsPath().MoveTo(0, 0);
+        //    for(int i = 1; i < 11; i++)
+        //    {
+        //        path.LineTo(i*i, i*i*i);
+        //    }
+        //    path.AddSmoothSpline();
+        //    page.Graphics.StrokePath(path, Colours.Red, 4);
+        //    page.SaveAsSVG("D:\\Sync\\LandfallMap\\MapProjectorStudio\\MapProjectorTests\\Tests\\Output\\Vector\\out.svg");
+        //}
 
         //[Test]
         //public void CompositeTest()
