@@ -17,7 +17,7 @@ namespace MapProjectorCLI.Tests
     {
         protected static SortedDictionary<string, Example> globalExamples = new SortedDictionary<string, Example>();
 
-        protected const string repoPath = @"https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorCLI/Tests/Output";
+        protected const string repoPath = @"https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorTests/Tests/Output";
 
         protected void AddExample(string[] args, string notes = "", [CallerMemberName] string callerName = "")
         {
