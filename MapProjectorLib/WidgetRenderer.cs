@@ -39,7 +39,7 @@ namespace MapProjectorLib
         static void DrawLocalHours(
             DestinationImage image, TransformParams tParams, Transform transform)
         {
-            var latPlotter = new LatPlotter(image, tParams, transform);
+            var latPlotter = new LatPlotCalculator(image, tParams, transform);
             const int nx = 24;
             for (var i = 0; i < nx; i++)
             {
@@ -47,7 +47,8 @@ namespace MapProjectorLib
                              tParams.widgetLon;
                 latPlotter.Lambda = lambda;
                 // Omit the last section of the lines of latitude.
-                image.PlotLine(
+                new WidgetPlotter(image.ImageData)
+                    .PlotLine(
                     -ProjMath.Inclination, +ProjMath.Inclination, latPlotter,
                     tParams.widgetColor, 4);
             }
@@ -63,22 +64,22 @@ namespace MapProjectorLib
 
             for (var i = 0; i < nx; i++)
             {
-                var latPlotter = new LatPlotter(image, tParams, transform);
+                var latPlotter = new LatPlotCalculator(image, tParams, transform);
 
                 var lambda = (i - nx / 2) * ProjMath.TwoPi / nx;
                 latPlotter.Lambda = lambda;
                 // Omit the last section of the lines of latitude.
                 //image.PlotLine(-pi/2+radians(gridy), pi/2-radians(gridy), latplotter, cmdtParams.color);
-                image.PlotLine(
+                new WidgetPlotter(image.ImageData).PlotLine(
                     -Math.PI / 2, Math.PI / 2, latPlotter, tParams.gridColor,
                     16);
             }
 
-            var longPlotter = new LongPlotter(image, tParams, transform);
+            var longPlotter = new LongPlotCalculator(image, tParams, transform);
             for (var i = 0; i <= ny; i++)
             {
                 longPlotter.Phi = (i - ny / 2) * Math.PI / ny;
-                image.PlotLine(
+                new WidgetPlotter(image.ImageData).PlotLine(
                     -Math.PI, Math.PI, longPlotter, tParams.gridColor, 16);
             }
         }
@@ -86,13 +87,13 @@ namespace MapProjectorLib
         static void DrawAnalemma(DestinationImage image, TransformParams tParams, Transform transform)
         {
             var gridx = tParams.gridX;
-            var analemmaPlotter = new AnalemmaPlotter(image, tParams, transform);
+            var analemmaPlotter = new AnalemmaPlotCalculator(image, tParams, transform);
             var nx = 360 / gridx;
             for (var i = 0; i < nx; i++)
             {
                 var time = 2 * Math.PI * (i - nx / 2) / nx;
                 analemmaPlotter.Time = time;
-                image.PlotLine(
+                new WidgetPlotter(image.ImageData).PlotLine(
                     0, ProjMath.TwoPi, analemmaPlotter, tParams.widgetColor,
                     16);
             }
@@ -101,7 +102,7 @@ namespace MapProjectorLib
         static void DrawTemporaryHours(
             DestinationImage image, TransformParams tParams, Transform transform)
         {
-            var tempPlotter = new TempPlotter(image, tParams, transform)
+            var tempPlotter = new TempPlotCalculator(image, tParams, transform)
             {
                 Lambda = tParams.widgetLon,
                 Phi = tParams.widgetLat
@@ -110,7 +111,7 @@ namespace MapProjectorLib
             for (var i = 6; i <= 18; i++)
             {
                 tempPlotter.Time = i;
-                image.PlotLine(
+                new WidgetPlotter(image.ImageData).PlotLine(
                     -ProjMath.Inclination, +ProjMath.Inclination, tempPlotter,
                     tParams.widgetColor, 4);
             }
@@ -119,14 +120,14 @@ namespace MapProjectorLib
         static void DrawTropics(
             DestinationImage image, TransformParams tParams, Transform transform)
         {
-            var longPlotter = new LongPlotter(image, tParams, transform);
+            var longPlotter = new LongPlotCalculator(image, tParams, transform);
 
             longPlotter.Phi = ProjMath.Inclination;
-            image.PlotLine(
+            new WidgetPlotter(image.ImageData).PlotLine(
                 -Math.PI, Math.PI, longPlotter, tParams.widgetColor, 16);
 
             longPlotter.Phi = -ProjMath.Inclination;
-            image.PlotLine(
+            new WidgetPlotter(image.ImageData).PlotLine(
                 -Math.PI, Math.PI, longPlotter, tParams.widgetColor, 16);
         }
 
@@ -134,7 +135,7 @@ namespace MapProjectorLib
             DestinationImage image, TransformParams tParams, Transform transform)
         {
             var day = tParams.widgetDay;
-            var longPlotter = new LongPlotter(image, tParams, transform);
+            var longPlotter = new LongPlotCalculator(image, tParams, transform);
 
             // Spring equinox is date 0, and is day 80 of a normal year.
             day -= 80;
@@ -144,7 +145,7 @@ namespace MapProjectorLib
             var date = 2 * Math.PI * day / 365;
             longPlotter.Phi = ProjMath.SunDec(date);
 
-            image.PlotLine(
+            new WidgetPlotter(image.ImageData).PlotLine(
                 -Math.PI, Math.PI, longPlotter, tParams.widgetColor, 16);
         }
 
@@ -166,13 +167,13 @@ namespace MapProjectorLib
             var lambda = -(2 * Math.PI * apparentTime);
             (var inBounds, var mappedPoint) = transform.MapXY(image, tParams, phi, lambda);
 
-            if (inBounds) image.PlotPoint(mappedPoint.X, mappedPoint.Y, 1, tParams.widgetColor);
+            if (inBounds) new WidgetPlotter(image.ImageData).PlotPoint(mappedPoint.X, mappedPoint.Y, 1, tParams.widgetColor);
         }
 
         static void DrawAltitudes(
             DestinationImage image, TransformParams tParams, Transform transform)
         {
-            var altitudesPlotter = new AltitudesPlotter(image, tParams, transform)
+            var altitudesPlotter = new AltitudesPlotCalculator(image, tParams, transform)
             {
                 Lambda = tParams.widgetLon,
                 Phi = tParams.widgetLat
@@ -181,7 +182,7 @@ namespace MapProjectorLib
             for (var i = 10; i <= 80; i += 10)
             {
                 altitudesPlotter.Theta = ProjMath.ToRadians(i);
-                image.PlotLine(
+                new WidgetPlotter(image.ImageData).PlotLine(
                     0, ProjMath.TwoPi, altitudesPlotter, tParams.widgetColor, 16);
             }
         }
@@ -189,7 +190,7 @@ namespace MapProjectorLib
         static void DrawIndicatrix(
         DestinationImage image, TransformParams tParams, Transform transform)
         {
-            var circlePlotter = new CirclePlotter(image, tParams, transform)
+            var circlePlotter = new CirclePlotCalculator(image, tParams, transform)
             {
                 Theta = ProjMath.ToRadians(100)
             };
@@ -213,7 +214,7 @@ namespace MapProjectorLib
                 {
                     circlePlotter.Lambda = (x - nx / 2) * ProjMath.TwoPi / nx;
 
-                    image.PlotLine(
+                    new WidgetPlotter(image.ImageData).PlotLine(
                        0, ProjMath.TwoPi, circlePlotter, tParams.widgetColor, 16);
                 }
             }

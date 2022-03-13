@@ -1,10 +1,10 @@
 ﻿namespace MapProjectorLib.Plotters
 {
-    internal class LatPlotter : TransformPlotter
+    internal class LatPlotCalculator : TransformPlotCalculator
     {
         public double Lambda;
 
-        public LatPlotter(
+        public LatPlotCalculator(
             DestinationImage image, TransformParams tParams, Transform transform)
             : base(image, tParams, transform)
         {

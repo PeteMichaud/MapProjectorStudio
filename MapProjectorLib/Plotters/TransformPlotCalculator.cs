@@ -1,12 +1,12 @@
 ﻿namespace MapProjectorLib.Plotters
 {
-    internal abstract class TransformPlotter : LinePlotter
+    internal abstract class TransformPlotCalculator : LinePlotCalculator
     {
         protected readonly DestinationImage _image;
         protected readonly TransformParams _tParams;
         protected readonly Transform _transform;
 
-        public TransformPlotter(
+        public TransformPlotCalculator(
             DestinationImage image, TransformParams tParams, Transform transform)
         {
             _image = image;

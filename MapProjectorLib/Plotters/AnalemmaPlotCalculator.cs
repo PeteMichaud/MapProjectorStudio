@@ -1,10 +1,10 @@
 ﻿namespace MapProjectorLib.Plotters
 {
-    internal class AnalemmaPlotter : TransformPlotter
+    internal class AnalemmaPlotCalculator : TransformPlotCalculator
     {
         public double Time;
 
-        public AnalemmaPlotter(
+        public AnalemmaPlotCalculator(
             DestinationImage image, TransformParams tParams, Transform transform)
             : base(image, tParams, transform)
         {

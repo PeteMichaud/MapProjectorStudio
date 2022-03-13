@@ -3,13 +3,13 @@
 namespace MapProjectorLib.Plotters
 {
     // Draw a temporary hour line
-    internal class TempPlotter : TransformPlotter
+    internal class TempPlotCalculator : TransformPlotCalculator
     {
         public double Lambda;
         public double Phi;
         public double Time;
 
-        public TempPlotter(
+        public TempPlotCalculator(
             DestinationImage image, TransformParams tParams, Transform transform)
             : base(image, tParams, transform)
         {

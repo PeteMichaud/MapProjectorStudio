@@ -1,10 +1,10 @@
 ﻿namespace MapProjectorLib.Plotters
 {
-    internal class LongPlotter : TransformPlotter
+    internal class LongPlotCalculator : TransformPlotCalculator
     {
         public double Phi;
 
-        public LongPlotter(
+        public LongPlotCalculator(
             DestinationImage image, TransformParams tParams, Transform transform)
             : base(image, tParams, transform)
         {
