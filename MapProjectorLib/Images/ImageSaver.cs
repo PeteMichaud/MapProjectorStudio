@@ -34,7 +34,7 @@ namespace MapProjectorLib
             );
         }
 
-        public void Save(SixLabors.ImageSharp.Image image, BitDepthPerChannel targetBitDepth)
+        public void Save(Image image, BitDepthPerChannel targetBitDepth)
         {
             var encoder = GetEncoder(targetBitDepth);
             if(encoder != null)

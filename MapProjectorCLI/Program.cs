@@ -64,7 +64,7 @@ namespace MapProjectorCLI
         public static (bool result, ProjectionParams pParams) ProcessParams(CLIParams cliParams)
         {
             SamplableImage srcImage = null;
-            MapProjectorLib.Image backgroundImage = null;
+            BackgroundImage backgroundImage = null;
 
             //Qualify File Paths and Load Files
             {
@@ -214,12 +214,12 @@ namespace MapProjectorCLI
 
             if (cliParams._gridColorValues != null)
             {
-                tParams.gridColor = ToColor(cliParams._gridColorValues);
+                tParams.GridColor = ToColor(cliParams._gridColorValues);
             }
 
             if (cliParams._widgetColorValues != null)
             {
-                tParams.widgetColor = ToColor(cliParams._widgetColorValues);
+                tParams.WidgetColor = ToColor(cliParams._widgetColorValues);
             }
 
             var pParams = new ProjectionParams()
@@ -268,10 +268,11 @@ namespace MapProjectorCLI
                 throw new ArgumentException($"Bad Color Format \"{colStr}\". Provide either R,G,B or R,G,B,A (0-255)");
             }
 
+            //Colors are 0-255, Alpha is 0-1
             return new RgbaVector(
-                (float)byteColors[0] / 255,
-                (float)byteColors[1] / 255,
-                (float)byteColors[2] / 255,
+                (float)byteColors[0], 
+                (float)byteColors[1],
+                (float)byteColors[2],
                 (float)byteColors[3] / 255
                 );
         }

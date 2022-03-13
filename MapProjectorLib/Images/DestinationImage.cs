@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using MapProjectorLib.Plotters;
+using MapProjectorLib.PlotCalculators;
 
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
@@ -52,10 +52,5 @@ namespace MapProjectorLib
         {
             ImageData.ProcessPixelRows(pixelAccessor);
         }
-
-        //
-
-
-
     }
 }

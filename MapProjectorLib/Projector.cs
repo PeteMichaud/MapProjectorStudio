@@ -3,6 +3,8 @@ using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing.Processors.Drawing;
 
+using VectSharp;
+
 namespace MapProjectorLib
 {
     public static class Projector
@@ -56,49 +58,85 @@ namespace MapProjectorLib
             {
                 transform.TransformImageInv(
                     pParams.SourceImage, destImage, pParams.transformParams);
+
                 // No widgets for inverse transformation yet
                 MaybeApplyBackground(destImage, pParams);
-                ProcessThenDispose(destImage);
+                ProcessThenDispose(destImage, widgetVector: null);
             }
             else
             {
+                var widgetrender = WidgetRenderer
+                    .Render(destImage, pParams.transformParams, transform);
+                
                 switch (pParams.WidgetRenderMode)
                 {
                     case WidgetRenderMode.Combined:
+                        
                         transform.TransformImage(
-                        pParams.SourceImage, destImage, pParams.transformParams);
-                        WidgetRenderer.Render(destImage, pParams.transformParams, transform);
+                            pParams.SourceImage, destImage, pParams.transformParams);
+                        var widgetRaster = widgetrender.ToRaster();
+                        
+                        ApplyWidgets(destImage, widgetRaster);
                         MaybeApplyBackground(destImage, pParams);
-                        ProcessThenDispose(destImage);
+                        
+                        ProcessThenDispose(destImage, widgetVector: null);
+                        
                         break;
+                    
                     case WidgetRenderMode.WidgetOnly:
-                        WidgetRenderer.Render(destImage, pParams.transformParams, transform);
-                        ProcessThenDispose(destImage, widgetOnly: true);
+                        
+                        ProcessThenDispose(outputImage: null, widgetrender.ToSvg());
+                        
                         break;
-                    case WidgetRenderMode.Separate:
-                        transform.TransformImage(
-                        pParams.SourceImage, destImage, pParams.transformParams);
-                        MaybeApplyBackground(destImage, pParams);
-                        ProcessThenDispose(destImage);
 
-                        destImage = GetFreshDestinationImage(pParams, transform);
-                        WidgetRenderer.Render(destImage, pParams.transformParams, transform);
-                        ProcessThenDispose(destImage, widgetOnly: true);
+                    case WidgetRenderMode.Separate:
+                        
+                        transform.TransformImage(
+                            pParams.SourceImage, destImage, pParams.transformParams);
+                        MaybeApplyBackground(destImage, pParams);
+
+                        ProcessThenDispose(destImage, widgetVector: null);
+                        ProcessThenDispose(outputImage: null, widgetrender.ToSvg());
+
                         break;
                 }
             }
 
-            void ProcessThenDispose(DestinationImage toProcess, bool widgetOnly = false)
+            void ProcessThenDispose(DestinationImage outputImage, Page widgetVector)
             {
                 processProjectedImage(new ProjectedImage(
-                    toProcess,
+                    outputImage, 
+                    widgetVector,
                     pParams.SourceImage,
-                    widgetOnly ? pParams.WidgetOnlyFileName : pParams.DestinationImageFileName,
+                    pParams.DestinationImageFileName,
                     pParams.transformParams.loopParams.LoopCount,
                     pParams.transformParams.loopParams.CurrentLoopIndex
                 ));
-                toProcess.Dispose();
+                outputImage?.Dispose();
             }
+        }
+
+        static void ApplyWidgets(DestinationImage destImage, Image<Rgba32> widgets)
+        {
+            
+            var processorCreator = new DrawImageProcessor(
+                widgets,
+                SixLabors.ImageSharp.Point.Empty,
+                PixelColorBlendingMode.Normal,
+                PixelAlphaCompositionMode.SrcOver,
+                1f
+            );
+
+            var pxProcessor = processorCreator.CreatePixelSpecificProcessor(
+                Configuration.Default,
+                destImage.ImageData,
+                destImage.ImageData.Bounds()
+            );
+
+            pxProcessor.Execute();
+
+            widgets.Dispose();
+            
         }
 
         static void MaybeApplyBackground(DestinationImage destImage, ProjectionParams pParams)
@@ -148,9 +186,9 @@ namespace MapProjectorLib
             return SamplableImage.Load(imagePath, mode);
         }
 
-        public static Image LoadImageForCopying(string imagePath)
+        public static BackgroundImage LoadImageForCopying(string imagePath)
         {
-            return Image.Load(imagePath);
+            return BackgroundImage.Load(imagePath);
         }
     }
 }

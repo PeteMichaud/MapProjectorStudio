@@ -20,7 +20,7 @@ namespace MapProjectorLib
         public int Height; //Target Height
 
         public string BackImageFileName;
-        public Image BackgroundImage;
+        public BackgroundImage BackgroundImage;
         public RgbaVector backgroundColor = new RgbaVector(0, 0, 0, 1);
 
         public string srcImageFileName;

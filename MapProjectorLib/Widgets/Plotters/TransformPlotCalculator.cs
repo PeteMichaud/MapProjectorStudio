@@ -1,4 +1,4 @@
-﻿namespace MapProjectorLib.Plotters
+﻿namespace MapProjectorLib.PlotCalculators
 {
     internal abstract class TransformPlotCalculator : LinePlotCalculator
     {

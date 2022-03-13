@@ -179,14 +179,14 @@ namespace MapProjectorLib
 
         public MapWidget Widgets;
 
-        public RgbaVector widgetColor = new RgbaVector(255, 0, 0, 1);
+        public RgbaVector WidgetColor = new RgbaVector(255, 0, 0, 1);
         public double widgetDay = 0.0;
         public double widgetLat = 0.0; //radians
         public double widgetLon = 0.0; //radians
         public bool widgetSmartSpacing = true;
         public int gridX = 30; // X Spacing of Grid (Degrees)
         public int gridY = 30; // Y Spacing of Grid (Degrees)
-        public RgbaVector gridColor = new RgbaVector(255, 255, 255, 1);
+        public RgbaVector GridColor = new RgbaVector(255, 255, 255, 1);
 
     }
 }

@@ -4,23 +4,23 @@ using SixLabors.ImageSharp.PixelFormats;
 
 namespace MapProjectorLib
 {
-    public class Image
+    public class BackgroundImage
     {
         public readonly Image<RgbaVector> ImageData;
 
-        public Image(Image<RgbaVector> image)
+        public BackgroundImage(Image<RgbaVector> image)
         {
             ImageData = image;
         }
 
-        public static Image Load(string imagePath)
+        public static BackgroundImage Load(string imagePath)
         {
             if (!File.Exists(imagePath))
             {
                 throw new FileNotFoundException("No image found at location", imagePath);
             }
 
-            return new Image(SixLabors.ImageSharp.Image.Load<RgbaVector>(imagePath));
+            return new BackgroundImage(SixLabors.ImageSharp.Image.Load<RgbaVector>(imagePath));
         }
         public void Dispose()
         {

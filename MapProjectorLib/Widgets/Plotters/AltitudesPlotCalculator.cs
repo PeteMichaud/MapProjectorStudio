@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MapProjectorLib.Plotters
+namespace MapProjectorLib.PlotCalculators
 {
 
     internal class AltitudesPlotCalculator : TransformPlotCalculator

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MapProjectorLib.Plotters
+namespace MapProjectorLib.PlotCalculators
 {
     // Draw a temporary hour line
     internal class TempPlotCalculator : TransformPlotCalculator

@@ -31,14 +31,38 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ExCSS, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExCSS.4.1.3\lib\net452\ExCSS.dll</HintPath>
+    </Reference>
     <Reference Include="SixLabors.ImageSharp, Version=2.0.0.0, Culture=neutral, PublicKeyToken=d998eea7b14cab13, processorArchitecture=MSIL">
       <HintPath>..\packages\SixLabors.ImageSharp.2.0.0\lib\net472\SixLabors.ImageSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="SixLabors.ImageSharp.Drawing, Version=1.0.0.0, Culture=neutral, PublicKeyToken=d998eea7b14cab13, processorArchitecture=MSIL">
+      <HintPath>..\packages\SixLabors.ImageSharp.Drawing.1.0.0-beta14\lib\net472\SixLabors.ImageSharp.Drawing.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
     </Reference>
+    <Reference Include="System.Collections.Immutable, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Collections.Immutable.5.0.0\lib\net461\System.Collections.Immutable.dll</HintPath>
+    </Reference>
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Compression.4.3.0\lib\net46\System.IO.Compression.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.FileSystem.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.FileSystem.Primitives.4.3.0\lib\net46\System.IO.FileSystem.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.UnmanagedMemoryStream, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.UnmanagedMemoryStream.4.3.0\lib\net46\System.IO.UnmanagedMemoryStream.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
     </Reference>
@@ -52,12 +76,21 @@
     <Reference Include="System.Text.Encoding.CodePages, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Text.Encoding.CodePages.5.0.0\lib\net461\System.Text.Encoding.CodePages.dll</HintPath>
     </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="VectSharp, Version=2.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\VectSharp.2.2.1\lib\netstandard2.0\VectSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="VectSharp.SVG, Version=1.6.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\VectSharp.SVG.1.6.1\lib\netstandard2.0\VectSharp.SVG.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ColorSamplers\BicubicSampler.cs" />
@@ -68,16 +101,19 @@
     <Compile Include="Enums\ColorSampleMode.cs" />
     <Compile Include="Enums\MapWidget.cs" />
     <Compile Include="Enums\WidgetRenderMode.cs" />
+    <Compile Include="Extensions\EnumExtensions.cs" />
+    <Compile Include="Extensions\ListExtensions.cs" />
     <Compile Include="Extensions\RgbaVectorExtensions.cs" />
     <Compile Include="Extensions\Rgb24Extensions.cs" />
-    <Compile Include="Images\Image.cs" />
+    <Compile Include="Images\BackgroundImage.cs" />
+    <Compile Include="Images\SvgImageSaver.cs" />
     <Compile Include="Images\ProjectedImage.cs" />
     <Compile Include="Images\SamplableImage.cs" />
     <Compile Include="Images\DestinationImage.cs" />
     <Compile Include="Images\ImageSaver.cs" />
     <Compile Include="Params\LoopParams.cs" />
     <Compile Include="Params\ProjectionParams.cs" />
-    <Compile Include="Plotters\WidgetPlotter.cs" />
+    <Compile Include="Widgets\Plotters\WidgetRender.cs" />
     <Compile Include="Projector.cs" />
     <Compile Include="Projections\Azimuthal.cs" />
     <Compile Include="Projections\Gnomonic.cs" />
@@ -91,14 +127,14 @@
     <Compile Include="Transform\TransformRowOperation.cs" />
     <Compile Include="Utils\Line.cs" />
     <Compile Include="Utils\Matrix3.cs" />
-    <Compile Include="Plotters\AnalemmaPlotCalculator.cs" />
-    <Compile Include="Plotters\AltitudesPlotCalculator.cs" />
-    <Compile Include="Plotters\CirclePlotCalculator.cs" />
-    <Compile Include="Plotters\LongPlotCalculator.cs" />
-    <Compile Include="Plotters\LatPlotCalculator.cs" />
-    <Compile Include="Plotters\LinePlotCalculator.cs" />
-    <Compile Include="Plotters\TempPlotCalculator.cs" />
-    <Compile Include="Plotters\TransformPlotCalculator.cs" />
+    <Compile Include="Widgets\Plotters\AnalemmaPlotCalculator.cs" />
+    <Compile Include="Widgets\Plotters\AltitudesPlotCalculator.cs" />
+    <Compile Include="Widgets\Plotters\CirclePlotCalculator.cs" />
+    <Compile Include="Widgets\Plotters\LongPlotCalculator.cs" />
+    <Compile Include="Widgets\Plotters\LatPlotCalculator.cs" />
+    <Compile Include="Widgets\Plotters\LinePlotCalculator.cs" />
+    <Compile Include="Widgets\Plotters\TempPlotCalculator.cs" />
+    <Compile Include="Widgets\Plotters\TransformPlotCalculator.cs" />
     <Compile Include="Projections\Cylindrical.cs" />
     <Compile Include="Projections\CylindricalBase.cs" />
     <Compile Include="Projections\EqualArea.cs" />
@@ -107,6 +143,7 @@
     <Compile Include="Projections\Simple.cs" />
     <Compile Include="Projections\Sinusoidal.cs" />
     <Compile Include="Projections\Sinusoidal2.cs" />
+    <Compile Include="Utils\PointComparer.cs" />
     <Compile Include="Utils\PointD.cs" />
     <Compile Include="Utils\Point.cs" />
     <Compile Include="Utils\ProjMath.cs" />
@@ -117,12 +154,17 @@
     <Compile Include="Enums\RotationAxis.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\Rectangle.cs" />
-    <Compile Include="WidgetRenderer.cs" />
+    <Compile Include="Widgets\WidgetRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\VectSharp\VectSharp.Raster.ImageSharp\VectSharp.Raster.ImageSharp.csproj">
+      <Project>{c1a5e8a2-8096-4ad7-91de-e653d0c9c10a}</Project>
+      <Name>VectSharp.Raster.ImageSharp</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
