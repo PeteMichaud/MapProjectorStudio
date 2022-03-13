@@ -582,7 +582,7 @@ Does not return the projected map at all, only the projected widgets alone.
 
 `--projection hammer --widget grid --widgetmode widgetonly -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\WidgetOnlyMode.png`
 
-![Widget Only Mode](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorTests/Tests/Output/WidgetOnlyMode_Widgets.png)
+![Widget Only Mode](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorTests/Tests/Output/WidgetOnlyMode_Widgets.svg)
 
 #### Widget Separate Mode
 
@@ -592,5 +592,5 @@ Returns two separate, projected images, one of the map, one of the matching widg
 
 ![Widget Separate Mode 1](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorTests/Tests/Output/WidgetSeparateMode.png)
 
-![Widget Separate Mode 2](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorTests/Tests/Output/WidgetSeparateMode_Widgets.png)
+![Widget Separate Mode 2](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorTests/Tests/Output/WidgetSeparateMode_Widgets.svg)
 

@@ -526,7 +526,7 @@ namespace MapProjectorCLI.Tests
                         var key = $"{callerClass.Substring(titleIdx + 1)}.{title}";
                         var images = new List<string>
                         {
-                            $"{repoPath}/{title}_Widgets.png"
+                            $"{repoPath}/{title}_Widgets.svg"
                         };
 
                         globalExamples.Add(
@@ -560,7 +560,7 @@ namespace MapProjectorCLI.Tests
                         var images = new List<string>
                         {
                             $"{repoPath}/{title}.png",
-                            $"{repoPath}/{title}_Widgets.png"
+                            $"{repoPath}/{title}_Widgets.svg"
                         };
 
                         globalExamples.Add(
