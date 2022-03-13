@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31702.278
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapProjectorStudio", "MapProjectorStudio.csproj", "{9FCF38CB-BCEF-48B0-B612-07C37ECAC8E9}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapProjectorLib", "MapProjectorLib\MapProjectorLib.csproj", "{C76CE49F-2585-4A0A-9288-95D1AE36C4F5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapProjectorCLI", "MapProjectorCLI\MapProjectorCLI.csproj", "{492ED6E1-BCFA-414E-A598-30E69BC4E99B}"
@@ -23,10 +21,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{9FCF38CB-BCEF-48B0-B612-07C37ECAC8E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9FCF38CB-BCEF-48B0-B612-07C37ECAC8E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9FCF38CB-BCEF-48B0-B612-07C37ECAC8E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9FCF38CB-BCEF-48B0-B612-07C37ECAC8E9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C76CE49F-2585-4A0A-9288-95D1AE36C4F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C76CE49F-2585-4A0A-9288-95D1AE36C4F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C76CE49F-2585-4A0A-9288-95D1AE36C4F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
