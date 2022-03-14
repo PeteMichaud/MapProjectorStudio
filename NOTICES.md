@@ -25,7 +25,9 @@ which is released under the Apache 2 licence. The license is reproduced here in 
 per the license itself:
 
    Apache License
+
    Version 2.0, January 2004
+
    http://www.apache.org/licenses/
 
    TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
