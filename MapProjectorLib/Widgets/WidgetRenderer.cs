@@ -222,7 +222,11 @@ namespace MapProjectorLib
                     circleCalc.Lambda = (x - nx / 2) * ProjMath.TwoPi / nx;
 
                     wRender.PlotLine(
-                       0, ProjMath.TwoPi, circleCalc, tParams.WidgetColor, 16);
+                       0, ProjMath.TwoPi, 
+                       circleCalc, 
+                       tParams.WidgetColor, 
+                       16, 
+                       renderType: PlotRenderType.Fill);
                 }
             }
         }

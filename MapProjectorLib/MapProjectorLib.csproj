@@ -94,7 +94,9 @@
     <Compile Include="Enums\BitDepthPerChannel.cs" />
     <Compile Include="Enums\ColorSampleMode.cs" />
     <Compile Include="Enums\MapWidget.cs" />
+    <Compile Include="Enums\PlotRenderType.cs" />
     <Compile Include="Enums\WidgetRenderMode.cs" />
+    <Compile Include="Extensions\ArrayExtensions.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />
     <Compile Include="Extensions\PointExtensions.cs" />
@@ -108,7 +110,7 @@
     <Compile Include="Images\ImageSaver.cs" />
     <Compile Include="Params\LoopParams.cs" />
     <Compile Include="Params\ProjectionParams.cs" />
-    <Compile Include="Widgets\Plotters\WidgetRender.cs" />
+    <Compile Include="Widgets\WidgetRender.cs" />
     <Compile Include="Projector.cs" />
     <Compile Include="Projections\Azimuthal.cs" />
     <Compile Include="Projections\Gnomonic.cs" />

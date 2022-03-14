@@ -456,13 +456,13 @@ Like rotating the globe about its poles.
 
 #### Basic Indicatrix
 
-`--widget Indicatrix -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\BasicIndicatrix.png`
+`--widget Indicatrix --widgetcolor 255,0,0,32 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\BasicIndicatrix.png`
 
 ![Basic Indicatrix](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorTests/Tests/Output/BasicIndicatrix.png)
 
 #### Indicatrix Color
 
-`--widget Indicatrix --widgetcolor 128,255,128 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\IndicatrixColor.png`
+`--widget Indicatrix --widgetcolor 128,255,128,32 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\IndicatrixColor.png`
 
 ![Indicatrix Color](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorTests/Tests/Output/IndicatrixColor.png)
 
@@ -470,19 +470,19 @@ Like rotating the globe about its poles.
 
 By default this widget tries to be smart about where it places the indicatrices by skipping some nearer the poles. Use this flag to disable the smartness.
 
-`--widget Indicatrix --wnaivespacing -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\IndicatrixNaiveSpacing.png`
+`--widget Indicatrix --wnaivespacing --widgetcolor 255,0,0,32 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\IndicatrixNaiveSpacing.png`
 
 ![Indicatrix Naive Spacing](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorTests/Tests/Output/IndicatrixNaiveSpacing.png)
 
 #### Indicatrix Spacing
 
-`--widget Indicatrix --gridx 60 --gridy 60 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\IndicatrixSpacing.png`
+`--widget Indicatrix --gridx 60 --gridy 60 --widgetcolor 255,0,0,32 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\IndicatrixSpacing.png`
 
 ![Indicatrix Spacing](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorTests/Tests/Output/IndicatrixSpacing.png)
 
 #### Indicatrix With Projection
 
-`--widget Indicatrix --projection azimuthal -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\IndicatrixWithProjection.png`
+`--widget Indicatrix --projection azimuthal --widgetcolor 255,0,0,32 -f ..\..\Tests\Input\earth_equirect.png -o ..\..\Tests\Output\IndicatrixWithProjection.png`
 
 ![Indicatrix With Projection](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorTests/Tests/Output/IndicatrixWithProjection.png)
 

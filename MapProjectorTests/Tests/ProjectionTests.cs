@@ -1060,7 +1060,7 @@ namespace MapProjectorCLI.Tests
                 [Test]
                 public void BasicIndicatrix()
                 {
-                    var args = ToArgs($"--widget Indicatrix");
+                    var args = ToArgs($"--widget Indicatrix --widgetcolor 255,0,0,32");
                     AddExample(args);
 
                     Parse(args, cliParams =>
@@ -1074,7 +1074,7 @@ namespace MapProjectorCLI.Tests
                 [Test]
                 public void IndicatrixColor()
                 {
-                    var args = ToArgs($"--widget Indicatrix --widgetcolor 128,255,128");
+                    var args = ToArgs($"--widget Indicatrix --widgetcolor 128,255,128,32");
                     AddExample(args);
 
                     Parse(args, cliParams =>
@@ -1088,7 +1088,7 @@ namespace MapProjectorCLI.Tests
                 [Test]
                 public void IndicatrixSpacing()
                 {
-                    var args = ToArgs($"--widget Indicatrix --gridx 60 --gridy 60");
+                    var args = ToArgs($"--widget Indicatrix --gridx 60 --gridy 60 --widgetcolor 255,0,0,32");
                     AddExample(args);
 
                     Parse(args, cliParams =>
@@ -1102,7 +1102,7 @@ namespace MapProjectorCLI.Tests
                 [Test]
                 public void IndicatrixWithProjection()
                 {
-                    var args = ToArgs($"--widget Indicatrix --projection azimuthal");
+                    var args = ToArgs($"--widget Indicatrix --projection azimuthal --widgetcolor 255,0,0,32");
                     AddExample(args);
 
                     Parse(args, cliParams =>
@@ -1116,7 +1116,7 @@ namespace MapProjectorCLI.Tests
                 [Test]
                 public void IndicatrixNaiveSpacing()
                 {
-                    var args = ToArgs($"--widget Indicatrix --wnaivespacing");
+                    var args = ToArgs($"--widget Indicatrix --wnaivespacing --widgetcolor 255,0,0,32");
                     AddExample(args, "By default this widget tries to be smart about where it places the indicatrices by skipping some nearer the poles. Use this flag to disable the smartness.");
 
                     Parse(args, cliParams =>
