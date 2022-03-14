@@ -7,7 +7,6 @@ using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 
 using VectSharp;
-using VectSharp.SVG;
 using VectSharp.Raster.ImageSharp;
 
 namespace MapProjectorLib.PlotCalculators
@@ -18,6 +17,8 @@ namespace MapProjectorLib.PlotCalculators
         Graphics Canvas => _page.Graphics;
         Page _page;
 
+        readonly double _tooLongThreshhold = 10d;
+
         public WidgetRender(Image<RgbaVector> imageData)
         {
             ImageData = imageData;
@@ -26,6 +27,7 @@ namespace MapProjectorLib.PlotCalculators
                 Background = Colour.FromRgba(0, 0, 0, 0)
             };
             _page = page;
+            _tooLongThreshhold = Math.Max(ImageData.Width, ImageData.Height) / 100d;
         }
 
         public void PlotLine(
@@ -35,13 +37,13 @@ namespace MapProjectorLib.PlotCalculators
             int naiveLineResolution,
             int maxRecursiveDetailPerSegment = 10)
         {
-            var points = new List<VectSharp.Point>();
+            var linePoints = new List<VectSharp.Point>();
             //if a segment is too distorted PlotLineSegment will try to
             //split it up, which is why the initial line resolution is "naive"
             var incr = (t1 - t0) / naiveLineResolution;
             for (var i = 0; i < naiveLineResolution; i++)
             {
-                points.AddRange(
+                linePoints.AddRange(
                     PlotLineSegment(
                         t0 + i * incr, t0 + (i + 1) * incr,
                         linePlotter, color, maxRecursiveDetailPerSegment)
@@ -51,12 +53,45 @@ namespace MapProjectorLib.PlotCalculators
             // It would be better to design the PlotLineSegment code to return only the needed
             // points instead of calling RemoveAdjacentDuplicates here, but I'm keeping it this 
             // way for now so I can flip back to pixel mode if I need to
-            points.RemoveAdjacentDuplicates(new PointComparer());
-            Canvas.StrokePath(
-                new GraphicsPath().AddSmoothSpline(points.ToArray()), 
-                color.ToVectColor(),
-                1
-            );
+            linePoints.RemoveAdjacentDuplicates(new PointComparer());
+
+            // This is also fundamentally wrong. What I should be getting from PlotLineSegment is
+            // a collection of continguous line segments defined by a series of points that
+            // represent the next point on the line. What I actually get is pairs of points that
+            // repeats the previous end point as the new start point, which may have a big enough
+            // gap between two segments that we can infer they must be discontiguous. Revisit to
+            // make right at some point.   
+            foreach(var contiguousLine in SplitByDiscontinuity(linePoints))
+            {
+                Canvas.StrokePath(
+                    new GraphicsPath().AddSmoothSpline(contiguousLine), 
+                    color.ToVectColor(),
+                    1
+                );
+            }
+
+            IEnumerable<VectSharp.Point[]> SplitByDiscontinuity(IEnumerable<VectSharp.Point> points)
+            {
+                var current = new List<VectSharp.Point>();
+
+                foreach (var pt in points)
+                {
+                    //the multiplier is an arbitrary number. The goal is to find places that
+                    //really shouldn't be contiguous by finding points on the line that are 
+                    //farther apart than the line algo is intended to make them
+                    if (current.Count > 0 && pt.ManhattanDistance(current[current.Count - 1]) > _tooLongThreshhold * 5)
+                    {
+                        yield return current.ToArray();
+
+                        current.Clear();
+                    }
+
+                    current.Add(pt);
+                }
+
+                if (current.Count > 0)
+                    yield return current.ToArray();
+            }
         }
 
         public Page ToSvg()
@@ -69,11 +104,6 @@ namespace MapProjectorLib.PlotCalculators
             return ImageSharpContextInterpreter.SaveAsImage(_page);
         }
 
-        public void Save()
-        {
-            _page.SaveAsSVG("D:\\Sync\\LandfallMap\\MapProjectorStudio\\MapProjectorTests\\Tests\\Output\\Vector\\tropics.svg");
-        }
-
         public void PlotPoint(double x, double y, int r, RgbaVector color)
         {
             Canvas.StrokePath(
@@ -81,63 +111,7 @@ namespace MapProjectorLib.PlotCalculators
                 color.ToVectColor(),
                 1
             );
-
-            //for (var j = -r; j <= r; j++)
-            //    for (var i = -r; i <= r; i++)
-            //        SafeSetPixel((int)(x + i), (int)(y + j), color);
         }
-
-        //void DrawLine(int xStart, int yStart, int xEnd, int yEnd, RgbaVector color)
-        //{
-        //    foreach (var pt in GetPointsOnLine(xStart, yStart, xEnd, yEnd))
-        //    {
-        //        SafeSetPixel(pt.X, pt.Y, color);
-        //    }
-        //}
-
-        // Bresenham's Line Algorithm
-        //internal static IEnumerable<Point> GetPointsOnLine(int x0, int y0, int x1, int y1)
-        //{
-        //    bool steep = Math.Abs(y1 - y0) > Math.Abs(x1 - x0);
-        //    if (steep)
-        //    {
-        //        int t;
-        //        t = x0; // swap x0 and y0
-        //        x0 = y0;
-        //        y0 = t;
-        //        t = x1; // swap x1 and y1
-        //        x1 = y1;
-        //        y1 = t;
-        //    }
-
-        //    if (x0 > x1)
-        //    {
-        //        int t;
-        //        t = x0; // swap x0 and x1
-        //        x0 = x1;
-        //        x1 = t;
-        //        t = y0; // swap y0 and y1
-        //        y0 = y1;
-        //        y1 = t;
-        //    }
-
-        //    int dx = x1 - x0;
-        //    int dy = Math.Abs(y1 - y0);
-        //    int error = dx / 2;
-        //    int ystep = (y0 < y1) ? 1 : -1;
-        //    int y = y0;
-        //    for (int x = x0; x <= x1; x++)
-        //    {
-        //        yield return new Point((steep ? y : x), (steep ? x : y));
-        //        error -= dy;
-        //        if (error < 0)
-        //        {
-        //            y += ystep;
-        //            error += dx;
-        //        }
-        //    }
-        //    yield break;
-        //}
 
         // Sanity check for debugging purposes.
         // PlotLineSegment checks the limit before recursing so when the program runs in
@@ -173,10 +147,8 @@ namespace MapProjectorLib.PlotCalculators
 
             if (startInBounds && endInBounds)
             {
-                //todo: make parameter or vary by resolution
-                var tooLongThreshhold = 10;
                 //if the line is too long it'll make a big, ugly straight line where a curve should be
-                var isTooLong = Math.Abs(mappedStart.X - mappedEnd.X) + Math.Abs(mappedStart.Y - mappedEnd.Y) >= tooLongThreshhold;
+                var isTooLong = mappedStart.ManhattanDistance(mappedEnd) >= _tooLongThreshhold;
                 if (isTooLong && recursionLimit > 0)
                 {
                     points.AddRange(SplitSegment());
@@ -185,10 +157,9 @@ namespace MapProjectorLib.PlotCalculators
                 {
                     points.Add(new VectSharp.Point(mappedStart.X, mappedStart.Y));
                     points.Add(new VectSharp.Point(mappedEnd.X, mappedEnd.Y));
-                    //DrawLine((int)mappedStart.X, (int)mappedStart.Y, (int)mappedEnd.X, (int)mappedEnd.Y, color);
                 }
             }
-            else // one or both points are outside the map
+            else // one or both points are outside the map or the range in which the line is allowed
             {
                 //we have one point in bounds, so we're going to keep trying to split this segment in half
                 //until we find a segment that's fully contained in the image

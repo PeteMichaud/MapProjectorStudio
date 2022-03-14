@@ -97,6 +97,7 @@
     <Compile Include="Enums\WidgetRenderMode.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />
+    <Compile Include="Extensions\PointExtensions.cs" />
     <Compile Include="Extensions\RgbaVectorExtensions.cs" />
     <Compile Include="Extensions\Rgb24Extensions.cs" />
     <Compile Include="Images\BackgroundImage.cs" />

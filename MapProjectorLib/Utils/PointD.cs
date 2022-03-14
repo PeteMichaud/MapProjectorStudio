@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace MapProjectorLib
 {
@@ -17,5 +14,16 @@ namespace MapProjectorLib
             X = x;
             Y = y;
         }
+
+        public double ManhattanDistance(PointD p2)
+        {
+            return ManhattanDistance(this, p2);
+        }
+
+        public static double ManhattanDistance(PointD p1, PointD p2)
+        {
+            return Math.Abs(p1.X - p2.X) + Math.Abs(p1.Y - p2.Y);
+        }
+
     }
 }
