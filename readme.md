@@ -122,10 +122,9 @@ Then use `output_equirect_file.png` as your new file input for further processin
 * [x] Improved visualization for the various widgets like the grid and analemma
 * [x] Support transparency
 * [x] Support 16-bit color
+* [x] Optionally render widgets independently so they can be composited later in whatever image editor
+* [x] Render widgets in vector format for resolution independence
 * [ ] Parameterize the various hardcoded planet data like Inclination
-* [ ] Optionally render widgets independently so they can be composited later in whatever image editor
-* [ ] Render widgets in vector format for resolution independence
-* [ ] Support animated gif output (maybe)
 * [ ] GUI application allowing visual manipulation of maps and widgets, including 
       eventually layers that can be independently moved
 
