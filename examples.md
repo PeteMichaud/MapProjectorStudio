@@ -128,6 +128,14 @@ Many projections leave a blank area around the perimeter of the map. Fill that b
 
 ![With Background Image](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorTests/Tests/Output/WithBackgroundImage.png)
 
+### With Semi Transparent Background Color
+
+Background color can have partial opacity by passing in a --bgcolor with a fourth value less than 255
+
+`--bgcolor 255,0,0,32 --projection sinusoidal -f ..\..\..\Tests\Input\earth_equirect.png -o ..\..\..\Tests\Output\WithSemiTransparentBackgroundColor.png`
+
+![With Semi Transparent Background Color](https://github.com/PeteMichaud/MapProjectorStudio/blob/master/MapProjectorTests/Tests/Output/WithSemiTransparentBackgroundColor.png)
+
 
 
 ## Loop Usage

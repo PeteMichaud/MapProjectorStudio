@@ -120,6 +120,19 @@ namespace MapProjectorCLI.Tests
             }
 
             [Test]
+            public void WithSemiTransparentBackgroundColor()
+            {
+                var args = ToArgs($"--bgcolor 255,0,0,32 --projection sinusoidal");
+                AddExample(args, "Background color can have partial opacity by passing in a --bgcolor with a fourth value less than 255");
+                Parse(args, cliParams =>
+                {
+                    (var success, var projectionParams) = Program.ProcessParams(cliParams);
+                    Projector.Project(projectionParams);
+                });
+
+            }
+
+            [Test]
             public void InvertFromMercator()
             {
                 var args = ToArgs($"--projection mercator --invert -w 400 -h 200", inFileName: "earth_mercator");

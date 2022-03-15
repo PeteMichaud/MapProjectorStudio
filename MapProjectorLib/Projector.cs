@@ -157,7 +157,7 @@ namespace MapProjectorLib
                     background,
                     SixLabors.ImageSharp.Point.Empty,
                     PixelColorBlendingMode.Normal,
-                    PixelAlphaCompositionMode.DestAtop,
+                    PixelAlphaCompositionMode.DestOver,
                     1f
                 );
 
