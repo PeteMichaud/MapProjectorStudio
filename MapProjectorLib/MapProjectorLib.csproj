@@ -1,126 +1,15 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C76CE49F-2585-4A0A-9288-95D1AE36C4F5}</ProjectGuid>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MapProjectorLib</RootNamespace>
-    <AssemblyName>MapProjectorLib</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Numerics" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
+    <ProjectReference Include="..\..\VectSharp\VectSharp.Raster.ImageSharp\VectSharp.Raster.ImageSharp.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ColorSamplers\BicubicSampler.cs" />
-    <Compile Include="ColorSamplers\ColorSampler.cs" />
-    <Compile Include="ColorSamplers\BilinearSampler.cs" />
-    <Compile Include="ColorSamplers\NearestNeighborSampler.cs" />
-    <Compile Include="Enums\BitDepthPerChannel.cs" />
-    <Compile Include="Enums\ColorSampleMode.cs" />
-    <Compile Include="Enums\MapWidget.cs" />
-    <Compile Include="Enums\PlotRenderType.cs" />
-    <Compile Include="Enums\WidgetRenderMode.cs" />
-    <Compile Include="Extensions\ArrayExtensions.cs" />
-    <Compile Include="Extensions\EnumExtensions.cs" />
-    <Compile Include="Extensions\ListExtensions.cs" />
-    <Compile Include="Extensions\PointExtensions.cs" />
-    <Compile Include="Extensions\RgbaVectorExtensions.cs" />
-    <Compile Include="Extensions\Rgb24Extensions.cs" />
-    <Compile Include="Images\BackgroundImage.cs" />
-    <Compile Include="Images\SvgImageSaver.cs" />
-    <Compile Include="Images\ProjectedImage.cs" />
-    <Compile Include="Images\SamplableImage.cs" />
-    <Compile Include="Images\DestinationImage.cs" />
-    <Compile Include="Images\ImageSaver.cs" />
-    <Compile Include="Params\LoopParams.cs" />
-    <Compile Include="Params\ProjectionParams.cs" />
-    <Compile Include="Widgets\WidgetRender.cs" />
-    <Compile Include="Projector.cs" />
-    <Compile Include="Projections\Azimuthal.cs" />
-    <Compile Include="Projections\Gnomonic.cs" />
-    <Compile Include="Projections\Bonne.cs" />
-    <Compile Include="Projections\Hammer.cs" />
-    <Compile Include="Projections\Mollweide.cs" />
-    <Compile Include="Projections\Perspective.cs" />
-    <Compile Include="Projections\Rectilinear.cs" />
-    <Compile Include="Projections\Stereographic.cs" />
-    <Compile Include="Transform\TransformRowInverseOperation.cs" />
-    <Compile Include="Transform\TransformRowOperation.cs" />
-    <Compile Include="Utils\Line.cs" />
-    <Compile Include="Utils\Matrix3.cs" />
-    <Compile Include="Widgets\Plotters\AnalemmaPlotCalculator.cs" />
-    <Compile Include="Widgets\Plotters\AltitudesPlotCalculator.cs" />
-    <Compile Include="Widgets\Plotters\CirclePlotCalculator.cs" />
-    <Compile Include="Widgets\Plotters\LongPlotCalculator.cs" />
-    <Compile Include="Widgets\Plotters\LatPlotCalculator.cs" />
-    <Compile Include="Widgets\Plotters\LinePlotCalculator.cs" />
-    <Compile Include="Widgets\Plotters\TempPlotCalculator.cs" />
-    <Compile Include="Widgets\Plotters\TransformPlotCalculator.cs" />
-    <Compile Include="Projections\Cylindrical.cs" />
-    <Compile Include="Projections\CylindricalBase.cs" />
-    <Compile Include="Projections\EqualArea.cs" />
-    <Compile Include="Projections\LatLong.cs" />
-    <Compile Include="Projections\Mercator.cs" />
-    <Compile Include="Projections\Simple.cs" />
-    <Compile Include="Projections\Sinusoidal.cs" />
-    <Compile Include="Projections\Sinusoidal2.cs" />
-    <Compile Include="Utils\PointComparer.cs" />
-    <Compile Include="Utils\PointD.cs" />
-    <Compile Include="Utils\Point.cs" />
-    <Compile Include="Utils\ProjMath.cs" />
-    <Compile Include="Projections\PolarBase.cs" />
-    <Compile Include="Transform.cs" />
-    <Compile Include="Params\TransformParams.cs" />
-    <Compile Include="Enums\MapProjection.cs" />
-    <Compile Include="Enums\RotationAxis.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utils\Rectangle.cs" />
-    <Compile Include="Widgets\WidgetRenderer.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\VectSharp\VectSharp.Raster.ImageSharp\VectSharp.Raster.ImageSharp.csproj">
-      <Project>{c1a5e8a2-8096-4ad7-91de-e653d0c9c10a}</Project>
-      <Name>VectSharp.Raster.ImageSharp</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="SixLabors.ImageSharp.Drawing">
-      <Version>1.0.0-beta14</Version>
-    </PackageReference>
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="System.Data.DataSetExtensions" Version="4.6.0-preview3.19128.7" />
     <PackageReference Include="System.IO.Compression">
       <Version>4.3.0</Version>
     </PackageReference>
@@ -137,5 +26,4 @@
       <Version>1.6.1</Version>
     </PackageReference>
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

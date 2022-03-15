@@ -5,7 +5,7 @@ namespace MapProjectorCLI.Tests
 {
     public class TestsWithParser
     {
-        const string defaultArgs = "-f ..\\..\\Tests\\Input\\earth_equirect.png -o out.png";
+        const string defaultArgs = "-f ..\\..\\..\\Tests\\Input\\earth_equirect.png -o out.png";
         protected string[] ToArgs(string rawArgs, bool withDefaults = true)
         {
             if(withDefaults)

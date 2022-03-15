@@ -21,7 +21,7 @@ namespace MapProjectorCLI.Tests
         //[Test]
         //public void VectorWidgetTests()
         //{
-   
+
         //    Document document = new Document();
         //    Page page = new Page(1000, 1000);
         //    document.Pages.Add(page);
@@ -57,7 +57,7 @@ namespace MapProjectorCLI.Tests
 
         //        pxProcessor.Execute();
 
-        //        background.Save(Path.Combine(currentDir, "..\\..\\Tests\\Output\\__out.png"));
+        //        background.Save(Path.Combine(currentDir, "..\\..\\..\\Tests\\Output\\__out.png"));
         //    }
         //}
 
@@ -67,7 +67,7 @@ namespace MapProjectorCLI.Tests
         //    var assm = typeof(LoadVec4).GetTypeInfo().Assembly;
         //    var currentDir = Path.GetDirectoryName(assm.Location);
 
-        //    var imagePath = Path.Combine(currentDir, "..\\..\\Tests\\Input\\earth_equirect.png");
+        //    var imagePath = Path.Combine(currentDir, "..\\..\\..\\Tests\\Input\\earth_equirect.png");
 
         //    Image<HalfVector4> image;
         //    IImageFormat format;
@@ -83,7 +83,7 @@ namespace MapProjectorCLI.Tests
         //    var color = image[25, 25];
         //    Console.WriteLine(color);
 
-        //    var outPath = Path.Combine(currentDir, "..\\..\\Tests\\Output\\__out.png");
+        //    var outPath = Path.Combine(currentDir, "..\\..\\..\\Tests\\Output\\__out.png");
         //    image.Save(outPath);
 
 

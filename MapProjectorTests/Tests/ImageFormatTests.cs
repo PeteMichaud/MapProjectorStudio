@@ -28,7 +28,7 @@ namespace MapProjectorCLI.Tests
         }
         string InOutArgs(string fileNameIn, string fileNameOut = "not_saved.png")
         {
-            return $" -f ..\\..\\Tests\\Input\\Formats\\{fileNameIn} -o ..\\..\\Tests\\Output\\Formats\\{fileNameOut}";
+            return $" -f ..\\..\\..\\Tests\\Input\\Formats\\{fileNameIn} -o ..\\..\\..\\Tests\\Output\\Formats\\{fileNameOut}";
         }
 
         protected string[] ToArgs(string rawArgs)
@@ -38,7 +38,7 @@ namespace MapProjectorCLI.Tests
 
         protected Image<RgbaVector> Load(string imageFile)
         {
-            var imagePath = Path.Combine(WorkingDir, $"..\\..\\Tests\\Output\\Formats\\{imageFile}");
+            var imagePath = Path.Combine(WorkingDir, $"..\\..\\..\\Tests\\Output\\Formats\\{imageFile}");
             return SixLabors.ImageSharp.Image.Load<RgbaVector>(imagePath);
         }
 

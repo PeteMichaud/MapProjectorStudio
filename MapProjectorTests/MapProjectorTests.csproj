@@ -1,76 +1,17 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D7FD45AB-72C6-4C83-BD5D-06DD1DA3835A}</ProjectGuid>
+    <TargetFramework>net6.0</TargetFramework>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MapProjectorTests</RootNamespace>
-    <AssemblyName>MapProjectorTests</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.IO.FileSystem.Primitives" />
     <Reference Include="System.IO.UnmanagedMemoryStream" />
-    <Reference Include="System.Numerics" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tests\CLIParamsTest.cs" />
-    <Compile Include="Tests\ImageFormatTests.cs" />
-    <Compile Include="Tests\LoadVec4.cs" />
-    <Compile Include="Tests\ProjectionTests.cs" />
-    <Compile Include="Tests\Utils\Example.cs" />
-    <Compile Include="Tests\Utils\ExampleGeneratingTests.cs" />
-    <Compile Include="Tests\Utils\ExampleGroup.cs" />
-    <Compile Include="Tests\Utils\IExample.cs" />
-    <Compile Include="Tests\Utils\TestsWithParser.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\MapProjectorCLI\MapProjectorCLI.csproj">
-      <Project>{492ed6e1-bcfa-414e-a598-30e69bc4e99b}</Project>
-      <Name>MapProjectorCLI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MapProjectorLib\MapProjectorLib.csproj">
-      <Project>{c76ce49f-2585-4a0a-9288-95d1ae36c4f5}</Project>
-      <Name>MapProjectorLib</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="Tests\Input\Formats\cannot_open.exr" />
+    <ProjectReference Include="..\MapProjectorCLI\MapProjectorCLI.csproj" />
+    <ProjectReference Include="..\MapProjectorLib\MapProjectorLib.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Tests\Input\background.png" />
@@ -188,18 +129,15 @@
     <PackageReference Include="CommandLineParser">
       <Version>2.9.0-preview1</Version>
     </PackageReference>
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
     <PackageReference Include="NUnit">
       <Version>3.13.2</Version>
     </PackageReference>
-    <PackageReference Include="NUnit3TestAdapter">
-      <Version>4.2.1</Version>
-    </PackageReference>
-    <PackageReference Include="SixLabors.ImageSharp.Drawing">
-      <Version>1.0.0-beta14</Version>
-    </PackageReference>
+    <PackageReference Include="NUnit3TestAdapter" Version="4.2.1" />
+    <PackageReference Include="System.Data.DataSetExtensions" Version="4.6.0-preview3.19128.7" />
     <PackageReference Include="VectSharp.SVG">
       <Version>1.6.1</Version>
     </PackageReference>
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

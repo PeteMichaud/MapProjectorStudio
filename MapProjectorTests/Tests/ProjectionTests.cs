@@ -13,7 +13,7 @@ namespace MapProjectorCLI.Tests
 
     public class ProjectionTests : ExampleGeneratingTests
     {
-        const string ioArgs = "-f ..\\..\\Tests\\Input\\{1}.png -o ..\\..\\Tests\\Output\\{0}.png";
+        const string ioArgs = "-f ..\\..\\..\\Tests\\Input\\{1}.png -o ..\\..\\..\\Tests\\Output\\{0}.png";
 
         protected string[] ToArgs(
             string rawArgs,
@@ -96,7 +96,7 @@ namespace MapProjectorCLI.Tests
             [Test]
             public void WithBackgroundImage()
             {
-                var args = ToArgs($"--bg ..\\..\\Tests\\Input\\background.png --projection hammer");
+                var args = ToArgs($"--bg ..\\..\\..\\Tests\\Input\\background.png --projection hammer");
                 AddExample(args, "Many projections leave a blank area around the perimeter of the map. Fill that blank area with an optional background image");
                 Parse(args, cliParams =>
                 {

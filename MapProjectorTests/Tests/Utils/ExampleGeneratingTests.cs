@@ -73,7 +73,7 @@ namespace MapProjectorCLI.Tests
         {
             var assm = typeof(Program).GetTypeInfo().Assembly;
             var currentDir = Path.GetDirectoryName(assm.Location);
-            string exampleFile = Path.Combine(currentDir, "..\\..\\..\\examples.md");
+            string exampleFile = Path.Combine(currentDir, "..\\..\\..\\..\\examples.md");
 
             File.WriteAllText(exampleFile, CompiledExamples());
             Console.WriteLine($"Examples written to {exampleFile}");
