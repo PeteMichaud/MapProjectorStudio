@@ -13,25 +13,29 @@ using CommandLine.Text;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 
+[assembly:AssemblyVersion("1.3.0")]
+
 namespace MapProjectorCLI
 {
     public class Program
     {
+        const string AUTHOR = "Pete Michaud";
+        const int COPYRIGHT_YEAR = 2022;
         static void Main(string[] args)
         {
             var parseErrors = new List<Error>();
-            Console.Write("Loading... ");
             var result = CLIParams.Parse(args).WithParsed(cliParams =>
             {
+                Console.Write("Loading... ");
                 (var success, var pParams) = ProcessParams(cliParams);
                 if (success)
                 {
                     //Console.Write(pParams.ToString());
 
-                    Console.WriteLine("Loaded!");
+                    Console.WriteLine($"Loaded! (Input file: {pParams.srcImageFileName})");
                     Console.WriteLine("Processing...");
 
-                    Stopwatch timer = new Stopwatch();
+                    var timer = new Stopwatch();
                     timer.Start();
 
                     Projector.Project(pParams, projectedImage =>
@@ -50,14 +54,13 @@ namespace MapProjectorCLI
 
             if(parseErrors.Count > 0)
             {
+                Console.WriteLine("");
                 var helpText = HelpText.AutoBuild(result,
                                               h => HelpText.DefaultParsingErrorsHandler(result, h),
                                               e => e);
+                helpText.Copyright = new CopyrightInfo(AUTHOR, COPYRIGHT_YEAR);
                 Console.WriteLine(helpText);
             }
-
-            Console.ReadKey();
-
         }
 
 

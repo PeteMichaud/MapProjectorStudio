@@ -127,11 +127,14 @@ namespace MapProjectorLib.Projections
 
             // Projecting from (rx, ry, rz) to point (x1, y1, z1)
             // Solve a quadratic obtained from equating line equation with r = 1
-            var qa = a2 * ProjMath.Sqr(rotatedViewX - x1) + b2 * ProjMath.Sqr(rotatedViewY - y1) +
-                     c2 * ProjMath.Sqr(rotatedViewZ - z1);
-            var qb = 2 * (a2 * x1 * (rotatedViewX - x1) + b2 * y1 * (rotatedViewY - y1) +
-                          c2 * z1 * (rotatedViewZ - z1));
-            var qc = a2 * ProjMath.Sqr(x1) + b2 * ProjMath.Sqr(y1) +
+            var qa = a2 * ProjMath.Sqr(rotatedViewX - x1) + b2 * 
+                ProjMath.Sqr(rotatedViewY - y1) +
+                c2 * ProjMath.Sqr(rotatedViewZ - z1);
+            var qb = 2 * (a2 * x1 * (rotatedViewX - x1) + b2 * 
+                y1 * (rotatedViewY - y1) +
+                c2 * z1 * (rotatedViewZ - z1));
+            var qc = a2 * ProjMath.Sqr(x1) + b2 * 
+                ProjMath.Sqr(y1) +
                 c2 * ProjMath.Sqr(z1) - 1;
             var qm = qb * qb - 4 * qa * qc;
 

@@ -363,3 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 /MapProjectorCLI/Tests/Output/Formats
 /MapProjectorCLI/Tests/Output/Inverted
+/MapProjectorCLI/Properties/launchSettings.json

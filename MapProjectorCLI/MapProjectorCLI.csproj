@@ -1,4 +1,5 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <OutputType>Exe</OutputType>
@@ -20,11 +21,26 @@
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+	<Authors>Pete Michaud</Authors>
+    <Product>MapProjectorCLI</Product>
+	<PackageLicenseExpression>MIT</PackageLicenseExpression>
+	<PackageProjectUrl>https://github.com/PeteMichaud/MapProjectorStudio</PackageProjectUrl>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
     <StartupObject>MapProjectorCLI.Program</StartupObject>
+    <Copyright>Pete Michaud 2022</Copyright>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/PeteMichaud/MapProjectorStudio</RepositoryUrl>
+    <PackageTags>map;projection;geography</PackageTags>
   </PropertyGroup>
+  <ItemGroup>
+    <None Include="..\readme.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MapProjectorLib\MapProjectorLib.csproj" />
   </ItemGroup>

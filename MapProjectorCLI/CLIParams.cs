@@ -10,6 +10,7 @@ namespace MapProjectorCLI
         {
             config.CaseSensitive = false;
             config.CaseInsensitiveEnumValues = true;
+            config.AutoVersion = true;
         });
 
         public static ParserResult<CLIParams> Parse(string[] args, Parser parser = null)

@@ -21,7 +21,7 @@
         protected override (bool inBounds, PointD mappedPoint) GetXY(
             double phi, double lambda)
         {
-            return (true, new PointD(lambda,phi));
+            return (true, new PointD(lambda, phi));
         }
     }
 }
