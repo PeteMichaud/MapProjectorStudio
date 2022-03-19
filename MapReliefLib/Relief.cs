@@ -7,9 +7,9 @@ namespace MapReliefLib
 {
     public class Relief
     {
-        public static Image<L16> Light(Image<L16> heightMap, ReliefMapParams rmParams)
+        public static Image<L8> Light(Image<L8> heightMap, ReliefMapParams rmParams)
         {
-            var reliefMap = new Image<L16>(heightMap.Width, heightMap.Height);
+            var reliefMap = new Image<L8>(heightMap.Width, heightMap.Height);
 
             var operation = new ReliefRowOperation(
                 heightMap, reliefMap,

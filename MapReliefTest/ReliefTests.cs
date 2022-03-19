@@ -17,9 +17,9 @@ namespace MapReliefLib.Tests
         const string inFilePath = "..\\..\\..\\Input\\{0}.tif";
         const string outFilePath = "..\\..\\..\\Output\\{0}.png";
 
-        protected static Image<L16> GetHeightMap(string inFileName = "small")
+        protected static Image<L8> GetHeightMap(string inFileName = "small")
         {
-            return Image.Load<L16>(string.Format(inFilePath, inFileName));
+            return Image.Load<L8>(string.Format(inFilePath, inFileName));
         }
 
         protected static string OutFile(

@@ -10,8 +10,8 @@ namespace MapReliefLib
 {
     readonly struct ReliefRowOperation : IRowOperation
     {
-        private readonly Buffer2D<L16> _sourceBuffer;
-        private readonly Buffer2D<L16> _destinationBuffer;
+        private readonly Buffer2D<L8> _sourceBuffer;
+        private readonly Buffer2D<L8> _destinationBuffer;
         public readonly Configuration configuration;
 
         readonly ReliefMapParams _rmParams;
@@ -19,8 +19,8 @@ namespace MapReliefLib
         readonly double _nintyDeg = 90d.ToRadians();
         readonly double _divisor = 8 * _kernelSize;
         public ReliefRowOperation(
-            Image<L16> heightMap,
-            Image<L16> reliefMap,
+            Image<L8> heightMap,
+            Image<L8> reliefMap,
             ReliefMapParams rmParams)
         {
             configuration = Configuration.Default;
@@ -66,9 +66,9 @@ namespace MapReliefLib
                       )
                 );
 
-                var pixelValue = (ushort)(ushort.MaxValue * reliefValue);
+                var pixelValue = (byte)(byte.MaxValue * reliefValue);
 
-                destinationRowSpan[outX] = new L16(pixelValue);
+                destinationRowSpan[outX] = new L8(pixelValue);
 
             }
         }
