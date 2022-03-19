@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31702.278
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32228.430
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapProjectorLib", "MapProjectorLib\MapProjectorLib.csproj", "{C76CE49F-2585-4A0A-9288-95D1AE36C4F5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MapProjectorLib", "MapProjectorLib\MapProjectorLib.csproj", "{C76CE49F-2585-4A0A-9288-95D1AE36C4F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapProjectorCLI", "MapProjectorCLI\MapProjectorCLI.csproj", "{492ED6E1-BCFA-414E-A598-30E69BC4E99B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MapProjectorCLI", "MapProjectorCLI\MapProjectorCLI.csproj", "{492ED6E1-BCFA-414E-A598-30E69BC4E99B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{FE7CD3B3-4763-4816-A058-563B86A77883}"
 	ProjectSection(SolutionItems) = preProject
@@ -15,9 +15,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		readme.md = readme.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapProjectorTests", "MapProjectorTests\MapProjectorTests.csproj", "{D7FD45AB-72C6-4C83-BD5D-06DD1DA3835A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MapProjectorTests", "MapProjectorTests\MapProjectorTests.csproj", "{D7FD45AB-72C6-4C83-BD5D-06DD1DA3835A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VectSharp.Raster.ImageSharp", "..\VectSharp\VectSharp.Raster.ImageSharp\VectSharp.Raster.ImageSharp.csproj", "{C1A5E8A2-8096-4AD7-91DE-E653D0C9C10A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapReliefLib", "MapReliefLib\MapReliefLib.csproj", "{3B9632F1-9151-4E31-AFA7-C17AE3799384}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapReliefTest", "MapReliefTest\MapReliefTest.csproj", "{062EDAF3-9506-4AB7-8199-9DFA8ED0743E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +45,14 @@ Global
 		{C1A5E8A2-8096-4AD7-91DE-E653D0C9C10A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C1A5E8A2-8096-4AD7-91DE-E653D0C9C10A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C1A5E8A2-8096-4AD7-91DE-E653D0C9C10A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B9632F1-9151-4E31-AFA7-C17AE3799384}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B9632F1-9151-4E31-AFA7-C17AE3799384}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B9632F1-9151-4E31-AFA7-C17AE3799384}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B9632F1-9151-4E31-AFA7-C17AE3799384}.Release|Any CPU.Build.0 = Release|Any CPU
+		{062EDAF3-9506-4AB7-8199-9DFA8ED0743E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{062EDAF3-9506-4AB7-8199-9DFA8ED0743E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{062EDAF3-9506-4AB7-8199-9DFA8ED0743E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{062EDAF3-9506-4AB7-8199-9DFA8ED0743E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
